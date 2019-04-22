@@ -14,6 +14,7 @@ spring:
 #    static-path-pattern: /static/**
   resources:
     static-locations: classpath:/static,classpath:/templates
-
 logging:
   path: D:/Develop/DevelopWorkingSpace/IdeaProjects/log
+server:
+  port: 80
