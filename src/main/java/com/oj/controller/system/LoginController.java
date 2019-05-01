@@ -97,5 +97,15 @@ public class LoginController {
             return false;
         }
     }
+    //重置密码功能
+    @PostMapping("/login/checkLogin")
+    @ResponseBody
+    public boolean checkLogin(HttpServletRequest request){
+        if(StringUtils.isEmpty(request.getSession().getAttribute("user_name"))){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
 }

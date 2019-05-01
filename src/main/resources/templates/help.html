@@ -1,31 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <div th:replace="common/staticImport :: common_resource"></div>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>数据结构平台</title>
+        <title>D-OJ</title>
     </head>
 
     <body>
-
-    <!-- Navigation -->
-    <!--  -->
+        <div th:replace="common/staticImport :: common_resource"></div>
         <div th:replace="common/staticHf :: common_head"></div>
-        <!--  -->
-        <div class="container">
-
-            <!-- Page Heading/Breadcrumbs -->
-            <h1 class="mt-4 mb-3">帮助
-            </h1>
-
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="/index">首页</a>
-                </li>
-                <li class="breadcrumb-item active">帮助</li>
-            </ol>
-
+        <div class="rootDiv">
+            <div class="row border-bottom white-bg page-heading">
+                <div class="col-sm-4">
+                    <h2>帮助</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="/index/homePage">首页</a>
+                        </li>
+                        <li>
+                            <strong>帮助</strong>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="wrapper wrapper-content">
             <div class="jumbotron">
                 <div class="post"><h2 class="title">关于提交代码返回的信息解释.</h2>
                     <div class="entry" style="word-wrap: break-word; word-break: normal "><h3>1. Accepted ---
@@ -49,11 +47,7 @@
             <!-- /.jumbotron -->
 
         </div>
-        <!-- Footer -->
-        <div th:replace="common/staticHf :: common_footer"></div>
-
-        <!-- Bootstrap core JavaScript -->
-
+        </div>
     </body>
-
+    <div th:replace="common/staticHf :: common_footer"></div>
 </html>

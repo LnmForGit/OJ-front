@@ -49,6 +49,7 @@ button.toast-close-button {
 }
 
 .toast-top-center {
+    padding-top: 50px;
     top: 0;
     right: 0;
     width: 100%

@@ -11,11 +11,11 @@ h3,
 h4,
 h5,
 h6 {
-    /*font-weight: 100;*/
+    font-weight: 100;
 }
 
 h1 {
-    /*font-size: 30px;*/
+    font-size: 30px;
 }
 
 h2 {
@@ -3360,7 +3360,7 @@ a.forum-item-title:hover {
 
 body {
     font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    /*font-size: 13px;*/
+    font-size: 13px;
     color: #676a6c;
     overflow-x: hidden;
 }
@@ -3533,7 +3533,9 @@ video {
 }
 
 .wrapper {
+    width:1200px;
     padding: 0 20px;
+    margin:0 auto;
 }
 
 .wrapper-content {
@@ -3628,6 +3630,9 @@ body.body-small .footer.fixed {
     margin-left: 0px;
 }
 
+.rootDiv{
+    padding-top: 50px;
+}
 
 /* PANELS */
 
@@ -3988,19 +3993,19 @@ img.circle-border {
     cursor: move;
 }
 
-/*.breadcrumb {*/
-    /*background-color: #ffffff;*/
-    /*padding: 0;*/
-    /*margin-bottom: 0;*/
-/*}*/
+.breadcrumb {
+    background-color: #ffffff;
+    padding: 0;
+    margin-bottom: 0;
+}
 
-/*.breadcrumb > li a {*/
-    /*color: inherit;*/
-/*}*/
+.breadcrumb > li a {
+    color: inherit;
+}
 
-/*.breadcrumb > .active {*/
-    /*color: inherit;*/
-/*}*/
+.breadcrumb > .active {
+    color: inherit;
+}
 
 code {
     background-color: #F9F2F4;
@@ -4411,6 +4416,7 @@ a.close-canvas-menu:hover {
 
 .modal {
     z-index: 2050 !important;
+    padding-top: 20px;
 }
 
 .spiner-example {

@@ -1,5 +1,7 @@
+
 //注销功能
 $('#a_logout').click(function () {
+    $("#user_operate").click();
     swal({
             title: "确认注销?",
             text: "",
@@ -19,9 +21,17 @@ $('#a_logout').click(function () {
             }
         });
 });
-
+$("#user_operate").click(function () {
+    debugger
+    if ($("#allUserOperate").css("display") == "none"){
+        $("#allUserOperate").css("display", "block")
+    } else{
+        $("#allUserOperate").css("display", "none")
+    }
+})
 //重置弹出框的内容
 function formReset() {
+    $("#user_operate").click();
     $("#resetPassword input").val("");
     $("#resetPassword input").removeClass("error");
     $("#resetPassword label.error").remove()
@@ -80,4 +90,73 @@ function validform() {
             }
         }
     });
+}
+function isUserLogin() {
+    var isLogin = false;
+    $.ajax({
+        type: "POST",
+        url: "/login/checkLogin",
+        dataType: "json",
+        async:false,
+        success:function (result){
+            isLogin = result;
+        }
+    })
+    return isLogin;
+}
+function openLoginPage(page) {
+    $("#loginDialog input").val("");
+    $('#skipPageUrl').val(page)
+    $('#loginDialog').modal('show');
+}
+function openPage(page) {
+    if ($("#allUserOperate").css("display") != "none"){
+        $("#allUserOperate").css("display", "none")
+    }
+    if("/index/"!=page){
+        var isLogin = isUserLogin();
+        if (isLogin){
+            window.location.href = page;
+        } else{
+            openLoginPage(page);
+        }
+    }else{
+        window.location.href = page;
+    }
+
+}
+
+function dialogLogin() {
+    $.ajax({
+        type: "POST",
+        url: "/login/UserLogin",
+        contentType: "application/json;charset=UTF-8",
+        dataType: "json",
+        data:JSON.stringify({
+            "username" : $("#dialogUserName").val(),
+            "passwords" : $("#dialogUserPassword").val(),
+        }),
+        success:function (result){
+            if (result){
+                window.location.href = $("#skipPageUrl").val()
+            } else{
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "400",
+                    "hideDuration": "1000",
+                    "timeOut": "2500",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr.error("帐号密码错误","登陆失败！")
+            }
+        }
+    })
 }
