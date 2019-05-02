@@ -91,7 +91,8 @@ function validform() {
         }
     });
 }
-function isUserLogin() {
+//判断用户是否登陆，若已登陆返回true。若未登录弹出登陆弹窗，返回false（此功能全页面通用）
+function isUserLogin(page) {
     var isLogin = false;
     $.ajax({
         type: "POST",
@@ -102,6 +103,9 @@ function isUserLogin() {
             isLogin = result;
         }
     })
+    if(!isLogin){
+        openLoginPage(page)
+    }
     return isLogin;
 }
 function openLoginPage(page) {
@@ -114,11 +118,8 @@ function openPage(page) {
         $("#allUserOperate").css("display", "none")
     }
     if("/index/"!=page){
-        var isLogin = isUserLogin();
-        if (isLogin){
+        if (isUserLogin(page)){
             window.location.href = page;
-        } else{
-            openLoginPage(page);
         }
     }else{
         window.location.href = page;
