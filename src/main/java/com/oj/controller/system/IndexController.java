@@ -13,4 +13,9 @@ public class IndexController {
     public String index(HttpServletRequest request) {
         return "index";
     }
+    @RequestMapping("/pageNotFound")
+    //返回index.html页面
+    public String pageNotFound(HttpServletRequest request) {
+        return "error/404";
+    }
 }
