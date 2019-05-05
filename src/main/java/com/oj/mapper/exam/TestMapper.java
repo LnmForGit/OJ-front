@@ -23,6 +23,11 @@ public interface TestMapper {
             "and t.kind = 2 ORDER BY end DESC;")
     public List<Map> getExperMaplist(String account);
 
+    //通过学号获取全部实验列表
+    @Select("SELECT t.id id,name,start,end FROM teach_test t,teach_test_class c WHERE  c.`class_id` = #{account} AND c.`test_id` = t.id\n" +
+            "and t.kind = 1 ORDER BY end DESC;")
+    public List<Map> getExamMaplist(String account);
+
     //通过tid与学生id获取提交状态信息
     //通过TestProvider类中的getQuerySql()方法动态构建查询语句
     @SelectProvider(type= TestProvider.class, method = "getQuerySql")

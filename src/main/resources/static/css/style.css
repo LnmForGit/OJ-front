@@ -3632,6 +3632,8 @@ body.body-small .footer.fixed {
 
 .rootDiv{
     padding-top: 50px;
+    padding-bottom: 100px;
+    min-height: 100%;
 }
 
 /* PANELS */
@@ -3988,7 +3990,6 @@ img.circle-border {
     text-align: center;
     margin-right: 5px;
 }
-
 .ui-draggable .ibox-title {
     cursor: move;
 }

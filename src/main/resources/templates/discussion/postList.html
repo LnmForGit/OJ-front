@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>D-OJ</title>
+</head>
+<!--引入通用JS、css资源-->
+<div th:replace="common/staticImport :: common_resource"></div>
+<div th:replace="common/staticHf :: common_head"></div>
+<body class="gray-bg">
+<div class="rootDiv">
+    <div class="wrapper wrapper-content">
+        <ul class="breadcrumb">
+            <li><a href="/index">首页</a></li>
+            <li><a href="/discussion/">讨论区</a></li>
+            <li class="active"><strong>文章列表</strong></li>
+        </ul>
+    <div class="row">
+        <div class="col-lg-12" id="PostList">
+        </div>
+    </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var postinfo = [[${info}]];
+</script>
+<script type="text/javascript" th:src="@{/js/OJ/discussion/postList.js}"></script>
+<!-- 引入公用尾部 -->
+<div th:replace="common/staticHf :: common_footer"></div>
+</body>
+</html>
