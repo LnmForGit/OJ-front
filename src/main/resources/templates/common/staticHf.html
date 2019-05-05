@@ -152,7 +152,7 @@
     </div>
 
     <div th:fragment="common_footer">
-        <footer class="py-5 bg-dark" style="height: 100px;background:#1c2b36;width:100%">
+        <footer class="py-5 bg-dark" style="height: 105px;background:#1c2b36;width:100%;">
             <br>
             <div class="container">
                 <p class="m-0 text-center text-white" style="font-size: 15px;color: white;">Copyright © 2010-2018
@@ -164,17 +164,6 @@
             </div>
             <!-- /.container -->
         </footer>
-        <script>
-            if($(".rootDiv").height() < ($(window).height()-150)){
-                $(".rootDiv").height($(window).height()-150)
-            }
-            $(".rootDiv").resize(function() {
-                if($(".rootDiv").height() < ($(window).height()-150)){
-                    $(".rootDiv").height($(window).height()-150)
-                }
-            });
-
-        </script>
     </div>
 </body>
 </html>
