@@ -3994,9 +3994,9 @@ img.circle-border {
 }
 
 .breadcrumb {
-    background-color: #ffffff;
-    padding: 0;
-    margin-bottom: 0;
+    /*background-color: #ffffff;*/
+    /*padding: 0;*/
+    /*margin-bottom: 0;*/
 }
 
 .breadcrumb > li a {
