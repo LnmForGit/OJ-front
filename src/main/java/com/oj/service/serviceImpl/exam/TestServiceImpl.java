@@ -49,4 +49,9 @@ public class TestServiceImpl implements TestService {
     public List<Map> getSubmitType() {
         return testMapper.getSubmitType();
     }
+
+    @Override
+    public List<Map> getExamMaplist(String account) {
+        return testMapper.getExamMaplist(account);
+    }
 }
