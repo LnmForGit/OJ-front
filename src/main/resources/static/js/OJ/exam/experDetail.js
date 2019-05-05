@@ -98,6 +98,32 @@ function setTestInfo(id,progress){
 }
 
 function setProblemsInfo(id,name,isAC) {
+    // isAC = isAC[i] == 1 ? "AC" : "NA";
+    // var dataTable = $("#problems");
+    // if ($.fn.dataTable.isDataTable(dataTable)) {
+    //     dataTable.DataTable().destroy();
+    // }
+    // dataTable.DataTable({
+    //     "serverSide": false,
+    //     "autoWidth" : false,
+    //     "bSort": false,
+    //     "data" : result,
+    //     "columns" : [{
+    //         "data" : "id"
+    //     },{
+    //         "data" : "name"
+    //     },{
+    //         "data" : "isAC",
+    //         "defaultContent" : "NA"
+    //     }],
+    //     "columnDefs": [{
+    //         "render" : function(data, type, row) {
+    //            var problemItem = "<td class=\\\"project-actions\\\"> <a data-toggle='modal' data-target='#myModal6' href='problemDetails' onclick='setId(\""+row.id+"\")' class=\"btn btn-white btn-sm\"><i class=\"fa fa-folder\"></i> 查看 </a></td>";return a;
+    //             return problemItem;
+    //         },
+    //         "targets" :7
+    //     }]
+    // });
     problemTable.empty();
     for(var i = 0; i < id.length; i++){
         var problemItem = "<tr>";
@@ -117,6 +143,7 @@ function setSubmitInfo(id,name,state,language,time,submitTime,memory,length,code
     var submitItem = "<tr>";
     var success ="<td><span class=\"label label-primary\"><i class=\"fa fa-check\"></i>AC</span> </td>";
     var wrong = "<td><span class=\"label label-default\"><i class=\"fa fa-frown-o\"></i>" + state + "</span></td>";
+    console.log(code)
     submitItem += "<td ><a data-toggle='modal' data-target='#myModal6' href='problemDetails' onclick='setId(\""+id+"\")'>" + id + "</td>";
     submitItem += "<td><a data-toggle='modal' data-target='#myModal6' href='problemDetails' onclick='setId(\""+id+"\")'>" + name + "</td>";
     submitItem += state == "Accepted" ? success : wrong;
@@ -126,7 +153,7 @@ function setSubmitInfo(id,name,state,language,time,submitTime,memory,length,code
     submitItem += "<td>" + length + "b</td>";
     submitItem += "<td>" + formatTime(submitTime) + "</td>";
 // <button type='button' class='btn btn-primary' onclick='setId(\""+row.id+"\")'data-toggle='modal' data-target='#myModal5' href='problemDetails' style='margin-right:15px; margin-bottom: -1px;'><i class='fa fa-list'></i>&nbsp;详情</button>"
-    submitItem += "<td class=\"project-actions btn btn-white btn-sm>\" onclick='setCode(\""+encodeURI(code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+    submitItem += "<td class=\"project-actions btn btn-white btn-sm>\" onclick='setCode(\""+escape(code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
     submitItem += "</tr>";
     submitTable.append(submitItem);
 }
@@ -151,7 +178,7 @@ function formatTime(timeStamp) {
 }
 
 function  setCode(code) {
-    $("#code").text(decodeURI(code));
+    $("#code").text(unescape(code));
 }
 
 //重置form内的标签
