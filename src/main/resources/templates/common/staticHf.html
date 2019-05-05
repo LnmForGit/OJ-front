@@ -166,9 +166,14 @@
         </footer>
         <script>
             if($(".rootDiv").height() < ($(window).height()-150)){
-
                 $(".rootDiv").height($(window).height()-150)
             }
+            $(".rootDiv").resize(function() {
+                if($(".rootDiv").height() < ($(window).height()-150)){
+                    $(".rootDiv").height($(window).height()-150)
+                }
+            });
+
         </script>
     </div>
 </body>
