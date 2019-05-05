@@ -47,7 +47,7 @@ function setExperItem(id,name,start,end,score){
     var endIf = isEnd(end) ? 1 : 0;
     experItem += isEnd(end) ? finished : underWay;
     experItem += "<td class=\"project-title\">\n" +
-        "                                        <a class=\"link\"  onclick='setId(\""+id+ "," + isEnd+"\")'>" +name+"</a>\n" +
+        "                                        <a href=experDetail?id=" + id + "&isEnd="+endIf+"  >" +name+"</a>\n" +
         "                                        <br/>\n" +
         "                                        <small>创建日期:"+ start  +"&nbsp&nbsp&nbsp</small>\n" +
         "                                        <small>  结束日期:" + end + "</small>\n" +
@@ -98,9 +98,5 @@ function examOrExper(){
 
 }
 
-function prevent(id,isEnd){
-    if(!isEnd){
-        window.location.href="/experDetail?id=" + id + "&isEnd=" +endIf;
-    }
-}
+
 
