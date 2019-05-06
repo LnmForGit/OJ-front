@@ -1,5 +1,6 @@
 package com.oj.service.resource;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import java.util.Map;
  */
 public interface MyFileService {
     public List<Map>getFileListByFlag(Map<String, String> param);
+    //下载文件
+    public void downloadFile(String id, HttpServletResponse response);
 
     /*
     //通过学生所在班级获取全部实验列表

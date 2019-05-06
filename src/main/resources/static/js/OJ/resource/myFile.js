@@ -1,4 +1,3 @@
-
 $(document).ready(function ()
 {
     showFile();
@@ -70,7 +69,7 @@ function showFile()
 
 function downloadFile(id)
 {
-
+    window.location.href="/resource/downloadFile?id="+id;
 }
 function getSize(size) {
     var fileSize = '0KB';

@@ -31,6 +31,13 @@ public interface MyFileMapper {
     //获取所有公开文件
     @Select("select myfile.id as id, myfile.name as name, admin.name as uploader_name, myfile.upload_time as upload_time, myfile.size as size, myfile.flag as flag from teach_myfile myfile, teach_admin admin where flag = 1 and myfile.uploader_id = admin.id order by myfile.upload_time desc")
     public List<Map> getOpenFile();
+
+    //根据文件ID获取名字
+    @Select("select name from teach_myfile where id = #{id}")
+    public String getFileNameById(String id);
+    //根据文件ID获取存储路径
+    @Select("select route from teach_myfile where id = #{id}")
+    public String getPathById(String id);
 /*
     //通过学号获取全部实验列表
     @Select("SELECT t.id id,name,start,end FROM teach_test t,teach_test_class c WHERE  c.`class_id` = #{account} AND c.`test_id` = t.id\n" +
