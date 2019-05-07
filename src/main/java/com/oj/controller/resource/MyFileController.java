@@ -6,12 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +42,15 @@ public class MyFileController {
         param.put("user_id", user_id);
         List<Map> list = myfileService.getFileListByFlag(param);
         return list;
+    }
+
+    @GetMapping("/downloadFile")
+    @ResponseBody
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
+    {
+        String id = request.getParameter("id");
+        //System.out.println("id : " + id);
+        myfileService.downloadFile(id, response);
     }
     /*
     //返回实验列表页面
