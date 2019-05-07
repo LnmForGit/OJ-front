@@ -23,6 +23,26 @@ function getExperInfo() {
 
 }
 
+function getExamInfo() {
+    $.ajax({
+        type: "POST",
+        url: "/exam/getAllExam",
+        dataType: "json",
+        // data:{
+        //     "experName" : $('#experName').val()
+        // },
+        success:function (result) {
+            $.each(result,function(index,value){
+                value.start = formatTime(value.start)
+                value.end = formatTime(value.end)
+                setExperItem(value.id,value.name,value.start,value.end);
+            })
+
+        }
+    })
+
+}
+
 //将时间戳转换为正常时间格式
 function formatTime(timeStamp) {
     var date = new Date(timeStamp*1000);
@@ -94,6 +114,7 @@ function examOrExper(){
     }else if(pathname == "/exam/"){
         $("#title").html("考试");
         $("#t").html("所有考试")
+        getExamInfo();
     }
 
 }

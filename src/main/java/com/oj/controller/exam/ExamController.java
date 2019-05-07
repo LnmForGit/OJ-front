@@ -6,9 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhouli
@@ -40,5 +44,13 @@ public class ExamController {
     @RequestMapping("/problemDetails")
     public String problemDetails( HttpServletRequest request) {
         return "exam/problemDetails";
+    }
+
+    //通过学生所在班级获取全部考试信息接口
+    @PostMapping("/getAllExam")
+    @ResponseBody
+    public List<Map> getAllExper(HttpServletRequest request){
+        String account = request.getSession().getAttribute("user_class").toString();
+        return testService.getExamMaplist(account);
     }
 }
