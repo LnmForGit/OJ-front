@@ -23,6 +23,26 @@ function getExperInfo() {
 
 }
 
+function getExamInfo() {
+    $.ajax({
+        type: "POST",
+        url: "/exam/getAllExam",
+        dataType: "json",
+        // data:{
+        //     "experName" : $('#experName').val()
+        // },
+        success:function (result) {
+            $.each(result,function(index,value){
+                value.start = formatTime(value.start)
+                value.end = formatTime(value.end)
+                setExperItem(value.id,value.name,value.start,value.end);
+            })
+
+        }
+    })
+
+}
+
 //将时间戳转换为正常时间格式
 function formatTime(timeStamp) {
     var date = new Date(timeStamp*1000);
@@ -47,7 +67,7 @@ function setExperItem(id,name,start,end,score){
     var endIf = isEnd(end) ? 1 : 0;
     experItem += isEnd(end) ? finished : underWay;
     experItem += "<td class=\"project-title\">\n" +
-        "                                        <a class=\"link\"  onclick='setId(\""+id+ "," + isEnd+"\")'>" +name+"</a>\n" +
+        "                                        <a href=experDetail?id=" + id + "&isEnd="+endIf+"  >" +name+"</a>\n" +
         "                                        <br/>\n" +
         "                                        <small>创建日期:"+ start  +"&nbsp&nbsp&nbsp</small>\n" +
         "                                        <small>  结束日期:" + end + "</small>\n" +
@@ -94,13 +114,10 @@ function examOrExper(){
     }else if(pathname == "/exam/"){
         $("#title").html("考试");
         $("#t").html("所有考试")
+        getExamInfo();
     }
 
 }
 
-function prevent(id,isEnd){
-    if(!isEnd){
-        window.location.href="/experDetail?id=" + id + "&isEnd=" +endIf;
-    }
-}
+
 

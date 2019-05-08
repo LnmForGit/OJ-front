@@ -13,6 +13,8 @@ public interface TestService {
     //通过学生所在班级获取全部实验列表
     public List<Map> getExperMaplist(String account);
 
+    public List<Map> getExamMaplist(String account);
+
     //通过实验id与学生id获取提交状态信息
     public List<Map> getSubmitState(String sid,Map<String, String> param);
 
