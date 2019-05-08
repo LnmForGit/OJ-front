@@ -12,10 +12,100 @@
 <body class="gray-bg">
     <!--引入公用资源-->
     <div th:replace="common/staticImport :: common_resource"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/slider.css}"/>
+
     <!--引入公用头部-->
     <div th:replace="common/staticHf :: common_head"></div>
     <div class="rootDiv">
+        <div class="box">
+            <div class="box-pic">
+                <ul class="pic-ul">
+                    <li class="b-img">
+                        <img src="/css/img/lunbo1.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo2.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo3.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo4.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo5.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo6.jpg">
+                    </li>
+                    <li class="b-img">
+                        <img src="/css/img/lunbo1.jpg">
+                    </li>
+                </ul>
+            </div>
+            <div class="box-cir">
+                <div class="cir-ul">
+                    <i class="cir-change"></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+            </div>
+            <div class="btn">
+                <span class="btn-left">&lt;</span>
+            </div>
+            <div class="btn">
+                <span class="btn-right">&gt;</span>
+            </div>
+        </div>
         <div class="wrapper wrapper-content">
+            <div class="row">
+                    <div class="col-sm-4">
+                        <a href="#tlq">
+                            <div class="acm-mod" style="background: #23b7e5b5">
+                                <div class="acm-mod-pic">
+                                    <i class="fa fa-facebook-official middle-icon"></i>
+                                </div>
+                                <div class="h1 text-fff font-thin h1">讨论区</div>
+                                <p style="color: white;">A题遇到麻烦了？来讨论区交流一下吧！<br>还有精选的帖子呦</p>
+                                <div class="acm-mod-btn">
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="#jsq">
+                            <div class="acm-mod" style="background: #ea7569">
+                                <div class="acm-mod-pic">
+                                    <i class="fa fa-codepen middle-icon"></i>
+                                </div>
+                                <div class="h1 text-fff font-thin h1">竞赛区</div>
+                                <div style="color: white;">想要看看自己的实力吗？竞赛是你最好的选择！<br>无论你是几年级，想战就战</div>
+                                <div class="acm-mod-btn">
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="#tkq">
+                            <div class="acm-mod" style="background: #e6a259">
+                                <div class="acm-mod-pic">
+                                    <i class="fa fa-pencil-square-o middle-icon"></i>
+                                </div>
+                                <div class="h1 text-fff font-thin h1">题库区</div>
+                                <p style="color: white;">高质量题目分类挑选，挑战连续AC极限<br>你能做的，只有变得更强</p>
+                                <div class="acm-mod-btn">
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+            </div>
             <div class="row">
                 <div class="col-sm-6">
 
@@ -82,7 +172,7 @@
 
                     <div class="ibox">
                         <div class="ibox-title">
-                            <h5>排行榜</h5>
+                            <h5>近期排行</h5>
                             <div class="ibox-tools">
                                 <a href="projects.html" class="btn btn-primary btn-xs">更多</a>
                             </div>
@@ -141,66 +231,27 @@
                 </div>
             </div>
             <div class="row">
+                <div class="module-head clearfix">
+                    <h3 id="tlq">讨论区</h3>
+                </div>
                 <div class="col-sm-12">
 
-                    <div class="ibox">
-                        <div class="ibox-title">
-                            <h5>教学通知</h5>
-                            <div class="ibox-tools">
-                                <a href="projects.html" class="btn btn-primary btn-xs">更多</a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-                            <div class="project-list">
+                </div>
+            </div>
+            <div class="row">
+                <div class="module-head clearfix">
+                    <h3 id="jsq">竞赛区</h3>
+                </div>
+                <div class="col-sm-12">
 
-                                <table class="table table-hover">
-                                    <tbody>
-                                    <tr>
-                                        <td class="project-title">
-                                            <a href="project_detail.html">LIKE－一款能够让用户快速获得认同感的兴趣社交应用</a>
-                                            <br>
-                                            <small>创建于 2014.08.15</small>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="project-title">
-                                            <a href="project_detail.html">米莫说｜MiMO Show</a>
-                                            <br>
-                                            <small>创建于 2014.08.15</small>
-                                        </td>
-                                    </tr>
-                                    <tr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="module-head clearfix">
+                    <h3 id="tkq">题库区</h3>
+                </div>
+                <div class="col-sm-12">
 
-                                        <td class="project-title">
-                                            <a href="project_detail.html">商家与购物用户的交互试衣应用</a>
-                                            <br>
-                                            <small>创建于 2014.08.15</small>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-
-                                        <td class="project-title">
-                                            <a href="project_detail.html">天狼---智能硬件项目</a>
-                                            <br>
-                                            <small>创建于 2014.08.15</small>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-
-                                        <td class="project-title">
-                                            <a href="project_detail.html">乐活未来</a>
-                                            <br>
-                                            <small>创建于 2014.08.15</small>
-                                        </td>
-
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -208,4 +259,6 @@
 </body>
 <!-- 引入公用尾部 -->
 <div th:replace="common/staticHf :: common_footer"></div>
+<script th:src="@{/js/OJ/tool.js}"></script>
+<script th:src="@{/js/OJ/slider.js}"></script>
 </html>
