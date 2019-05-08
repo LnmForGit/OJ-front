@@ -13,86 +13,18 @@ function init(){
 }
 function testFun(){
     var result=[
-        {'proId':'666',
+        /*{'proId':'666',
             'proName':'红黑树',
-            'proAcPercentage':'34',
             'proDifficulty':'5',
+            'proAcNum':'18',
+            'proSubNum':'45',
             'AcState':'unknow'},
         {'proId':'310',
             'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
             'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'523',
-            'proName':'单项链表',
-            'proAcPercentage':'74',
-            'proDifficulty':'3',
-            'AcState':'false'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'},
-        {'proId':'310',
-            'proName':'鸡兔同笼',
-            'proAcPercentage':'94',
-            'proDifficulty':'1',
-            'AcState':'true'}
+            'proAcNum':'53',
+            'proSubNum':'75',
+            'AcState':'true'}*/
     ]
     loadProblemList(result);
     result =[{typeAName:"全部题目",
@@ -150,6 +82,10 @@ function getProblemList(){
     });
 }
 function loadProblemList(t){
+    var i=0;
+    for(;i<t.length;i++){ //每次交由前端零时生成Ac率，减少服务器压力
+        t[i]['proAcPercentage']=(t[i].proAcNum * 1.0 / t[i].proSubNum).toFixed(1) * 100;
+    }
     var dataTable = $('#problemList');
     if ($.fn.dataTable.isDataTable(dataTable)) {
         dataTable.DataTable().destroy();
@@ -166,6 +102,8 @@ function loadProblemList(t){
         "columns" : [{
             "data" : "AcState",
             "render":function (data, type, full, meta){
+                //console.log(type+", "+ full+", "+ meta);
+                //console.log(full); //full是当前整个单元的内容
                 if('true'==data) return "<span class='label label-primary'>已解决</span>";
                 if('false'==data) return  "<span class='label label-danger'>未解决</span>";
                 if('unknow'==data) return  "<span class='label label-default'>未尝试</span>";
@@ -177,8 +115,8 @@ function loadProblemList(t){
             }
         },{
             "data" :"proName",
-            "render":function(data){
-                return "<a ><span style='font-weight:bold; font-size:15px; '>"+data+"</span></a>";
+            "render":function(data, type, full, meta){
+                return "<a onclick='showProblemInf(\""+full['proId']+"\",\""+full['proAcPercentage']+"\",\""+full['proAcNum']+"\",\""+full['proSubNum']+"\")'><span style='font-weight:bold; font-size:15px; '>"+data+"</span></a>";
             }
         },{
             "data" : "proAcPercentage",
@@ -194,7 +132,6 @@ function loadProblemList(t){
                 for(var i=0;i<data;i++)
                     str+=" <span class=\"glyphicon glyphicon-star\"></span>";
                 return str;
-                //return "<span >"+data+"</span>";
             }
         }]
     });
@@ -251,4 +188,11 @@ function filtrateProblemList(t){
     }
     console.log(temp);
     loadProblemList(temp);
+}
+
+//跳转到指定题目的详细页面
+function showProblemInf(tProId, tProAcPercentage, tProAcNum, tProSubNum){
+    //window.location.href="/practice/showProblemInf/"+t;
+    window.open("/practice/showProblemInf?proId="+tProId+"&proAcPercentage="+tProAcPercentage+"&proAcNum="+tProAcNum+"&proSubNum="+tProSubNum,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
+
 }

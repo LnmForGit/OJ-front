@@ -7,13 +7,12 @@ import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +48,18 @@ public class Practice {
     @ResponseBody
     public Map getSystemSimpleInf(@RequestBody Map<String, String> param, HttpServletRequest request){
         return service.getSystemSimpleInf(request.getSession().getAttribute("user_id").toString());
+    }
+
+    //返回指定题目的详情页面
+    @RequestMapping("/showProblemInf")
+    public String showTestScore(@RequestParam("proId") String proId, @RequestParam("proAcPercentage") String proAcPercentage,@RequestParam("proAcNum") String proAcNum,@RequestParam("proSubNum") String proSubNum,Model model){
+        Map<String,Object> info = new HashMap<>();
+        info.put("proId", proId);
+        info.put("proAcPercentage", proAcPercentage);
+        info.put("proAcNum", proAcNum);
+        info.put("proSubNum", proSubNum);
+        model.addAttribute("info", info);
+        return "exam/problemDetailsX";
     }
 
 }

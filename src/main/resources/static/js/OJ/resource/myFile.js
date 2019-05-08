@@ -69,7 +69,24 @@ function showFile()
 
 function downloadFile(id)
 {
-    window.location.href="/resource/downloadFile?id="+id;
+    $.ajax({
+        type: "POST",
+        url: "/resource/checkFileExistence",
+        dataType: "json",
+        data: {
+            id: id,
+        },
+        success:function (result){
+            if(result.flag == 1)
+            {
+                window.location.href="/resource/downloadFile?id="+id;
+            }
+            else
+            {
+                swal("下载失败！", "文件不存在，请联系教师或管理员", "error");
+            }
+        }
+    })
 }
 function getSize(size) {
     var fileSize = '0KB';
