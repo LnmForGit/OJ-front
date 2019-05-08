@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/selectcolor.css}"/>
+    <title>D-OJ</title>
+</head>
+
+<body class="gray-bg">
+<!--引入公用资源-->
+<div th:replace="common/staticImport :: common_resource"></div>
+<!--引入公用头部-->
+<div th:replace="common/staticHf :: common_head"></div>
+<div class="rootDiv">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row" style="background:gray; ">
+                    <div class="wrapper wrapper-content  animated fadeInRight article">
+                        <div class="row">
+                            <div class="col-lg-10 col-lg-offset-1">
+                                <div class="ibox">
+                                    <div class="ibox-content" style="background:antiquewhite; " >
+                                        <div class="pull-left">
+                                            <button class="btn btn-white btn-xs" type="button">操作D</button>
+                                            <button class="btn btn-white btn-xs" type="button">操作E</button>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button class="btn btn-white btn-xs" type="button">操作A</button>
+                                            <button class="btn btn-white btn-xs" type="button">操作B</button>
+                                            <button class="btn btn-white btn-xs" type="button">操作C</button>
+                                        </div>
+                                        <div class="text-center article-title " style="height:35px; margin: 22px 0 18px 0; ">
+                                            <span id='problemName' style="font-size:25px; ">题目名称</span>&nbsp;<span style="font-size:11px; margin-left:10px; ">题目编号:</span><span id='problemId' style="font-size:11px;">题目编号</span>
+                                        </div>
+                                        <!--<textarea id='problemDescription' style="width:100%; resize:none; " readonly="true"> </textarea>-->
+                                        <!--<pre id="problemDescription"></pre>-->
+                                        <p id="problemDescription"></p>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h3>输入描述</h3>
+                                                <div class="social-feed-box" style="border:1px solid; margin:0 0 0 0; padding:0 0 0 0; ">
+                                                    <textarea id="inputDescription" style="width:100%; resize:none; border:0px solid; margin:0 0 0 0; padding:0 0 0 0;" readonly="true" ></textarea>
+                                                </div>
+                                                <h3>输出描述</h3>
+                                                <div class="social-feed-box" style="border:1px solid; margin:0 0 0 0; padding:0 0 0 0; ">
+                                                    <textarea id="outputDescription" style="width:100%; resize:none; border:0px solid; margin:0 0 0 0; padding:0 0 0 0;" readonly="true" ></textarea>
+                                                </div>
+                                                <h3>输入样例</h3>
+                                                <div class="social-feed-box" style="border:1px solid; margin:0 0 0 0; padding:0 0 0 0; ">
+                                                    <textarea id="inputSample" style="width:100%; resize:none; border:0px solid; margin:0 0 0 0; padding:0 0 0 0;" readonly="true" ></textarea>
+                                                </div>
+                                                <h3>输出样例</h3>
+                                                <div class="social-feed-box" style="border:1px solid; margin:0 0 0 0; padding:0 0 0 0; ">
+                                                    <textarea id="outputSample" style="width:100%; resize:none; border:0px solid; margin:0 0 0 0; padding:0 0 0 0;" readonly="true" ></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var testInfo = [[${info}]];
+    console.log("####info对象的内容如下");
+    console.log(testInfo);
+
+</script>
+<script type="text/javascript" th:src="@{/js/OJ/exam/problemDetailsX.js}"></script>
+</body>
+<!-- 引入公用尾部 -->
+<div th:replace="common/staticHf :: common_footer"></div>
+</html>
