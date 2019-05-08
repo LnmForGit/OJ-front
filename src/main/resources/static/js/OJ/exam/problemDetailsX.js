@@ -62,6 +62,13 @@ function testFun(){
     }
     showSubmitResult(result);
 }
+//初始化页面高度
+function initSetPageHeight(){
+    var doc = document.body;
+    var temp = doc.scrollHeight;
+
+}
+
 //加载题目详细信息
 function loadProblemData(t){
     //console.log(t)
@@ -101,7 +108,7 @@ function loadCodeEditArea(){
         styleActiveLine: false, // 当前行背景高亮
         matchBrackets: true   // 括号匹配
     });
-    editor.setSize('auto','400px');
+    editor.setSize('auto','600px');
     //改变编辑界面风格
     $('#selectEditAreaStyle').change(function(){
         var theme = $('#selectEditAreaStyle').val();

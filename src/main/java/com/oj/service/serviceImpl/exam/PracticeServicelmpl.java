@@ -113,7 +113,6 @@ public class PracticeServicelmpl implements PracticeService {
     @Override
     //获取指定用户在系统中的简要信息
     public Map getSystemSimpleInf(String stuId){
-        out.println("###"+stuId);
         Map<String, String> result = new HashMap<>();
         List finishList = mapper.getFinishProblemList(stuId);
         List targetList = mapper.getTargetProblemStateList(stuId);

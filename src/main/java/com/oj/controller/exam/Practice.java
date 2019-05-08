@@ -59,7 +59,7 @@ public class Practice {
         info.put("proAcNum", proAcNum);
         info.put("proSubNum", proSubNum);
         model.addAttribute("info", info);
-        return "exam/problemDetailsX";
+        return "exam/problemDetailsL";
     }
 
     //接收用户提交代码
