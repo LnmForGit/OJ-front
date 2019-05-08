@@ -3636,7 +3636,7 @@ body.body-small .footer.fixed {
 
 .rootDiv{
     padding-top: 50px;
-    padding-bottom: 100px;
+    /*padding-bottom: 100px;*/
     min-height: 100%;
 }
 
