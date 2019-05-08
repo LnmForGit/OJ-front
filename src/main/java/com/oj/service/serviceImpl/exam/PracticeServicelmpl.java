@@ -110,6 +110,7 @@ public class PracticeServicelmpl implements PracticeService {
         });
         return result;
     }
+    @Override
     //获取指定用户在系统中的简要信息
     public Map getSystemSimpleInf(String stuId){
         out.println("###"+stuId);
@@ -123,5 +124,12 @@ public class PracticeServicelmpl implements PracticeService {
         result.put("systemRank", ""+(AllProblemlist.size()-finishList.size()) );
         return result;
     }
+    //获取指定题目的详细信息
+    public Map getTargetProblemInf(String proId){
+        return mapper.getTargetProblemInf(proId);
+    }
+    //将用户提交代码存入数据库
+    public void saveSubmitCode(){
 
+    }
 }

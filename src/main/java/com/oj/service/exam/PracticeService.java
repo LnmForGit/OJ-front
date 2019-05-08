@@ -11,5 +11,7 @@ public interface PracticeService {
     public List<Map> getTargetProblemList(String stuId);
     //获取指定用户在系统中的简要信息
     public Map getSystemSimpleInf(String stuId);
+    //获取指定题目的详细信息
+    public Map getTargetProblemInf(String proId);
 
 }

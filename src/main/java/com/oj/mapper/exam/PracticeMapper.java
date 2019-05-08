@@ -1,6 +1,7 @@
 package com.oj.mapper.exam;
 
 
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -36,7 +37,13 @@ public interface PracticeMapper {
 
     //获取指定用户的系统排名（依据为已解决题的数量）   !!!!不推举，时长过久
     @Select("select count(t.userId) from (select id userId from teach_students) t where (select count(distinct problem_id) FinishAmount from teach_submit_code where user_id=t.userId and accuracy=1 and problem_id in (select t.id proId from teach_problems t where t.public = 'on') ) > (select count(distinct problem_id) FinishAmount from teach_submit_code where user_id=#{stuId} and accuracy=1 and problem_id in (select t.id proId from teach_problems t where t.public = 'on') )")
-    public Object getTargetRank(String stuId);
+    public Object getTargetRank(String stuId); //没尝试，不知道可不可以指定返回对象未object
 
-    //
+    //获取指定题目的详细信息
+    @Select("select t.name proName, t.description problemDescription, t.intype inputDescription, t.outtype outputDescription, t.insample inputSample, t.outsample outputSample, t.maxtime TimeLimit, t.maxmemory MemoryLimit from teach_problems t where t.id = #{proId}")
+    public Map getTargetProblemInf(String proId);
+
+    //保存用户提交代码
+    //@InsertProvider()
+   // @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")//加入该注解可以保持对象后，查看对象插入id
 }
