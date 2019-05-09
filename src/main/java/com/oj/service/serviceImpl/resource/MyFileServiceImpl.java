@@ -25,6 +25,7 @@ public class MyFileServiceImpl implements MyFileService {
     public List<Map>getFileListByFlag(Map<String, String> param)
     {
         System.out.println(param.toString());
+        /*
         if(param.get("flag").equals("0"))
         {
             List<Map> list = myFileMapper.getTeacherFileByStudent(param);
@@ -33,7 +34,10 @@ public class MyFileServiceImpl implements MyFileService {
         else
         {
             return myFileMapper.getOpenFile();
-        }
+        }*/
+        List<Map> list = myFileMapper.getAllFileByStudent(param);
+        System.out.println("list: "+list.toString());
+        return list;
     }
 
     public void downloadFile(String id, HttpServletResponse response)

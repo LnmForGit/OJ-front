@@ -14,9 +14,10 @@ function showFile()
         url:'/resource/getFileListByFlag',
         contentType: "application/json;charset=UTF-8",
         data:JSON.stringify({
+            /*
             "flag": $("#fileFlag").val(),
             "name" : $('#fileName').val(),
-            "uploader_id" : $('#fileUploader').val(),
+            "uploader_id" : $('#fileUploader').val(),*/
         }),
 
         success:function(result)

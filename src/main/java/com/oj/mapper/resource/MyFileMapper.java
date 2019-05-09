@@ -26,6 +26,10 @@ public interface MyFileMapper {
     @SelectProvider(type = MyFileProvider.class, method = "getQuerySql")
     public List<Map> getTeacherFileByStudent(@Param("condition") Map<String, String> param);
 
+    //获取所有文件
+    @SelectProvider(type = MyFileProvider.class, method = "getAllQuerySql")
+    public List<Map> getAllFileByStudent(@Param("condition") Map<String, String> param);
+
     //获取所有公开文件
     @Select("select myfile.id as id, myfile.name as name, admin.name as uploader_name, myfile.upload_time as upload_time, myfile.size as size, myfile.flag as flag from teach_myfile myfile, teach_admin admin where flag = 1 and myfile.uploader_id = admin.id order by myfile.upload_time desc")
     public List<Map> getOpenFile();
