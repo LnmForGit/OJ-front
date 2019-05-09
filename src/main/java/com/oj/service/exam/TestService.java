@@ -1,5 +1,7 @@
 package com.oj.service.exam;
 
+import org.apache.ibatis.annotations.Select;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,7 @@ public interface TestService {
     //通过学生所在班级获取全部实验列表
     public List<Map> getExperMaplist(String account);
 
-    public List<Map> getExamMaplist(String account);
+    public List<Map> getExamMaplist(String sid,String cid);
 
     //通过实验id与学生id获取提交状态信息
     public List<Map> getSubmitState(String sid,Map<String, String> param);
@@ -26,4 +28,13 @@ public interface TestService {
 
     //获取提交状态分类
     List<Map> getSubmitType();
+
+    //将初次登陆考试的ip进行记录
+    void saveIP(String tid,String sid,String first_ip);
+
+    //获取可参与考试的ip段
+    List<Map> getTestIp(String tid);
+
+    //查询正在进行的考试的班级
+     List<Map> getTestClass();
 }

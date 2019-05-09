@@ -1,6 +1,6 @@
 package com.oj.controller.exam;
 
-
+import static java.lang.System.out;
 import com.oj.service.exam.PracticeService;
 import com.oj.service.exam.TestService;
 import org.mybatis.logging.Logger;
@@ -53,13 +53,34 @@ public class Practice {
     //返回指定题目的详情页面
     @RequestMapping("/showProblemInf")
     public String showTestScore(@RequestParam("proId") String proId, @RequestParam("proAcPercentage") String proAcPercentage,@RequestParam("proAcNum") String proAcNum,@RequestParam("proSubNum") String proSubNum,Model model){
-        Map<String,Object> info = new HashMap<>();
+        Map<String,Object> info = service.getTargetProblemInf(proId);//new HashMap<>();
         info.put("proId", proId);
         info.put("proAcPercentage", proAcPercentage);
         info.put("proAcNum", proAcNum);
         info.put("proSubNum", proSubNum);
         model.addAttribute("info", info);
-        return "exam/problemDetailsX";
+        return "exam/problemDetailsL";
+    }
+
+    //接收用户提交代码
+    @PostMapping("/receiveCode")
+    @ResponseBody
+    public Map receiveCode(@RequestBody Map<String, String> param, HttpServletRequest request){
+         Map result = new HashMap<String, String>();
+         param.put("stuId",request.getSession().getAttribute("user_id").toString() );
+         out.println(param);
+         result.put("postId", "666");
+         return result;
+    }
+    //获取指定提交号的处理结果
+    @PostMapping("/getTheSubmitResult")
+    @ResponseBody
+    public Map getTheSubmitResult(@RequestBody Map<String, String> param, HttpServletRequest request){
+        Map result = new HashMap<String, String>();
+        out.println(param);
+        result.put("result", "wrongAnswer");
+        result.put("inf", "部分正确(60%)");
+        return result;
     }
 
 }

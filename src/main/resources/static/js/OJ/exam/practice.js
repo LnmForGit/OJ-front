@@ -84,7 +84,9 @@ function getProblemList(){
 function loadProblemList(t){
     var i=0;
     for(;i<t.length;i++){ //每次交由前端零时生成Ac率，减少服务器压力
-        t[i]['proAcPercentage']=(t[i].proAcNum * 1.0 / t[i].proSubNum).toFixed(1) * 100;
+        console.log(t[i].proId+","+t[i].proAcNum+", "+t[i].proSubNum)
+        if(0!=t[i].proSubNum) t[i]['proAcPercentage']=((t[i].proAcNum / t[i].proSubNum) * 100).toFixed(1)
+        else t[i]['proAcPercentage'] = 0;
     }
     var dataTable = $('#problemList');
     if ($.fn.dataTable.isDataTable(dataTable)) {
@@ -182,11 +184,13 @@ function loadSystemSimpleInf(t){
 function filtrateProblemList(t){
     var temp = [];//problemListBackup;
     var i=0, j=0;
-    for(;i<problemListBackup.length;i++){
-        if(problemListBackup[i]['proTypeId']==t)
-            temp[j++]=problemListBackup[i];
-    }
-    console.log(temp);
+    if(-1!=t)
+        for(;i<problemListBackup.length;i++){
+            if(problemListBackup[i]['proTypeId']==t)
+                temp[j++]=problemListBackup[i];
+        }
+    else temp=problemListBackup;
+    //console.log(temp);
     loadProblemList(temp);
 }
 
