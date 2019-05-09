@@ -90,12 +90,14 @@ public class ExamController {
     //获取可参与考试的班级
     @PostMapping("/getTestClass")
     @ResponseBody
-    List<Map>   getTestClass(@RequestBody Map<String, String> loginInfo,HttpServletRequest request){
-        String cid = "";
-        List<Map<String, String>> userList = loginService.getUserByLoginInfo(loginInfo);
-        //通过用户登录名和密码查询数据库看是否有该用户
-        if (userList.size()==1)
-           cid = userList.get(0).get("class_id");
+    List<Map>   getTestClass(HttpServletRequest request){//,@RequestBody Map<String, String> loginInfo){
+        String cid = request.getSession().getAttribute("user_class").toString();
+        System.out.println(cid);
+//        String cid = "";
+//        List<Map<String, String>> userList = loginService.getUserByLoginInfo(loginInfo);
+//        //通过用户登录名和密码查询数据库看是否有该用户
+//        if (userList.size()==1)
+//           cid = userList.get(0).get("class_id");
         Map<String, String> map = new HashMap<String, String>();
         map.put("class_id", cid);
         List<Map> test = testService.getTestClass();
