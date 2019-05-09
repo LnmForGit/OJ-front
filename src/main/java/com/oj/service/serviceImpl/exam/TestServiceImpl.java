@@ -69,4 +69,11 @@ public class TestServiceImpl implements TestService {
     public List<Map> getTestClass() {
         return testMapper.getTestClass();
     }
+
+    //获取正在进行考试的ip
+
+    @Override
+    public List<Map> getTestIps() {
+        return testMapper.getTestIps();
+    }
 }

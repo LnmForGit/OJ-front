@@ -58,7 +58,13 @@ public interface TestMapper {
     @Select("SELECT teach_ip.ip FROM teach_test_ip,teach_ip WHERE teach_test_ip.tid = #{tid} AND teach_ip.id = teach_test_ip.iid;")
     List<Map> getTestIp(String tid);
 
+
     //查询正在进行的考试的班级
     @Select("SELECT DISTINCT class_id FROM teach_test, teach_test_class WHERE  teach_test_class.`test_id` = teach_test.`id` AND teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
     List<Map> getTestClass();
+
+    //获取正在进行考试的ip
+    @Select("SELECT teach_test_students.sid,teach_test_students.`first_ip` FROM teach_test, teach_test_students WHERE  teach_test_students.`tid` = teach_test.`id` AND teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
+    List<Map> getTestIps();
+
 }

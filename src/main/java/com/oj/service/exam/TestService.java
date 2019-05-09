@@ -37,4 +37,7 @@ public interface TestService {
 
     //查询正在进行的考试的班级
      List<Map> getTestClass();
+
+    //获取正在进行考试的ip
+    List<Map> getTestIps();
 }
