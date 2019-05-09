@@ -25,7 +25,6 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public List<Map<String, String>> getUserByLoginInfo(Map<String, String> loginInfo) {
-        System.out.println(loginInfo);
         return mapper.getUserByLoginInfo(loginInfo);
     }
 
