@@ -3,7 +3,9 @@ var submitTable = $("#submit");
 var tid = getParam("id");
 var setedTestInfo = false;
 var setedProblemInfo = false;
+var testIP = false;
 $(document).ready(function () {
+    testIP = isTestIps();//设置能否查看代码
     $("#code").height($(window).innerHeight() * 0.75)
     getSubmitType();
     getUserIP(function(ip){
@@ -23,6 +25,7 @@ function getInfo(ip){
         type: "POST",
         url: "/experiment/getSubmitState",
         dataType: "json",
+        async: false,
         contentType: "application/json;charset=UTF-8",//指定消息请求类型
             data:JSON.stringify({
                 "id" : $('#problemId').val(),
@@ -31,6 +34,7 @@ function getInfo(ip){
                 "tid" : tid
             }),
         success:function (result) {
+
             //console.log(result)
             var list_map = new Array();
             var list_map_submit = new Array();
@@ -96,7 +100,7 @@ function getSubmitType(){
 
 function setTestInfo(id,progress,ip){
     $("#status").html(getParam("testState")== 0 ? "已结束" : "正在进行");
-    $("#status").addClass(getParam("testState")== 0 ? "label-default" : "label-primary");
+    $("#status").addClass(getParam("testState")== 0 ? "label-danger" : "label-primary");
     progress += "%"
     $("#progress").html(progress);
     $("#progrocessBar").css("width", progress);
@@ -238,7 +242,12 @@ function setSubmitInfo(result,testId){
         }],
         "columnDefs": [{
             "render" : function(data, type, row) {
-                var submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='setCode(\""+escape(row.code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                // console.log("----------------------------")
+                // console.log(testIP)
+                if(testIP)
+                    var submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='setCode(\""+escape(row.code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                else
+                    submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='hints()' '><i class=\"fa fa-folder\"></i> 查看 </a></td>";
                 return submitItem;
             },
             "targets" :8
@@ -408,6 +417,11 @@ function getProblem(id,testId){
     })
 }
 
-
+function hints(){
+    swal({
+        title: "代码暂时不能查看",
+        text: "该主机已经被用做考试，考试结束后可查看代码。"
+    });
+}
 
 

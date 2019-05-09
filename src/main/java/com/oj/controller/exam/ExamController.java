@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class ExamController {
     @ResponseBody
     List<Map>   getTestClass(HttpServletRequest request){//,@RequestBody Map<String, String> loginInfo){
         String cid = request.getSession().getAttribute("user_class").toString();
-        System.out.println(cid);
+        //System.out.println(cid);
 //        String cid = "";
 //        List<Map<String, String>> userList = loginService.getUserByLoginInfo(loginInfo);
 //        //通过用户登录名和密码查询数据库看是否有该用户
@@ -103,6 +104,23 @@ public class ExamController {
         List<Map> test = testService.getTestClass();
         test.add(map);
         System.out.println(test.contains(map));
+        return test;
+    }
+
+    //获取正在参与考试的学生与ip
+    @PostMapping("/getTestIps")
+    @ResponseBody
+    List<Map>   getTestIps(HttpServletRequest request) {
+        String sid = request.getSession().getAttribute("user_id").toString();
+        Map<String, String> map = new HashMap<String, String>();
+        //Map<String, String> newMap = new HashMap<String, String>();
+
+        map.put("sid", sid);
+        String localip = request.getRemoteAddr();
+        map.put("first_ip",localip);
+        List<Map> test = testService.getTestIps();
+        test.add(map);
+        System.out.println(localip);
         return test;
     }
 }
