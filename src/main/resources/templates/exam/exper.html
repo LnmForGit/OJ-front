@@ -12,6 +12,11 @@
 <div th:replace="common/staticHf :: common_head"></div>
 <div class="rootDiv">
     <div class="wrapper wrapper-content animated fadeInUp">
+        <ul class="breadcrumb">
+            <li><a href="/index">首页</a></li>
+            <li class="active" ><strong id="bread">实验列表</strong></li>
+        </ul>
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox">
@@ -21,7 +26,12 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <div class="project-list">
+                        <div class="ibox-content text-center" id="tableNull">
+                            <div class="blank-img" >
+                                <img src="/css/img/blank1.jpg" id="blankImg">
+                            </div>
+                        </div>
+                        <div class="project-list" >
                             <table class="table table-hover" id="table">
                                 <tbody>
                                 </tbody>
