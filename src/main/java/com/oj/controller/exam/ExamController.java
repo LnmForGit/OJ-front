@@ -123,4 +123,12 @@ public class ExamController {
         System.out.println(localip);
         return test;
     }
+
+    //获取正在参与考试的学生与ip
+    @PostMapping("/getTestEndTime")
+    @ResponseBody
+    List<Map>   getTestEndTime() {
+        List<Map> test = testService.getTestEndTime();
+        return test;
+    }
 }

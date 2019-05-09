@@ -76,4 +76,9 @@ public class TestServiceImpl implements TestService {
     public List<Map> getTestIps() {
         return testMapper.getTestIps();
     }
+
+    @Override
+    public List<Map> getTestEndTime() {
+        return testMapper.getTestEndTime();
+    }
 }

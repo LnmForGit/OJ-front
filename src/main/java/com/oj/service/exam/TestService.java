@@ -40,4 +40,7 @@ public interface TestService {
 
     //获取正在进行考试的ip
     List<Map> getTestIps();
+
+    //获取正在进行的考试的截至时间
+    List<Map> getTestEndTime();
 }

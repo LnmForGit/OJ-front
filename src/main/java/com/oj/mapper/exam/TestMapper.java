@@ -67,4 +67,8 @@ public interface TestMapper {
     @Select("SELECT teach_test_students.sid,teach_test_students.`first_ip` FROM teach_test, teach_test_students WHERE  teach_test_students.`tid` = teach_test.`id` AND teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
     List<Map> getTestIps();
 
+    //获取此时正在进行的考试的截至时间
+    @Select("SELECT max(teach_test.end) end FROM teach_test WHERE kind=1 and teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
+    List<Map> getTestEndTime();
+
 }

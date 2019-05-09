@@ -64,6 +64,20 @@ function isTestIps(){
     return a;
 }
 
+function isTestEndTime(){
+    var a=false;
+    $.ajax({
+        type: "POST",
+        url: "/exam/getTestEndTime",
+        async:false,
+        dataType: "json",
+        success: function (result) {
+             a = result[0].end > getNowTimeStamp();
+        }
+    })
+    console.log(a)
+    return a;
+}
 
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 
@@ -101,4 +115,22 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
         if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
         ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
     };
+}
+
+//获取当前时间
+function getNowTimeStamp() {
+    var tmp =  Date.parse( new Date() ).toString();
+    tmp = tmp.substr(0,10);
+}
+
+//将时间戳转换为正常时间格式
+function formatTime(timeStamp) {
+    var date = new Date(timeStamp*1000);
+    var  Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var  D = (date.getDate() +1 < 10 ? '0'+(date.getDate()) : date.getDate()) + ' ';
+    var h = date.getHours() + ':';
+    var  m = date.getMinutes() + ':';
+    var  s = date.getSeconds();
+    return (Y+M+D+h+m+s);
 }
