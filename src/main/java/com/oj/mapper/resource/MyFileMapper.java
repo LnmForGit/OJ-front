@@ -30,9 +30,12 @@ public interface MyFileMapper {
     @SelectProvider(type = MyFileProvider.class, method = "getAllQuerySql")
     public List<Map> getAllFileByStudent(@Param("condition") Map<String, String> param);
 
-    //获取所有公开文件
+    /*
     @Select("select myfile.id as id, myfile.name as name, admin.name as uploader_name, myfile.upload_time as upload_time, myfile.size as size, myfile.flag as flag from teach_myfile myfile, teach_admin admin where flag = 1 and myfile.uploader_id = admin.id order by myfile.upload_time desc")
-    public List<Map> getOpenFile();
+    */
+    //获取所有公开文件
+    @SelectProvider(type = MyFileProvider.class, method = "getOpenQuerySql")
+    public List<Map> getOpenFile(@Param("condition") Map<String, String> param);
 
     //根据文件ID获取名字
     @Select("select name from teach_myfile where id = #{id}")
@@ -40,4 +43,8 @@ public interface MyFileMapper {
     //根据文件ID获取存储路径
     @Select("select route from teach_myfile where id = #{id}")
     public String getPathById(String id);
+
+    //获取上传者
+    @Select("select id, name from teach_admin order by id")
+    public List<Map> getUploaderList();
 }

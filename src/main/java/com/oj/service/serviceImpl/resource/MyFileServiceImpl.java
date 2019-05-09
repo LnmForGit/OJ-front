@@ -25,19 +25,29 @@ public class MyFileServiceImpl implements MyFileService {
     public List<Map>getFileListByFlag(Map<String, String> param)
     {
         System.out.println(param.toString());
-        /*
+
         if(param.get("flag").equals("0"))
         {
             List<Map> list = myFileMapper.getTeacherFileByStudent(param);
             return list;
         }
+        else if(param.get("flag").equals("1"))
+        {
+            return myFileMapper.getOpenFile(param);
+        }
         else
         {
-            return myFileMapper.getOpenFile();
-        }*/
-        List<Map> list = myFileMapper.getAllFileByStudent(param);
-        System.out.println("list: "+list.toString());
-        return list;
+            List<Map> list = myFileMapper.getAllFileByStudent(param);
+            System.out.println("list: " + list.toString());
+            return list;
+        }
+    }
+
+
+    //获取上传者
+    public List<Map> getUploaderList()
+    {
+        return myFileMapper.getUploaderList();
     }
 
     public void downloadFile(String id, HttpServletResponse response)

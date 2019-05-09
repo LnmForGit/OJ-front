@@ -15,4 +15,6 @@ public interface MyFileService {
     public void downloadFile(String id, HttpServletResponse response);
     //根据ID检查这个文件存不存在
     public boolean checkFileExistence(String id);
+    //获取上传者
+    public List<Map> getUploaderList();
 }

@@ -45,6 +45,15 @@ public class MyFileController {
         return list;
     }
 
+    @RequestMapping("/getUploaderList")
+    @ResponseBody
+    public List<Map> getUploaderList()
+    {
+        List<Map>list = myfileService.getUploaderList();
+        System.out.println("list "+list.toString());
+        return list;
+    }
+
     @GetMapping("/downloadFile")
     @ResponseBody
     public void downloadFile(HttpServletRequest request, HttpServletResponse response)
