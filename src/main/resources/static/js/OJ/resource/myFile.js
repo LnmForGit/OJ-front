@@ -108,7 +108,6 @@ function showFile()
             if ($.fn.dataTable.isDataTable(dataTable)) {
                 dataTable.DataTable().destroy();
             }
-
             dataTable.DataTable({
                 "serverSide": false,
                 "autoWidth" : false,

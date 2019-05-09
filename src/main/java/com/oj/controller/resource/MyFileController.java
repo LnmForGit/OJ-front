@@ -44,7 +44,6 @@ public class MyFileController {
         List<Map> list = myfileService.getFileListByFlag(param);
         return list;
     }
-
     @RequestMapping("/getUploaderList")
     @ResponseBody
     public List<Map> getUploaderList()

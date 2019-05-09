@@ -1,6 +1,5 @@
 package com.oj.mapper.resource;
 
-
 import com.oj.mapper.provider.resource.MyFileProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

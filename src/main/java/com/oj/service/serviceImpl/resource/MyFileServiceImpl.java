@@ -18,7 +18,6 @@ import java.util.Map;
  */
 @Service
 public class MyFileServiceImpl implements MyFileService {
-
     @Autowired(required = false)
     private MyFileMapper myFileMapper;
 
