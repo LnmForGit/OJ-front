@@ -3,7 +3,7 @@
 
 var editor; //代码编辑器
 var codeData={
-    language : 'C'  //默认是C语言
+    language : '2'  //默认是C语言
 }; //代码的最终汇总结果
 var postId=undefined; //最新提交代码的提交号
 var PleaseDoNotDeleteMe = {
@@ -122,19 +122,20 @@ function loadCodeEditArea(){
         if(lang=="languageC") {
             editor.setOption("mode","clike");//editor.setOption()设置脚本类型
             editor.setValue(txt);// editor.setValue()设置textarea中的值
-            codeData['language'] = 'C';
+            codeData['language'] = '2';
         }else if(lang=="languageCPP") {
             editor.setOption("mode","clike");
             editor.setValue(txt);
-            codeData['language'] = 'C++';
+            codeData['language'] = '1';
         }else if(lang == "languageJava") {
             editor.setOption("mode","clike");
             editor.setValue(txt);
-            codeData['language'] = 'Java';
+            codeData['language'] = '3';
         }else if(lang == "languagePython") {
             editor.setOption("mode","python");
+
             editor.setValue(txt);
-            codeData['language'] = 'Python';
+            codeData['language'] = '4';
         }
     });
 }

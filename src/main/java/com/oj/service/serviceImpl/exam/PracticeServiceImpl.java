@@ -1,22 +1,29 @@
 package com.oj.service.serviceImpl.exam;
 
+import com.oj.entity.practic.SubmitCode;
+import com.oj.entity.practic.TestData;
+import com.oj.judge.RedisUtils;
 import com.oj.mapper.exam.PracticeMapper;
 import com.oj.service.exam.PracticeService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static java.lang.System.out;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class PracticeServicelmpl implements PracticeService {
+public class PracticeServiceImpl implements PracticeService {
 
     @Autowired(required = false)
     private PracticeMapper mapper;
 
+
+    @Autowired
+    private RedisUtils redisUtils;
     //获取题目类型的二级列表数据
     @Override
     public List<Map> getProblemTypeList(){
@@ -127,6 +134,35 @@ public class PracticeServicelmpl implements PracticeService {
     public Map getTargetProblemInf(String proId){
         return mapper.getTargetProblemInf(proId);
     }
+
+    @Override
+    public Integer insertSubmit(SubmitCode code) {
+        return mapper.insertSubmit(code);
+    }
+
+    @Override
+    public Integer updateState(SubmitCode pojo) {
+        return mapper.updateState(pojo);
+    }
+
+    @Override
+    public Map<Integer, List<String>> selectTestData(Integer problemId) {
+        Map<Integer, List<String>> res = redisUtils.getTestData(problemId);
+        if (res != null && res.size() > 0) {
+            return res;
+        }
+        List<TestData> list = mapper.selectTestData(problemId);
+        //如果list为空，则该题目无测试样例，需写log
+        if (list == null || list.size() == 0) {
+            //写log
+            Log log = LogFactory.getLog(PracticeServiceImpl.class);
+            log.error("ProblemId:" + problemId + "has no testData!");
+        } else {
+            res = redisUtils.writeToRedisAndGetTestData(list, problemId);
+        }
+        return res;
+    }
+
     //将用户提交代码存入数据库
     public void saveSubmitCode(){
 
