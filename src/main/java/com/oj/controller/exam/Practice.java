@@ -3,21 +3,16 @@ package com.oj.controller.exam;
 import static java.lang.System.out;
 
 import com.oj.entity.practic.SubmitCode;
-import com.oj.judge.DispatchTask;
 import com.oj.service.exam.AsyncService;
 import com.oj.service.exam.PracticeService;
-import com.oj.service.exam.TestService;
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -85,7 +80,7 @@ public class Practice {
          code.setSubmitCodeLength(codeData.getBytes().length);
          code.setSubmitLanguage(Integer.valueOf(param.get("language")));
          code.setTestId(StringUtils.isEmpty(param.get("testId")) ? 0 : Integer.valueOf(param.get("testId")));
-         code.setSubmitDate((int)System.currentTimeMillis());
+         code.setSubmitDate(System.currentTimeMillis()/1000);
          code.setUserId((Integer) request.getSession().getAttribute("user_id"));
          service.insertSubmit(code);
          Map<String, String> subInfo = new HashMap<>();
