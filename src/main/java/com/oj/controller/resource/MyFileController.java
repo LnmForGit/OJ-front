@@ -44,6 +44,14 @@ public class MyFileController {
         List<Map> list = myfileService.getFileListByFlag(param);
         return list;
     }
+    @RequestMapping("/getUploaderList")
+    @ResponseBody
+    public List<Map> getUploaderList()
+    {
+        List<Map>list = myfileService.getUploaderList();
+        System.out.println("list "+list.toString());
+        return list;
+    }
 
     @GetMapping("/downloadFile")
     @ResponseBody

@@ -26,12 +26,12 @@ public interface TestMapper {
             "LEFT JOIN teach_test_students s \n" +
             "ON s.sid = #{sid} AND s.tid = test.`id`  \n" +
             "  ORDER BY END DESC;")
-    public List<Map> getExamMaplist(String sid,String cid);
+    public List<Map> getExamMaplist(String sid, String cid);
 
     //通过tid与学生id获取提交状态信息
     //通过TestProvider类中的getQuerySql()方法动态构建查询语句
     @SelectProvider(type= TestProvider.class, method = "getQuerySql")
-    List<Map> getSubmitState(@Param("condition")Map<String, String> param,@Param("sid")String sid);
+    List<Map> getSubmitState(@Param("condition") Map<String, String> param, @Param("sid") String sid);
 
     //获取一条实验或考试的详细信息
     @Select("SELECT t.name name,start,end,description,is_ip,only_ip,a.name admin " +
@@ -44,7 +44,7 @@ public interface TestMapper {
             "FROM teach_problems p LEFT JOIN teach_subject s ON s.id = p.`subjectid`\n" +
             "left join teach_submit_code sc on  p.id = sc.`problem_id`  WHERE p.id =  #{id}\n" +
             "GROUP BY p.id")
-    List<Map> getProblemById(@Param("id")String id);
+    List<Map> getProblemById(@Param("id") String id);
 
     //获取提交状态分类
     @Select("SELECT id,state_name from teach_submit_state")
@@ -52,13 +52,23 @@ public interface TestMapper {
 
     //将初次登陆考试的ip进行记录
     @Insert("INSERT INTO teach_test_students (tid,sid ,first_ip) VALUES(#{tid},#{sid},#{first_ip});")
-    public void saveIP(String tid,String sid,String first_ip);
+    public void saveIP(String tid, String sid, String first_ip);
 
     //获取可参与考试的ip段
     @Select("SELECT teach_ip.ip FROM teach_test_ip,teach_ip WHERE teach_test_ip.tid = #{tid} AND teach_ip.id = teach_test_ip.iid;")
     List<Map> getTestIp(String tid);
 
+
     //查询正在进行的考试的班级
     @Select("SELECT DISTINCT class_id FROM teach_test, teach_test_class WHERE  teach_test_class.`test_id` = teach_test.`id` AND teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
     List<Map> getTestClass();
+
+    //获取正在进行考试的ip
+    @Select("SELECT teach_test_students.sid,teach_test_students.`first_ip` FROM teach_test, teach_test_students WHERE  teach_test_students.`tid` = teach_test.`id` AND teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
+    List<Map> getTestIps();
+
+    //获取此时正在进行的考试的截至时间
+    @Select("SELECT max(teach_test.end) end FROM teach_test WHERE kind=1 and teach_test.`end` > UNIX_TIMESTAMP() AND UNIX_TIMESTAMP() > teach_test.`start`;")
+    List<Map> getTestEndTime();
+
 }

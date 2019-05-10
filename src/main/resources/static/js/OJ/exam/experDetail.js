@@ -3,7 +3,9 @@ var submitTable = $("#submit");
 var tid = getParam("id");
 var setedTestInfo = false;
 var setedProblemInfo = false;
+var testIP = true;
 $(document).ready(function () {
+    //testIP = isTestEndTime();//设置能否查看代码
     $("#code").height($(window).innerHeight() * 0.75)
     getSubmitType();
     getUserIP(function(ip){
@@ -23,6 +25,7 @@ function getInfo(ip){
         type: "POST",
         url: "/experiment/getSubmitState",
         dataType: "json",
+        async: false,
         contentType: "application/json;charset=UTF-8",//指定消息请求类型
             data:JSON.stringify({
                 "id" : $('#problemId').val(),
@@ -31,6 +34,7 @@ function getInfo(ip){
                 "tid" : tid
             }),
         success:function (result) {
+
             //console.log(result)
             var list_map = new Array();
             var list_map_submit = new Array();
@@ -96,7 +100,7 @@ function getSubmitType(){
 
 function setTestInfo(id,progress,ip){
     $("#status").html(getParam("testState")== 0 ? "已结束" : "正在进行");
-    $("#status").addClass(getParam("testState")== 0 ? "label-default" : "label-primary");
+    $("#status").addClass(getParam("testState")== 0 ? "label-danger" : "label-primary");
     progress += "%"
     $("#progress").html(progress);
     $("#progrocessBar").css("width", progress);
@@ -182,7 +186,7 @@ function setProblemsInfo(result,testId) {
             "targets" :3
         }, {
                 "render" : function(data, type, row) {
-                    var problemItem = testState == 0&&(getParam("isSaveIp")!="undefined") ? "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\"><i class=\"fa fa-folder\"></i> 查看 </a></td>\";" :"<td class=\"project-actions\"> <a  onclick='getProblem(\""+row.id+"\",\""+testId+"\")' class=\"btn btn-white btn-sm\"><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                    var problemItem = testState == 0&&(getParam("isSaveIp")!="undefined") ? "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\"><i class=\"fa fa-folder\"></i> 查看 </a></td>" :"<td class=\"project-actions\"> <a  onclick='getProblem(\""+row.id+"\",\""+testId+"\")' class=\"btn btn-white btn-sm\"><i class=\"fa fa-folder\"></i> 查看 </a></td>";
                   // console.log((getParam("isSaveIp")=="undefined"))
                     return problemItem;
                 },
@@ -238,7 +242,12 @@ function setSubmitInfo(result,testId){
         }],
         "columnDefs": [{
             "render" : function(data, type, row) {
-                var submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='setCode(\""+escape(row.code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                // console.log("----------------------------")
+                // console.log(testIP)
+                if(testIP)
+                    var submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='setCode(\""+escape(row.code)+"\")' data-toggle='modal' data-target='#myModal5'><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                else
+                    submitItem = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='hints()' '><i class=\"fa fa-folder\"></i> 查看 </a></td>";
                 return submitItem;
             },
             "targets" :8
@@ -249,7 +258,19 @@ function setSubmitInfo(result,testId){
                 return row.state == "Accepted" ? success : wrong;
             },
             "targets" :2
-        },{
+         }
+         //, {
+        //     "render": function (data, type, row) {
+        //         if(testIP)
+        //             var submitItem = "<td> <a style=\"color:grey;\" click='setCode(\""+escape(row.code)+"\")' data-toggle='modal' data-target='#myModal5'>" + row.language +"</a></td>";
+        //         else
+        //             submitItem = "<td> <a style=\"color:grey;\" onclick='hints()' '>+row.language+</a></td>";
+        //         return submitItem;
+        //         return testState == 0 && (getParam("isSaveIp") != "undefined") ? "<td>" + row.id + "</td>" : "<td ><a style=\"color:grey;\" onclick='getProblem(\"" + row.id + "\",\"" + testId + "\")'>" + row.id + "</a></td>";
+        //     },
+        //     "targets": 3
+        // }
+            ,{
             "render" : function(data, type, row) {
                 return testState == 0&&(getParam("isSaveIp")!="undefined") ? "<td>" + row.id + "</td>" : "<td ><a style=\"color:grey;\" onclick='getProblem(\""+row.id+"\",\""+testId+"\")'>" + row.id + "</a></td>";
             },
@@ -408,6 +429,11 @@ function getProblem(id,testId){
     })
 }
 
-
+function hints(){
+    swal({
+        title: "考试中不能查看代码",
+        text: "现在存在正在进行的考试，考试结束后可查看代码。"
+    });
+}
 
 
