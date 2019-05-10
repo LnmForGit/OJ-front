@@ -1,9 +1,9 @@
 package com.oj.mapper.exam;
 
 
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import com.oj.entity.practic.SubmitCode;
+import com.oj.entity.practic.TestData;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +44,38 @@ public interface PracticeMapper {
     public Map getTargetProblemInf(String proId);
 
     //保存用户提交代码
+    @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
+    @Insert("insert into teach_submit_code(problem_id, user_id, test_id, " +
+            "hide, submit_code, submit_date, submit_language, submit_state, test_state, submit_memory, submit_time, submit_code_length, accuracy) " +
+            "values(#{problemId}, #{userId}, #{testId}, #{hide}, #{submitCode}, #{submitDate}, #{submitLanguage}, 0, 0, 0, 0, #{submitCodeLength}, 0.0)")
+    Integer insertSubmit(SubmitCode code);
+    /**
+     * 将结果更新回数据库
+     * @param pojo
+     * @return
+     */
+    @Update("update teach_submit_code\n" +
+            "        set submit_state = #{submitState},\n" +
+            "        submit_error_message = #{submitErrorMessage},\n" +
+            "        test_state = #{testState},\n" +
+            "        submit_time = #{submitTime},\n" +
+            "        accuracy = #{accuracy},\n" +
+            "        submit_memory = #{submitMemory}\n" +
+            "        where id = #{id}")
+    Integer updateState(SubmitCode pojo);
+    /**
+     * 得到测试样例
+     * @param problemId
+     * @return
+     */
+    @Results({
+            @Result(id=true,column="id",property="id"),
+            @Result(column="problemId",property="problem_id"),
+            @Result(column="input",property="in_put"),
+            @Result(column="output",property="out_put")
+    })
+    @Select("select id,in_put,out_put from teach_test_data where problem_id = #{problemId}")
+    List<TestData> selectTestData(Integer problemId);
     //@InsertProvider()
    // @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")//加入该注解可以保持对象后，查看对象插入id
 }
