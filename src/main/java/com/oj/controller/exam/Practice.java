@@ -57,12 +57,10 @@ public class Practice {
 
     //返回指定题目的详情页面
     @RequestMapping("/showProblemInf")
-    public String showTestScore(@RequestParam("proId") String proId, @RequestParam("proAcPercentage") String proAcPercentage,@RequestParam("proAcNum") String proAcNum,@RequestParam("proSubNum") String proSubNum,Model model){
+    public String showTestScore(@RequestParam("proId") String proId,@RequestParam("testId") String testId, Model model){
         Map<String,Object> info = service.getTargetProblemInf(proId);//new HashMap<>();
         info.put("proId", proId);
-        info.put("proAcPercentage", proAcPercentage);
-        info.put("proAcNum", proAcNum);
-        info.put("proSubNum", proSubNum);
+        info.put("testId", testId);
         model.addAttribute("info", info);
         return "exam/problemDetailsL";
     }

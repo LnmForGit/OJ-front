@@ -1,5 +1,10 @@
 
 
+/*
+对题目集的后台分页(数据库分页)
+ */
+
+
 var problemListBackup; //题目集的本地备份，用以减少服务器的压力
 
 $(function(){
@@ -87,6 +92,7 @@ function loadProblemList(t){
         console.log(t[i].proId+","+t[i].proAcNum+", "+t[i].proSubNum)
         if(0!=t[i].proSubNum) t[i]['proAcPercentage']=((t[i].proAcNum / t[i].proSubNum) * 100).toFixed(1)
         else t[i]['proAcPercentage'] = 0;
+        if(t[i]['proAcPercentage']==0) t[i]['proAcPercentage']="0";
     }
     var dataTable = $('#problemList');
     if ($.fn.dataTable.isDataTable(dataTable)) {
@@ -118,7 +124,7 @@ function loadProblemList(t){
         },{
             "data" :"proName",
             "render":function(data, type, full, meta){
-                return "<a onclick='showProblemInf(\""+full['proId']+"\",\""+full['proAcPercentage']+"\",\""+full['proAcNum']+"\",\""+full['proSubNum']+"\")'><span style='font-weight:bold; font-size:15px; '>"+data+"</span></a>";
+                return "<a onclick='showProblemInf(\""+full['proId']+"\")'><span style='font-weight:bold; font-size:15px; '>"+data+"</span></a>";
             }
         },{
             "data" : "proAcPercentage",
@@ -137,6 +143,7 @@ function loadProblemList(t){
             }
         }]
     });
+    //$('#problemList td').css('padding', '0 3px 2px 2px')
 }
 
 //加载显示题目类型列表
@@ -195,8 +202,8 @@ function filtrateProblemList(t){
 }
 
 //跳转到指定题目的详细页面
-function showProblemInf(tProId, tProAcPercentage, tProAcNum, tProSubNum){
+function showProblemInf(tProId){
     //window.location.href="/practice/showProblemInf/"+t;
-    window.open("/practice/showProblemInf?proId="+tProId+"&proAcPercentage="+tProAcPercentage+"&proAcNum="+tProAcNum+"&proSubNum="+tProSubNum,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
+    window.open("/practice/showProblemInf?proId="+tProId+"&testId=0","_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
 
 }
