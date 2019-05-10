@@ -1,0 +1,36 @@
+server:
+  port: 80
+  session: 28800
+spring:
+  profiles:
+    active: test
+  fileUploadPath:
+    path: /root/OJ/oj_file/
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: paraf214%^&*
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+    timeout: 10000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/teaching?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: paraf214%^&*
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+  resources:
+    static-locations: classpath:/static,classpath:/templates,file:${spring.fileUploadPath.path}
+logging:
+  path: /root/OJ/oj_front_log
+debug: false
