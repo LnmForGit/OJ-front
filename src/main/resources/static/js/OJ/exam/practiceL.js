@@ -8,6 +8,12 @@
 var problemListBackup; //题目集的本地备份，用以减少服务器的压力
 var dataTableDraw = 0;
 var difficultySortType = 0; //0:从低到高、1:从高到低
+var problemType = -1; //默认全部题目为-1
+var problemListCondition = {  //题目集中题目匹配的条件
+    difficultySortTypeArg : difficultySortType, //难度排序的方式
+    problemTypeArg : problemType, //题目的类型
+    idOrNameDataArg : '' //题目关键字(关键字搜索包括id、名称）
+}
 
 $(function(){
     testFun();
@@ -15,7 +21,7 @@ $(function(){
 })
 function init(){
     getProblemTypeList();
-    getProblemList();
+    loadProblemList();
     getSystemSimpleInf();
 }
 function testFun(){
@@ -97,7 +103,7 @@ function getProblemList(){
         }
     });
 }
-function loadProblemList(t){
+function loadProblemList(){
 
     var dataTable = $('#problemList');
     if ($.fn.dataTable.isDataTable(dataTable)) {
@@ -117,11 +123,12 @@ function loadProblemList(t){
         //"data" : t,
         ajax: function (data, callback, settings) {
             //封装请求参数
-            var param = {};
+            var param = problemListCondition;
             param.limit = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
             param.start = data.start;//开始的记录序号
             param.page = (data.start / data.length)+1;//当前页码
-            //console.log(param);
+
+            console.log(param);
             //ajax请求数据
             $.ajax({
                 type: "POST",
@@ -241,19 +248,6 @@ function loadSystemSimpleInf(t){
     $('#systemRank').text(t.systemRank);
 }
 
-//根据题目类型对本地题目集进行筛选
-function filtrateProblemList(t){
-    var temp = [];//problemListBackup;
-    var i=0, j=0;
-    if(-1!=t)
-        for(;i<problemListBackup.length;i++){
-            if(problemListBackup[i]['proTypeId']==t)
-                temp[j++]=problemListBackup[i];
-        }
-    else temp=problemListBackup;
-    //console.log(temp);
-    loadProblemList(temp);
-}
 
 //跳转到指定题目的详细页面
 function showProblemInf(tProId){
@@ -263,16 +257,36 @@ function showProblemInf(tProId){
 }
 
 //
-function sortProblemList(){
-    var temp = $('#difficultySortAction');
-    temp.removeClass();
-    if(difficultySortType==0){
-        difficultySortType=1;
-        temp.addClass("glyphicon glyphicon-triangle-bottom")
-    }else{
-        difficultySortType=0;
-        temp.addClass("glyphicon glyphicon-triangle-top");
+var idOrNameDataObj = $("#idOrNameData"); //1
+var problemTypeObj = $('#problemType'); //2
+
+function sortProblemList(t){
+    var temp;
+
+    if(1==t){ //搜索编号或者名称类似指定内容的题目
+        temp = idOrNameDataObj.val();
+        if(''==temp){
+            alert("搜索内容不能为空"); return;
+        }
+        $("#problemType").val("全部题目"); problemType=-1;
+    }else if(2==t){ //搜索指定类型的题目
+        idOrNameDataObj.val("");
+    }else if(3==t){ //搜索要求的难度系数排序方式改变
+        temp = $('#difficultySortAction');
+        if(difficultySortType==0){
+            difficultySortType=1;
+            temp.removeClass();
+            temp.addClass("glyphicon glyphicon-triangle-bottom")
+        }else{
+            difficultySortType=0;
+            temp.removeClass();
+            temp.addClass("glyphicon glyphicon-triangle-top");
+        }
     }
-
-
+    problemListCondition={
+        difficultySortTypeArg : difficultySortType, //难度排序的方式
+        problemTypeArg : problemType, //题目的类型
+        idOrNameDataArg : idOrNameDataObj.val() //题目关键字(关键字搜索包括id、名称）
+    }
+    loadProblemList();
 }

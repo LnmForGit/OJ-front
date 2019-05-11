@@ -49,11 +49,11 @@ public class Practice {
         return service.getTargetProblemList(request.getSession().getAttribute("user_id").toString());
     }
 
-    //返回所有的公开题目-- 数据库分页
+    //返回指定条件的公开题目-- 数据库分页
     @PostMapping("/getPagingProblemList")
     @ResponseBody
     public Map getPagingProblemList(@RequestBody Map<String, String> param, HttpServletRequest request){
-        out.println(param);
+        //out.println(param);
         param.put("stuId", request.getSession().getAttribute("user_id").toString());
         Map result = service.getPagingTargetProblemList(param);
         //return result;
@@ -117,7 +117,7 @@ public class Practice {
         Map result = new HashMap<String, String>();
         out.println(param);
         result.put("result", "wrongAnswer");
-        result.put("inf", "部分正确(60%)");
+        result.put("inf", "当前数据为测试数据....接口待开发");
         return result;
     }
 

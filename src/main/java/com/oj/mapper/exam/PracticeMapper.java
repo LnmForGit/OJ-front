@@ -48,8 +48,8 @@ public interface PracticeMapper {
 
      */
     // 分页---获取指定的公开题目（题目id)
-    @Select("select t.id proId, t.name proName, t.rank proRank, t.subjectid proTypeId from teach_problems t where t.public = 'on' order by proId limit #{firstLine}, #{finalLine}") //finalLine参数为分页数据的最后一条的下一条，既该分页数据不包含下标为finalLine的数据
-    public List<Map> getPagingPublicProblemList(Integer firstLine, Integer finalLine);
+    @SelectProvider(type= PracticeProvider.class, method="getPagingPublicProblemListSQL")
+    public List<Map> getPagingPublicProblemList(@Param("condition")Map params);
     //分页---获取指定题集的所有提交记录数据（题目id、题目提交总数）
     @SelectProvider(type= PracticeProvider.class, method="getPagingPublicProblemStateListSQL")
     public List<Map<String, Object>> getPagingPublicProblemStateList(@Param("condition")List<Map> params);
@@ -62,10 +62,13 @@ public interface PracticeMapper {
     //在指定题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
     @SelectProvider(type= PracticeProvider.class, method="getPagingFinishProblemListSQL")
     public List<Object> getPagingFinishProblemList(@Param("condition")List<Map> params, @Param("condition")String stuId);
+
     //获取全部公开题目的总数
     @Select("select count(*) from teach_problems where public='on'")
     public Integer getAmountOfProblemList();
 
+    @SelectProvider(type= PracticeProvider.class, method="getAmountPublicProblemListSQL")
+    public Integer getAmountPublicProblemList(@Param("condition")Map params);
 
 
 
