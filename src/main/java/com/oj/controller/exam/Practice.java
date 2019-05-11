@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +27,13 @@ public class Practice {
 
     @Autowired
     private PracticeService service;
-
+    static int tempInt = 1;
     @Autowired
     private AsyncService asyncService;
     //返回练习页面
     @RequestMapping("/")
     public String index(ModelMap modelMap, HttpServletRequest request) {
-        return "exam/practice";
+        return "exam/practiceL";
     }
 
     //返回题目类型集
@@ -41,11 +42,22 @@ public class Practice {
     public List<Map> getProblemTypeList(@RequestBody Map<String, String> param, HttpServletRequest request){
         return service.getProblemTypeList();
     }
-    //返回所有的公开题目
+    //返回所有的公开题目-- 未分页
     @PostMapping("/getProblemList")
     @ResponseBody
     public List<Map> getProblemList(@RequestBody Map<String, String> param, HttpServletRequest request){
         return service.getTargetProblemList(request.getSession().getAttribute("user_id").toString());
+    }
+
+    //返回所有的公开题目-- 数据库分页
+    @PostMapping("/getPagingProblemList")
+    @ResponseBody
+    public Map getPagingProblemList(@RequestBody Map<String, String> param, HttpServletRequest request){
+        out.println(param);
+        param.put("stuId", request.getSession().getAttribute("user_id").toString());
+        Map result = service.getPagingTargetProblemList(param);
+        //return result;
+        return result;
     }
 
     //返回指定用户在系统中的简要信息

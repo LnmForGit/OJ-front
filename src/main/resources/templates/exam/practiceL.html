@@ -42,25 +42,39 @@
                                         </div>
                                         <div class="ibox-content">
                                             <div class="project-list">
-                                                <table id='problemList' class="table table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <td width="15%">
-                                                                当前状态
-                                                            </td>
-                                                            <td width="10%">
-                                                                编号
-                                                            </td>
-                                                            <td width="40%">
-                                                                题目名称
-                                                            </td>
-                                                            <td width="15%">
-                                                                通过率
-                                                            </td>
-                                                            <td width="20%">
-                                                                难度系数
+                                                <div style="width:100%; padding-top:0px; padding-bottom:0px; ">
+                                                    <table >
+                                                        <tr >
+                                                            <td width="75%" style="padding:0 0 0 0; ">
+                                                                <input id='idOrNameData' type="search" class="form-control input-sm" aria-controls="editable">
+                                                            </td >
+                                                            <td width="30%" style="padding:0 0 0 0; ">
+                                                                <span onclick='sortProblemList()' class="btn btn-sm btn-primary">搜索</span>
                                                             </td>
                                                         </tr>
+                                                    </table>
+                                                </div>
+                                                <table id='problemList' class="table table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <td width="15%">
+                                                            当前状态
+                                                        </td>
+                                                        <td width="10%">
+                                                            编号
+                                                        </td>
+                                                        <td width="40%">
+                                                            题目名称
+                                                        </td>
+                                                        <td width="15%">
+                                                            通过率
+                                                            <!--<span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" style="float:right; margin-right:5px; "></span>-->
+                                                        </td>
+                                                        <td width="20%" onclick='sortProblemList()'>
+                                                            难度系数
+                                                            <span id='difficultySortAction'  class="glyphicon glyphicon-triangle-top" aria-hidden="true" style="float:right; margin-right:5px; "></span>
+                                                        </td>
+                                                    </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr>

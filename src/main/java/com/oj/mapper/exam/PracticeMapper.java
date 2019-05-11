@@ -47,22 +47,24 @@ public interface PracticeMapper {
      * 题目集的   分页     操作调用
 
      */
-    // 分页---获取所有的公开题目（题目id)
-    @Select("select t.id proId from teach_problems t where t.public = 'on' order by proId limit #{firstLine}, #{finalLine}") //finalLine参数为分页数据的最后一条的下一条，既该分页数据不包含下标为finalLine的数据
-    public List<Object> getPagingPublicProblemList(String firstLine, String finalLine);
+    // 分页---获取指定的公开题目（题目id)
+    @Select("select t.id proId, t.name proName, t.rank proRank, t.subjectid proTypeId from teach_problems t where t.public = 'on' order by proId limit #{firstLine}, #{finalLine}") //finalLine参数为分页数据的最后一条的下一条，既该分页数据不包含下标为finalLine的数据
+    public List<Map> getPagingPublicProblemList(Integer firstLine, Integer finalLine);
     //分页---获取指定题集的所有提交记录数据（题目id、题目提交总数）
     @SelectProvider(type= PracticeProvider.class, method="getPagingPublicProblemStateListSQL")
-    public List<Map<String, Object>> getPagingPublicProblemStateList(@Param("condition")List<Object> params);
+    public List<Map<String, Object>> getPagingPublicProblemStateList(@Param("condition")List<Map> params);
     //分页---获取指定题集的已AC的提交数据（题目id、题目Ac次数）
     @SelectProvider(type= PracticeProvider.class, method="getPagingPublicProblemACStateListSQL")
-    public List<Map<String, Object>> getPagingPublicProblemACStateList(@Param("condition")List<Object> params);
+    public List<Map<String, Object>> getPagingPublicProblemACStateList(@Param("condition")List<Map> params);
     //在指定题目集中，获取指定用户已尝试的题目集（已解决和未解决的都有/未包含实验与考试的记录）
     @SelectProvider(type= PracticeProvider.class, method="getPagingTargetProblemStateListSQL")
-    public List<Map<String, Object>> getPagingTargetProblemStateList(@Param("condition")List<Map> params, @Param("condition")String stuId);
+    public List<Map<String, Object>> getPagingTargetProblemStateList(@Param("condition")List<Map> params, @Param("stuId")String stuId);
     //在指定题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
     @SelectProvider(type= PracticeProvider.class, method="getPagingFinishProblemListSQL")
     public List<Object> getPagingFinishProblemList(@Param("condition")List<Map> params, @Param("condition")String stuId);
-
+    //获取全部公开题目的总数
+    @Select("select count(*) from teach_problems where public='on'")
+    public Integer getAmountOfProblemList();
 
 
 

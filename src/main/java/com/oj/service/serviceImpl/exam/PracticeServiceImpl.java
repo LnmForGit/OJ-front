@@ -1,5 +1,6 @@
 package com.oj.service.serviceImpl.exam;
 
+import static java.lang.System.out;
 import com.oj.entity.practic.SubmitCode;
 import com.oj.entity.practic.TestData;
 import com.oj.judge.RedisUtils;
@@ -150,41 +151,56 @@ public class PracticeServiceImpl implements PracticeService {
         return result;
     }
 
+
+
+
+
+
     //获取指定公开题目的统计信息（题目id、题目AC数量、题目提交数量）
     public List<Map> getPagingPublicProblemStatisticList(Map param){
         List<Map> result = new LinkedList<>();
-        List<Object> list = mapper.getPagingPublicProblemList(param.get("headLine").toString(), param.get("finalLine").toString()); //指定题目集
-        List<Map<String, Object>> acList = mapper.getPagingPublicProblemACStateList(list); //指定题目集的所有AC提交统计
-        List<Map<String, Object>> subList = mapper.getPagingPublicProblemStateList(list); //指定题目集的所有提交统计
-        //Map<String, String> map;
+        //out.println("分页的范围："+Integer.parseInt(param.get("headLine").toString())+", "+Integer.parseInt(param.get("finalLine").toString()) );
+        List<Map> list = mapper.getPagingPublicProblemList(Integer.parseInt(param.get("headLine").toString()), Integer.parseInt(param.get("finalLine").toString())); //指定题目集
+        //out.println("获取到的分页数据集:"+list.size());
+        //out.println(list);
+        out.println("指定题目集");
+        out.println(list);
+        List<Map<String, Object>> acList = mapper.getPagingPublicProblemACStateList(new LinkedList<>(list)); //指定题目集的所有AC提交统计
+        List<Map<String, Object>> subList = mapper.getPagingPublicProblemStateList(new LinkedList<>(list)); //指定题目集的所有提交统计
+        out.println("使用完指定题目集后，其内容变为:");
+        out.println(list);
+        out.println("指定题目集的所有AC提交统计");
+        out.println(acList);
+        out.println("指定题目集的所有提交统计");
+        out.println(subList);
         list.forEach(cell -> {
             int i=0;
-            Map<String, String> map = new HashMap<>();
-            map.put("proId", cell.toString());
-            String strProIdA = cell.toString();
+            String strProIdA = cell.get("proId").toString();
+
             for(;i<acList.size();i++) {
                 Map temp = acList.get(i);
                 if (strProIdA.equals(temp.get("proId").toString())){
-                    map.put("proAcNum", temp.get("AcAmount").toString());
+                    cell.put("proAcNum", temp.get("proAcAmount").toString());
                     break;
                 }
             }
-            if(i==acList.size()) map.put("proAcNum", "0");
+            if(i==acList.size()) cell.put("proAcNum", "0");
             for(i=0;i<subList.size();i++){
                 Map temp = subList.get(i);
                 if(strProIdA.equals(temp.get("proId").toString())){
-                    map.put("proSubNum", temp.get("submitAmount").toString());
+                    cell.put("proSubNum", temp.get("proSubmitAmount").toString());
                     break;
                 }
             }
-            if(i==subList.size()) map.put("proSubNum", "0");
-            result.add(map);
+            if(i==subList.size()) cell.put("proSubNum", "0");
+            result.add(cell);
         });
-
         return result;
     }
-    //获取对应指定用户的题目集------- 方案（数据库分页）
-    public List<Map> getPagingTargetProblemList(Map param){
+    //获取对应指定用户的题目集（题目id、题目AC数量、题目提交数量、指定用户的AC状态）------- 方案（数据库分页）
+    public Map getPagingTargetProblemList(Map param){
+        param.put("headLine", param.get("start"));
+        param.put("finalLine", Integer.parseInt(param.get("limit").toString()));
         List<Map> result = new LinkedList<>();
         List<Map> targetList = getPagingPublicProblemStatisticList(param); //获取指定题集
         List<Map<String, Object>> targetProStateList = mapper.getPagingTargetProblemStateList(targetList, param.get("stuId").toString()); //获取指定用户在指定题集中已接触的集合
@@ -206,9 +222,15 @@ public class PracticeServiceImpl implements PracticeService {
                 }
             }
         });
-        return result;
+        Map temp = new HashMap();
+        temp.put("draw", 0);
+        temp.put("recordsTotal", result.size());  //当前获取到的数据总数
+        temp.put("recordsFiltered", mapper.getAmountOfProblemList()); //实际数据总数
+        temp.put("data", result);
+        return temp;
     }
 
+    //public Map getPaging
 
     @Override
     public Integer insertSubmit(SubmitCode code) {
