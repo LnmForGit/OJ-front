@@ -23,4 +23,5 @@ public interface SubmitStatusMapper {
     @SelectProvider(type=SubmitStatusProvider.class, method = "selectRecordsFiltered")
     // 根据条件获取筛选后的总数
     public int selectRecordsFiltered(@Param("condition")Map<String, String> params);
+
 }

@@ -1,4 +1,6 @@
+var testIP = true;
 $(document).ready(function () {
+    testIP = isTestEndTime();//设置能否查看代码
     index();
     getStatusInfo();
 });
@@ -36,6 +38,15 @@ function resetForm() {
     $(".form-horizontal select").val("");
     getStatusInfo();
 }
+function hints(){
+    swal({
+        title: "考试中不能查看代码",
+        text: "现在存在正在进行的考试，考试结束后可查看代码。"
+    });
+}
+function  setCode(code) {
+    $("#code").text(unescape(code));
+}
 function getStatusInfo() {
     var dataTable = $('#StatusInfoTable');
     if ($.fn.dataTable.isDataTable(dataTable)) {
@@ -71,7 +82,8 @@ function getStatusInfo() {
             "data": "submit_code_length"
         }, {
             "data": "submit_date"
-        }],
+        }
+        ],
         "columnDefs": [{
             "render" : function(data, type, row) {
                 debugger
@@ -86,7 +98,16 @@ function getStatusInfo() {
             "render" : function(data, type, row) {
                 var a = "";
                 if(undefined != laguateType[row.submit_language]){
-                    a = laguateType[row.submit_language]
+                    if(testIP)
+                    {
+                        a = "<a class='btn btn-white btn-sm' onclick='setCode('"+escape(row.code)+"')' data-toggle='modal' data-target='#myModal5'>"+laguateType[row.submit_language]+"</a>"
+                    }
+                    else
+                    {
+                        //a = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='hints()' '><i class=\"fa fa-folder\"></i> 查看 </a></td>";
+                        a = "<a class=\"btn btn-white btn-sm\" onclick='hints()'>"+laguateType[row.submit_language]+"</a>"
+                    }
+                        //a = "<a class='btn btn-white btn-sm' onclick='setCode('"+escape(row.code)+"')' data-toggle='modal' data-target='#myModal5'>"+laguateType[row.submit_language]+"</a>"
                 }
                 return a;
             },
@@ -95,7 +116,25 @@ function getStatusInfo() {
     });
 
 }
-
+function isTestEndTime(){
+    var a=false;
+    $.ajax({
+        type: "POST",
+        url: "/exam/getTestEndTime",
+        async:false,
+        dataType: "json",
+        success: function (result) {
+            a = result[0].end > getNowTimeStamp();
+        }
+    })
+    console.log(a)
+    return a;
+}
+//获取当前时间
+function getNowTimeStamp() {
+    var tmp =  Date.parse( new Date() ).toString();
+    tmp = tmp.substr(0,10);
+}
 function format(time)
 {
     return new Date(parseInt(time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');

@@ -22,7 +22,7 @@ public class SubmitStatusProvider {
         sql.append(" 			a.submit_language,	 ");
         sql.append(" 			a.submit_time,	 ");
         sql.append(" 			a.submit_memory,	 ");
-        sql.append(" 			a.submit_code_length,	 ");
+        sql.append(" 			a.submit_code_length, a.submit_code ,	 ");
         sql.append(" 			FROM_UNIXTIME(a.submit_date) as submit_date	 ");
         sql.append(" 		FROM		 ");
         sql.append(" 			teach_submit_code AS a,	 ");
