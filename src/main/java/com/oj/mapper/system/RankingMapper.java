@@ -21,10 +21,6 @@ public interface RankingMapper {
     @Select("SELECT COUNT(DISTINCT user_id) FROM teach_submit_code WHERE submit_state = 1 AND hide = 0")
     public int selectTotalCount();
 
-    //通过传过来的姓名查询user_id
-    @Select("select id from teach_students where name = #{name}")
-    public String selectID(String name);
-
     //根据id查询姓名
     @Select("select name from teach_students where id = #{id}")
     public String selectName(String id);
@@ -44,7 +40,7 @@ public interface RankingMapper {
     public int selectTotalCount1(String time);
 
     //查询个人ac数
-    @Select("SELECT COUNT( DISTINCT problem_id ),user_id FROM teach_submit_code WHERE submit_state = 1 AND hide = 0  AND user_id = #{id}")
+    @Select("SELECT COUNT(problem_id) FROM teach_submit_code WHERE submit_state = 1 AND hide = 0  AND user_id = #{id}")
     public int selectAc(String id);
 
     //通过id查询学号
@@ -52,11 +48,28 @@ public interface RankingMapper {
     public String selectAccount(String id);
 
     //通过AC数得到排名
-    @Select("SELECT COUNT(*) FROM(SELECT COUNT(DISTINCT problem_id ) AS ac FROM teach_submit_code " +
+    @Select("SELECT COUNT(*) FROM(SELECT COUNT(problem_id ) AS ac FROM teach_submit_code " +
             "WHERE submit_state = 1 AND hide = 0 GROUP BY user_id) AS t WHERE ac > #{ac}")
     public int selectRank(int ac);
 
     //通过id查询班级
     @Select("SELECT NAME FROM teach_class WHERE id = (SELECT class_id FROM teach_students WHERE id = #{id})")
     public String selectClass(String id);
+
+    //通过学号查询id
+    @Select("select id from teach_students where account = #{account}")
+    public String searchid(String account);
+
+    //通过id查询ac的题号
+    @Select("SELECT DISTINCT problem_id FROM teach_submit_code WHERE user_id = #{id} AND submit_state = 1 AND hide = 0 order by problem_id")
+    public List<String> acProblem(String id);
+
+    //通过id查询ac的题目数
+    @Select("SELECT COUNT(DISTINCT problem_id) FROM teach_submit_code WHERE submit_state = 1 AND hide = 0  AND user_id = #{id}")
+    public int acProblemCount(String id);
+
+    //通过id查询总的题目号
+    @Select("SELECT DISTINCT problem_id FROM teach_submit_code WHERE user_id = #{id} AND hide = 0 order by problem_id")
+    public List<String> AllProblem(String id);
+
 }

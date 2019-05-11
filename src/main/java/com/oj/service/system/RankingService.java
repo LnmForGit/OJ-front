@@ -14,7 +14,7 @@ public interface RankingService {
     //返回三个月排行
     public JqueryDataTableDto getRankingMaplist1(String start,String count);
     //返回学生排行详情
-    public Map getStudent(String id);
+    public Map getStudent(String account,String idself);
 
 
 }

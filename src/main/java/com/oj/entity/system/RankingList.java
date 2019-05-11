@@ -14,6 +14,15 @@ public class RankingList {
         this.rank = rank;
     }
 
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    private String account;
     private String ac;
     private String user_id;
 
