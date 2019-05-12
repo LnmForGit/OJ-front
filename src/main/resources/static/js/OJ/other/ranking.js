@@ -78,46 +78,58 @@ function showEdit(name,account) {
             $("#ac").html("(Total:"+result.acCount+")")
             var insertText;
             var len = result.aclist.length;
+            var s="";
             for(var i=0;i<len;i++)
             {
                 insertText = result.aclist[i];
-                document.getElementById("ac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("ac").innerHTML+=s;
+            s="";
             $("#nac").html("(Total:"+result.nacCount+")")
             len = result.naclist.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.naclist[i];
-                document.getElementById("nac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("nac").innerHTML+=s;
+            s="";
             $("#bb1").html("(Total:"+result.bb1.length+")")
             len = result.bb1.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb1[i];
-                document.getElementById("bb1").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s +=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("bb1").innerHTML+=s;
+            s="";
             $("#bb2").html("(Total:"+result.bb2.length+")")
             len = result.bb2.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb2[i];
-                document.getElementById("bb2").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("bb2").innerHTML+=s;
+            s="";
             $("#bb3").html("(Total:"+result.bb3.length+")")
             len = result.bb3.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb3[i];
-                document.getElementById("bb3").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("bb3").innerHTML+=s;
+            s="";
             $("#bb4").html("(Total:"+result.bb4.length+")")
             len = result.bb4.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb4[i];
-                document.getElementById("bb4").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
+            document.getElementById("bb4").innerHTML+=s;
         }
     })
 }
@@ -143,46 +155,58 @@ function search() {
                 $("#ac").html("(Total:"+result.acCount+")")
                 var insertText;
                 var len = result.aclist.length;
+                var s="";
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.aclist[i];
-                    document.getElementById("ac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("ac").innerHTML+=s;
+                s="";
                 $("#nac").html("(Total:"+result.nacCount+")")
                 len = result.naclist.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.naclist[i];
-                    document.getElementById("nac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("nac").innerHTML+=s;
+                s="";
                 $("#bb1").html("(Total:"+result.bb1.length+")")
                 len = result.bb1.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb1[i];
-                    document.getElementById("bb1").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s +=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("bb1").innerHTML+=s;
+                s="";
                 $("#bb2").html("(Total:"+result.bb2.length+")")
                 len = result.bb2.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb2[i];
-                    document.getElementById("bb2").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("bb2").innerHTML+=s;
+                s="";
                 $("#bb3").html("(Total:"+result.bb3.length+")")
                 len = result.bb3.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb3[i];
-                    document.getElementById("bb3").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("bb3").innerHTML+=s;
+                s="";
                 $("#bb4").html("(Total:"+result.bb4.length+")")
                 len = result.bb4.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb4[i];
-                    document.getElementById("bb4").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
+                    s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
+                document.getElementById("bb4").innerHTML+=s;
             }
             else if(result.message=="该学生不存在")
             {

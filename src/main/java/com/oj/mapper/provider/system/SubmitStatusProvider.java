@@ -32,8 +32,8 @@ public class SubmitStatusProvider {
         if(!StringUtils.isEmpty(info.get("problem_id"))){
             sql.append("		AND a.problem_id like '%"+info.get("problem_id")+"%' ");
         }
-        if(!StringUtils.isEmpty(info.get("account"))){
-            sql.append("		AND b.account ="+info.get("account")+" ");
+        if(!StringUtils.isEmpty(info.get("user_id"))){
+            sql.append("		AND a.user_id ="+info.get("user_id")+" ");
         }
         if(!StringUtils.isEmpty(info.get("submit_state"))){
             sql.append("		AND a.submit_state = '"+info.get("submit_state")+"' ");
