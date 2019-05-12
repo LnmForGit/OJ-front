@@ -91,14 +91,12 @@ function getStatusInfo() {
                 if(undefined != laguateType[row.submit_language]){
                     if(testIP)
                     {
-                        a = '<a class=\'btn btn-white btn-sm\' onclick="setCode(\''+escape(row.submit_code)+'\')" data-toggle=\'modal\' data-target=\'#myModal5\'>'+laguateType[row.submit_language]+'</a>'
+                        a = '<a onclick="setCode(\''+escape(row.submit_code)+'\')" data-toggle=\'modal\' data-target=\'#myModal5\'>'+laguateType[row.submit_language]+'</a>'
                     }
                     else
                     {
-                        // a = "<td class=\"project-actions\"> <a class=\"btn btn-white btn-sm\" onclick='hints()' '><i class=\"fa fa-folder\"></i> 查看 </a></td>";
-                        a = "<a class=\"btn btn-white btn-sm\" onclick='hints()'>"+laguateType[row.submit_language]+"</a>"
+                        a = "<a onclick='hints()'>"+laguateType[row.submit_language]+"</a>"
                     }
-                        //a = "<a class='btn btn-white btn-sm' onclick='setCode('"+escape(row.code)+"')' data-toggle='modal' data-target='#myModal5'>"+laguateType[row.submit_language]+"</a>"
                 }
                 return a;
             },
