@@ -164,11 +164,9 @@ public class RankingServiceImpl implements RankingService {
                 List<String> bb3 = new ArrayList<>(aclist);
                 bb3.retainAll(selfaclist);
                 map.put("bb3",bb3);
-                System.out.println("bb31");
             }
             else
             {
-                System.out.println("bb32");
                 List<String> bb3 = new ArrayList<>();
                 map.put("bb3",bb3);
             }

@@ -81,42 +81,42 @@ function showEdit(name,account) {
             for(var i=0;i<len;i++)
             {
                 insertText = result.aclist[i];
-                document.getElementById("ac").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("ac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
             $("#nac").html("(Total:"+result.nacCount+")")
             len = result.naclist.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.naclist[i];
-                document.getElementById("nac").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("nac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
             $("#bb1").html("(Total:"+result.bb1.length+")")
             len = result.bb1.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb1[i];
-                document.getElementById("bb1").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("bb1").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
             $("#bb2").html("(Total:"+result.bb2.length+")")
             len = result.bb2.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb2[i];
-                document.getElementById("bb2").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("bb2").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
             $("#bb3").html("(Total:"+result.bb3.length+")")
             len = result.bb3.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb3[i];
-                document.getElementById("bb3").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("bb3").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
             $("#bb4").html("(Total:"+result.bb4.length+")")
             len = result.bb4.length;
             for(var i=0;i<len;i++)
             {
                 insertText = result.bb4[i];
-                document.getElementById("bb4").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                document.getElementById("bb4").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
         }
     })
@@ -146,42 +146,42 @@ function search() {
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.aclist[i];
-                    document.getElementById("ac").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("ac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
                 $("#nac").html("(Total:"+result.nacCount+")")
                 len = result.naclist.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.naclist[i];
-                    document.getElementById("nac").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("nac").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
                 $("#bb1").html("(Total:"+result.bb1.length+")")
                 len = result.bb1.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb1[i];
-                    document.getElementById("bb1").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("bb1").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
                 $("#bb2").html("(Total:"+result.bb2.length+")")
                 len = result.bb2.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb2[i];
-                    document.getElementById("bb2").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("bb2").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
                 $("#bb3").html("(Total:"+result.bb3.length+")")
                 len = result.bb3.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb3[i];
-                    document.getElementById("bb3").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("bb3").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
                 $("#bb4").html("(Total:"+result.bb4.length+")")
                 len = result.bb4.length;
                 for(var i=0;i<len;i++)
                 {
                     insertText = result.bb4[i];
-                    document.getElementById("bb4").innerHTML+=" <a href='#'>" + insertText + "</a>";
+                    document.getElementById("bb4").innerHTML+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
                 }
             }
             else if(result.message=="该学生不存在")
@@ -222,4 +222,11 @@ function getRanking1() {
             "targets" :1
         }]
     });
+}
+
+//跳转到指定题目的详细页面
+function showProblemInf(tProId){
+    //window.location.href="/practice/showProblemInf/"+t;
+    window.open("/practice/showProblemInf?proId="+tProId+"&testId=0","_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
+
 }

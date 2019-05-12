@@ -40,7 +40,7 @@ public interface RankingMapper {
     public int selectTotalCount1(String time);
 
     //查询个人ac数
-    @Select("SELECT COUNT(problem_id) FROM teach_submit_code WHERE submit_state = 1 AND hide = 0  AND user_id = #{id}")
+    @Select("SELECT COUNT(DISTINCT problem_id) FROM teach_submit_code WHERE submit_state = 1 AND hide = 0  AND user_id = #{id}")
     public int selectAc(String id);
 
     //通过id查询学号
@@ -48,7 +48,7 @@ public interface RankingMapper {
     public String selectAccount(String id);
 
     //通过AC数得到排名
-    @Select("SELECT COUNT(*) FROM(SELECT COUNT(problem_id ) AS ac FROM teach_submit_code " +
+    @Select("SELECT COUNT(*) FROM(SELECT COUNT(DISTINCT problem_id ) AS ac FROM teach_submit_code " +
             "WHERE submit_state = 1 AND hide = 0 GROUP BY user_id) AS t WHERE ac > #{ac}")
     public int selectRank(int ac);
 
