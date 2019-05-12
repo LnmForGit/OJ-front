@@ -1,7 +1,7 @@
 $(document).ready(function () {
     index();
-    getRanking();
     getRanking1();
+    getRanking();
 });
 
 function index() {
@@ -84,7 +84,8 @@ function showEdit(name,account) {
                 insertText = result.aclist[i];
                 s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("ac").innerHTML+=s;
+            // document.getElementById("ac").innerHTML+=s;
+            $("#ac").append(s)
             s="";
             $("#nac").html("(Total:"+result.nacCount+")")
             len = result.naclist.length;
@@ -93,7 +94,9 @@ function showEdit(name,account) {
                 insertText = result.naclist[i];
                 s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("nac").innerHTML+=s;
+
+            // document.getElementById("nac").innerHTML+=s;
+            $("#nac").append(s)
             s="";
             $("#bb1").html("(Total:"+result.bb1.length+")")
             len = result.bb1.length;
@@ -102,7 +105,8 @@ function showEdit(name,account) {
                 insertText = result.bb1[i];
                 s +=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("bb1").innerHTML+=s;
+            // document.getElementById("bb1").innerHTML+=s;
+            $("#bb1").append(s)
             s="";
             $("#bb2").html("(Total:"+result.bb2.length+")")
             len = result.bb2.length;
@@ -111,7 +115,8 @@ function showEdit(name,account) {
                 insertText = result.bb2[i];
                 s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("bb2").innerHTML+=s;
+            // document.getElementById("bb2").innerHTML+=s;
+            $("#bb2").append(s)
             s="";
             $("#bb3").html("(Total:"+result.bb3.length+")")
             len = result.bb3.length;
@@ -120,7 +125,8 @@ function showEdit(name,account) {
                 insertText = result.bb3[i];
                 s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("bb3").innerHTML+=s;
+            // document.getElementById("bb3").innerHTML+=s;
+            $("#bb3").append(s)
             s="";
             $("#bb4").html("(Total:"+result.bb4.length+")")
             len = result.bb4.length;
@@ -129,7 +135,8 @@ function showEdit(name,account) {
                 insertText = result.bb4[i];
                 s+=" <a onclick='showProblemInf(\""+insertText+"\")'>"+insertText+"</a>";
             }
-            document.getElementById("bb4").innerHTML+=s;
+            // document.getElementById("bb4").innerHTML+=s;
+            $("#bb4").append(s)
         }
     })
 }
