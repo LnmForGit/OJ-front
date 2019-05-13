@@ -17,6 +17,8 @@ public interface PracticeService {
     public Map getSystemSimpleInf(String stuId);
     //获取指定题目的详细信息
     public Map getTargetProblemInf(String proId);
+    //获取指定提交编号的处理结果
+    public Map getTargetResult(String submitId);
 
     /**
      * 插入一行提交信息

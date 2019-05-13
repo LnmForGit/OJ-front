@@ -39,7 +39,8 @@ public class PracticeProvider {
             //sql.append("%') ");
             //sql.append("%' or t.name like '%"); sql.append(info.get("idOrNameDataArg")); sql.append("%' ) ");
         }else if(!StringUtils.isEmpty(info.get("problemTypeArg").toString())  && !info.get("problemTypeArg").toString().equals("-1")){
-            sql.append(" and t.subjectid = "); sql.append(info.get("problemTypeArg").toString());
+            sql.append(" and t.subjectid = ");
+            sql.append(info.get("problemTypeArg").toString());
         }
         if(!StringUtils.isEmpty(info.get("difficultySortTypeArg").toString())){
             if(info.get("difficultySortTypeArg").toString().equals("1"))

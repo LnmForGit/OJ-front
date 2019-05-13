@@ -21,6 +21,9 @@ public interface PracticeMapper {
     //获取指定题目的详细信息
     @Select("select t.name proName, t.description problemDescription, t.intype inputDescription, t.outtype outputDescription, t.insample inputSample, t.outsample outputSample, t.maxtime TimeLimit, t.maxmemory MemoryLimit from teach_problems t where t.id = #{proId}")
     public Map getTargetProblemInf(String proId);
+    //查询指定提交id的处理结果
+    @Select("SELECT t.id submitId, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
+    public Map getTargetResult(String submitId);
 
     /*********************************************************************************************************
      * 题目集的   非分页  操作调用

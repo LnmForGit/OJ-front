@@ -99,6 +99,9 @@ public class Practice {
          subInfo.put("submit_language:", param.get("language"));
          //异步任务
          asyncService.judgeSubmit(String.valueOf(code.getId()), subInfo);
+         //out.println("代码提交后的对应编号："+code.getId());
+         result.put("result", "succeed");
+         result.put("submitId", String.valueOf(code.getId()));
          /*Jedis jedis = redisPoolFactory.getResource();
          jedis.rpush("sub_id:", String.valueOf(code.getId()));
          Map<String, String> subInfo = new HashMap<>();
@@ -114,10 +117,7 @@ public class Practice {
     @PostMapping("/getTheSubmitResult")
     @ResponseBody
     public Map getTheSubmitResult(@RequestBody Map<String, String> param, HttpServletRequest request){
-        Map result = new HashMap<String, String>();
-        out.println(param);
-        result.put("result", "wrongAnswer");
-        result.put("inf", "当前数据为测试数据....接口待开发");
+        Map result = service.getTargetResult(param.get("postId"));
         return result;
     }
 
