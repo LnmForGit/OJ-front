@@ -21,7 +21,7 @@ public interface TestMapper {
     public List<Map> getExperMaplist(String account);
 
     //通过学生id获取全部考试列表
-    @Select(" SELECT DISTINCT test.id id,name,start,end,is_ip,only_ip,s.sid sid FROM\n" +
+    @Select(" SELECT DISTINCT test.id id,name,start,end,is_ip,only_ip,s.sid sid,first_ip FROM\n" +
             "(SELECT t.id id,name,start,end,is_ip,only_ip FROM teach_test t,teach_test_class c WHERE  c.`class_id` = #{cid} AND c.`test_id` = t.id  AND t.kind = 1 ) AS test\n" +
             "LEFT JOIN teach_test_students s \n" +
             "ON s.sid = #{sid} AND s.tid = test.`id`  \n" +
