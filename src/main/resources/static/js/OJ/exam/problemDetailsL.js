@@ -1,9 +1,15 @@
 
 
 
+/*
+//
+
+ */
+
+
 var editor; //代码编辑器
 var codeData={
-    language : '2'  //默认是C语言
+    language : '1'  //默认是C语言(1)
 }; //代码的最终汇总结果
 var postId=undefined; //最新提交代码的提交号
 var PleaseDoNotDeleteMe = {
@@ -14,14 +20,18 @@ var PleaseDoNotDeleteMe = {
 
 $(function(){
 
-    testFun();
+    //testFun();
     init();
 })
 
 function init(){
     loadProblemData(Info);
     loadCodeEditArea();
-
+    initSetPageSize();
+    window.onresize= function(){
+        //alert("?")
+        initSetPageSize();
+    }
 }
 
 function testFun(){
@@ -62,16 +72,27 @@ function testFun(){
     }
     showSubmitResult(result);
 }
-//初始化页面高度
-function initSetPageHeight(){
+//初始化页面尺寸
+function initSetPageSize(){
     var doc = document.body;
-    var temp = doc.scrollHeight;
+    if(1000 > doc.scrollWidth){
+        $('#pageBody').css('width', '1000px');
+        editor.setSize('400px;','600px');
+    }else{
+        $('#pageBody').css('width', doc.scrollWidth+'px');
+        editor.setSize(doc.scrollWidth /2 -100 + 'px', '600px');
+    }
+    if(800 > doc.scrollHeight){
+        $('#pageBody').css('height', '1000px');
+    }
 
 }
 
 //加载题目详细信息
 function loadProblemData(t){
     //console.log(t)
+    t['proAcPercentage']= 0==t.proSubmitAmount ? 0 : ((t.proAcAmount / t.proSubmitAmount) * 100).toFixed(1);
+    if(t['proAcPercentage']==0) t['proAcPercentage']="0";
     $('#problemName').text(t.proName);
     $('#problemId').text(t.proId);
     $('#problemDescription').html(t.problemDescription);
@@ -80,8 +101,8 @@ function loadProblemData(t){
     $('#inputSample').html(t.inputSample);
     $('#outputSample').html(t.outputSample);
     $('#proAcPercentageTip').text("AC率:"+t.proAcPercentage+"%");
-    $('#proAcNumTip').text("AC:"+t.proAcNum);
-    $('#proSubNumTip').text("SUB:"+t.proSubNum);
+    $('#proAcNumTip').text("AC:"+t.proAcAmount);
+    $('#proSubNumTip').text("SUB:"+t.proSubmitAmount);
     $('#MemoryThresholdTip').text("内存阀值:"+t.MemoryLimit+"K");
     $('#RunTimeThresholdTip').text("耗时阀值:"+t.TimeLimit+"MS");
 
@@ -105,10 +126,11 @@ function loadCodeEditArea(){
         lineWrapping:false, //是否强制换行
         lineNumbers: true,     // 显示行数
         indentUnit: 4,         // 缩进单位为4
-        styleActiveLine: false, // 当前行背景高亮
+        styleActiveLine: true, // 当前行背景高亮
         matchBrackets: true   // 括号匹配
     });
     editor.setSize('auto','600px');
+    //editor.setSize(document.body.scrollWidth / 2 + )
     //改变编辑界面风格
     $('#selectEditAreaStyle').change(function(){
         var theme = $('#selectEditAreaStyle').val();
@@ -122,20 +144,19 @@ function loadCodeEditArea(){
         if(lang=="languageC") {
             editor.setOption("mode","clike");//editor.setOption()设置脚本类型
             editor.setValue(txt);// editor.setValue()设置textarea中的值
-            codeData['language'] = '2';
+            codeData['language'] = '2';//'C';
         }else if(lang=="languageCPP") {
             editor.setOption("mode","clike");
             editor.setValue(txt);
-            codeData['language'] = '1';
+            codeData['language'] = '1';//'C++';
         }else if(lang == "languageJava") {
             editor.setOption("mode","clike");
             editor.setValue(txt);
-            codeData['language'] = '3';
+            codeData['language'] = '3';//'Java';
         }else if(lang == "languagePython") {
             editor.setOption("mode","python");
-
             editor.setValue(txt);
-            codeData['language'] = '4';
+            codeData['language'] = '4';//'Python';
         }
     });
 }
@@ -150,13 +171,8 @@ function submitCode(){
     var temp = $('#codeEditArea').val();
     codeData['codeData'] = temp;
     codeData['proId'] = Info.proId;
-    console.log(codeData);
+    //console.log(codeData);
     postData(codeData);
-    if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
-    if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
-    PleaseDoNotDeleteMe.limitTime=10;
-    PleaseDoNotDeleteMe.handle = setInterval("babyRunning()",1000);
-    PleaseDoNotDeleteMe.handleB = setInterval("getPostResult()",5000);
 }
 
 //询问提交结果
@@ -170,17 +186,23 @@ function getPostResult(){
             'postId' : postId
         }),
         success:function (result) {
+            //console.log("服务器返回的处理结果");
+            //console.log(result);
             dealPostResult(result);
+        },
+        error:function(){
+            clearInterval(PleaseDoNotDeleteMe.handleB);
+            PleaseDoNotDeleteMe.handleB = undefined;
         }
     });
 }
 //处理返回结果
 function dealPostResult(t){
-    if(t.result!='unknow'){
+    //if(t.result!=0){
         clearInterval(PleaseDoNotDeleteMe.handleB);
         PleaseDoNotDeleteMe.handleB = undefined;
         showSubmitResult(t);
-    }
+    //}
 }
 //发送代码包给服务器
 function postData(t){
@@ -191,23 +213,54 @@ function postData(t){
         contentType: "application/json;charset=UTF-8",
         data:JSON.stringify(t),
         success:function (result) {
-            postId = result.postId;
+            if (result.result == 'succeed') {
+                postId = result.submitId;
+                alert("提交成功");
+                if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
+                if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
+                PleaseDoNotDeleteMe.limitTime=10;
+                PleaseDoNotDeleteMe.handle = setInterval("babyRunning()",1000);
+                PleaseDoNotDeleteMe.handleB = setInterval("getPostResult()",5000);
+                $('#submitResult').text("未知");
+                $('#submitResult').css("color", "gray");
+                $('#submitInf').text("后台处理中....");
+            }else
+                alert("提交失败")
+        },
+        error: function(){
+            alert("提交失败")
         }
+
     });
 }
 //显示提交结果
 function showSubmitResult(t){
-    if('AC'==t.result){
+
+    if('1'==t.result){
         $('#submitResult').text("Accept");
         $('#submitResult').css("color", "greenyellow");
-    }else if('wrongAnswer'==t.result){
+    }else if('3'==t.result){
         $('#submitResult').text("Wrong answer");
         $('#submitResult').css("color", "red");
-    }else if('complieError'==t.result){
+    }else if('8'==t.result){
         $('#submitResult').text("Complie error");
         $('#submitResult').css("color", "yellow");
+    }else{
+        $('#submitResult').text(transitionStateNumToString(t.result));
+        $('#submitResult').css("color", "red");
     }
     $('#submitInf').text(t.inf);
+}
+var resultStateNum = {
+    0:'DEF'  , 1:'AC', 2:'PRESENTATION_ERROR',
+    3: 'WRONG_ANSWER'  ,8:'COMPILE_ERROR',
+    5:'TIME_LIMIT_EXCEED'  ,4:'RUNTIME_ERROR'
+    ,6:'MEMORY_LIMIT_EXCEED'
+}
+//处理结果状态码解读
+function transitionStateNumToString(t){
+    //console.log(resultStateNum[t])
+    return resultStateNum[t];
 }
 
 
@@ -216,5 +269,7 @@ function babyRunning(){
         clearInterval(PleaseDoNotDeleteMe.handle);
         PleaseDoNotDeleteMe.handle = undefined;
     }
-    else PleaseDoNotDeleteMe.limitTime--;
+    else{
+        PleaseDoNotDeleteMe.limitTime--;
+    }
 }
