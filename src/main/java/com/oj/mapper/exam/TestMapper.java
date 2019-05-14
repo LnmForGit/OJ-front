@@ -26,7 +26,7 @@ public interface TestMapper {
             "LEFT JOIN teach_test_students s \n" +
             "ON s.sid = #{sid} AND s.tid = test.`id`  \n" +
             "  ORDER BY END DESC;")
-    public List<Map> getExamMaplist(String sid, String cid);
+    public List<Map> getExamMaplist(@Param("cid")String cid,@Param("sid") String sid);
 
     //通过tid与学生id获取提交状态信息
     //通过TestProvider类中的getQuerySql()方法动态构建查询语句
