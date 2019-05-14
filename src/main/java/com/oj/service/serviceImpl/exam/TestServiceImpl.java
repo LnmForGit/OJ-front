@@ -51,7 +51,34 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<Map> getExamMaplist(String account) {
-        return testMapper.getExamMaplist(account);
+    public List<Map> getExamMaplist(String sid,String cid) {
+        return testMapper.getExamMaplist(sid,cid);
+    }
+
+    //将初次登陆考试的ip进行记录
+    public void saveIP(String tid,String sid,String first_ip){
+        testMapper.saveIP(tid,sid,first_ip);
+    }
+
+    @Override
+    public List<Map> getTestIp(String tid) {
+        return testMapper.getTestIp(tid);
+    }
+
+    @Override
+    public List<Map> getTestClass() {
+        return testMapper.getTestClass();
+    }
+
+    //获取正在进行考试的ip
+
+    @Override
+    public List<Map> getTestIps() {
+        return testMapper.getTestIps();
+    }
+
+    @Override
+    public List<Map> getTestEndTime() {
+        return testMapper.getTestEndTime();
     }
 }

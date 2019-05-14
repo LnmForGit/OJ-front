@@ -29,6 +29,7 @@ $("#user_operate").click(function () {
         $("#allUserOperate").css("display", "none")
     }
 })
+
 //重置弹出框的内容
 function formReset() {
     $("#user_operate").click();
@@ -124,7 +125,6 @@ function openPage(page) {
     }else{
         window.location.href = page;
     }
-
 }
 
 function dialogLogin() {
