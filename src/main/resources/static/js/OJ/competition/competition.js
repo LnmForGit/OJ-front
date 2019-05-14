@@ -90,8 +90,11 @@ function getAComp(){
           preComp=result;
           var end=0;
           if(result.length==0){
-              $('#none').modal();
+
+              $('#title').html("");
               return;
+          }else{
+              $('#node').html("")
           }
           if(result.length>=3) {
               end=3
@@ -252,8 +255,8 @@ function showCompedList() {
         success: function (result) {
            if(result.length==0){
                  console.log("没有数据哦");
-                 $('#hei').modal();
            }else{
+               $('#hei').html("");
              var dataTable=$('#CompedTable');
                if ($.fn.dataTable.isDataTable(dataTable)) {
                    dataTable.DataTable().destroy();
