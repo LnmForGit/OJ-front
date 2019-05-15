@@ -12,6 +12,10 @@
 <div th:replace="common/staticHf :: common_head"></div>
 <div class="rootDiv">
     <div class="wrapper wrapper-content animated fadeInUp">
+        <ul class="breadcrumb">
+            <li><a href="/index">首页</a></li>
+            <li class="active" ><strong id="bread">文件资源</strong></li>
+        </ul>
         <div class="row">
             <div class="col-sm-12">
                 <div class="ibox">
@@ -68,9 +72,10 @@
                                 </div>
                             </div>
                             <div style="text-align:right;">
+                                <!--
                                 <button onclick="TimeChoose()" type="button" class="btn btn-primary">
                                     (选用/取消)时间查询
-                                </button>
+                                </button>-->
                                 <button onclick="resetForm()" type="button" class="btn btn-primary">
                                     重 置
                                 </button>

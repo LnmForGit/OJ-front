@@ -39,12 +39,15 @@ public interface PracticeMapper {
     @Select("select t.problem_id proId, count(t.problem_id) AcAmount from teach_submit_code t where t.accuracy=1 and t.problem_id in (select k.id proId from teach_problems k where k.public = 'on' ) group by t.problem_id ")
     public List<Map<String, Object>> getPublicProblemACStateList();
     //在公开题目集中，获取指定用户已尝试的题目集（已解决和未解决的都有/未包含实验与考试的记录）
-    @Select("select distinct t.problem_id proId, max(t.accuracy) accuracy from teach_submit_code t  where t.user_id = #{stuId} and t.`problem_id` in (select t.id proId from teach_problems t where t.public = 'on') group by proId order by proId, accuracy desc ")
+    @Select("SELECT DISTINCT t.problem_id proId, MIN(t.submit_state) proState FROM teach_submit_code t  WHERE t.user_id = #{stuId} AND t.submit_state!=0 AND t.problem_id IN (SELECT k.id proId FROM teach_problems k WHERE k.public = 'on') GROUP BY proId ORDER BY proId, proState DESC ")
     public List<Map<String, Object>> getTargetProblemStateList(String stuId);
     //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
     @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.accuracy=1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
     public List<Object> getFinishProblemList(String stuId);
-
+    //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
+    @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.accuracy<1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
+    public List<Object> getUnfinishProblemList(String stuId);
+    //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
 
     /*********************************************************************************************************
      * 题目集的   分页     操作调用
@@ -108,9 +111,9 @@ public interface PracticeMapper {
      */
     @Results({
             @Result(id=true,column="id",property="id"),
-            @Result(column="problemId",property="problem_id"),
-            @Result(column="input",property="in_put"),
-            @Result(column="output",property="out_put")
+            @Result(column="problem_id",property="problemId"),
+            @Result(column="in_put",property="input"),
+            @Result(column="out_put",property="output")
     })
     @Select("select id,in_put,out_put from teach_test_data where problem_id = #{problemId}")
     List<TestData> selectTestData(Integer problemId);
