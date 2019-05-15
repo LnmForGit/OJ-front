@@ -59,7 +59,7 @@ public class ExamController {
     public List<Map> getAllExper(HttpServletRequest request){
         String cid = request.getSession().getAttribute("user_class").toString();
         String sid = request.getSession().getAttribute("user_id").toString();
-        return testService.getExamMaplist(sid,cid);
+        return testService.getExamMaplist(cid,sid);
     }
 
     //将初次登陆考试的ip进行记录

@@ -424,21 +424,7 @@ function hint(){
 
 //获取题目信息
 function getProblem(id,testId){
-    $.ajax({
-        type: "POST",
-        url: "/experiment/getProblemDetails",
-        dataType: "json",
-        async:false,
-        data:{
-            "id" : id
-        },success:function (result){
-           var ac = (result[0].AC_number);
-           var sum = (result[0].submit_number);
-           var rate = ((result[0].AC_number / result[0].submit_number) * 100).toFixed(2);
-           window.open("/practice/showProblemInf?proId="+id+"&proAcPercentage="+rate+"&proAcNum="+ac+"&proSubNum="+sum+"&testID=" + testId,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
-
-        }
-    })
+    window.open("/practice/showProblemInf?proId="+id+"&testId=" + testId,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
 }
 
 function hints(){
