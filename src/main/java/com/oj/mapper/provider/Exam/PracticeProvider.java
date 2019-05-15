@@ -161,6 +161,7 @@ public class PracticeProvider {
         if(!StringUtils.isEmpty(info.get("specialProblemListType").toString())){
             sql.append(" and t.id in ("+info.get("specialProblemListType").toString()+") ");
         }
+        sql.append(" order by t.time ");
         sql.append(" limit "); sql.append(info.get("headLine")+", "+info.get("finalLine"));
         //order by proId limit #{firstLine}, #{finalLine}")
 

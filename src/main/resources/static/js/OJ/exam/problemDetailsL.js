@@ -256,7 +256,7 @@ function showSubmitResult(t){
     $('#submitInf').text(t.inf);
 }
 var resultStateNum = {
-    0:'DEF'  , 1:'AC', 2:'PRESENTATION_ERROR',
+    0:'服务器处理中'  , 1:'AC', 2:'PRESENTATION_ERROR',
     3: 'WRONG_ANSWER'  ,8:'COMPILE_ERROR',
     5:'TIME_LIMIT_EXCEED'  ,4:'RUNTIME_ERROR'
     ,6:'MEMORY_LIMIT_EXCEED'
@@ -277,3 +277,5 @@ function babyRunning(){
         PleaseDoNotDeleteMe.limitTime--;
     }
 }
+
+
