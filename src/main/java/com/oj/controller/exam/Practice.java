@@ -1,7 +1,5 @@
 package com.oj.controller.exam;
 
-import static java.lang.System.out;
-
 import com.oj.entity.practic.SubmitCode;
 import com.oj.service.exam.AsyncService;
 import com.oj.service.exam.PracticeService;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +30,7 @@ public class Practice {
     //返回练习页面
     @RequestMapping("/")
     public String index(ModelMap modelMap, HttpServletRequest request) {
-        return "exam/practiceL";
+        return "exam/practiceLNX";
     }
 
     //返回题目类型集
