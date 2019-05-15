@@ -90,8 +90,8 @@ function getAComp(){
           preComp=result;
           var end=0;
           if(result.length==0){
-
               $('#title').html("");
+              $('#tran').html("");
               return;
           }else{
               $('#node').html("")
@@ -106,8 +106,13 @@ function getAComp(){
             for (var i=0;i<end;i++) {
                 newTest += '<tr onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
                     '                                <td class="project-status">\n' +
-                    '                                            <span class="label label-primary">进行中\n' +
-                    '                                            </span>\n' +
+                    '                                            <span class="label label-primary"' ;
+                     if(result[i].flag==1){
+                         newTest+=' style="background-color: #52dc5bd6;">进行中';
+                     }else{
+                         newTest+='>未开始';
+                     }
+                    newTest+='                                            </span>\n' +
                     '                                </td>\n' +
                     '                                <td class="project-title">\n' + result[i].name +
 

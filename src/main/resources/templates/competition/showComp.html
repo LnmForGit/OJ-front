@@ -4,6 +4,43 @@
     <meta charset="UTF-8">
     <title>D-OJ</title>
 
+    <style>
+
+        body{
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .n{
+            width:50%;
+            height:51px;
+            margin:0 auto;
+            font-size:20px;
+            display:block;
+        }
+        #div1 {
+            border:solid 1px #CCC;
+            border-radius:5px 5px 5px 5px;
+            text-shadow: 1px 1px 1px #000;
+            margin:150px auto 0 ;
+            width:50%;
+            height:140px;
+        }
+        p{
+            width:50%;
+            height:80px;
+            font-size:20px;
+            margin:0 auto;
+            color:#F00;
+            font-weight:900;
+        }
+        span {
+            font-size:20px;
+            color:#F00;
+            font-weight:900;
+        }
+    </style>
+
 </head>
 <!--引入通用JS、css资源-->
 <div th:replace="common/staticImport :: common_resource"></div>
@@ -19,7 +56,14 @@
 
                 </div>
                 <div class="ibox-content">
-                    <div class="alert alert-warning" id="state"><h3>本场竞赛已经结束</h3></div>
+
+                    <div id="div1">
+     <span class="n">
+          距离结束时间还有：
+     </span>
+                        <p></p>
+                    </div>
+                    <!--<div class="alert alert-warning" id="state"><h3>本场竞赛已经结束</h3></div>-->
                     <h2 id="welcome">欢迎来到第一场周赛</h2>
                     <br>
                    <h4 class="text-300"><li class="fa fa-newspaper-o"></li>重要提示</h4>

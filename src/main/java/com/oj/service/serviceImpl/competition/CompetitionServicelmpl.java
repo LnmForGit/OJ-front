@@ -161,18 +161,14 @@ public class CompetitionServicelmpl implements CompetitionService{
         System.out.println(now);
         if(now.getTime()<start.getTime()){
             Comp.put("flag","0");
-            Comp.put("data",getDatePoor1(start,now));
+           // Comp.put("data",getDatePoor1(start,now));
         }else if(now.getTime()>end.getTime()){
             Comp.put("flag","2");
-            Comp.put("data",getDatePoor1(now,end));
+            //Comp.put("data",getDatePoor1(now,end));
         }else{
             Comp.put("flag","1");
-            Comp.put("data",getDatePoor1(end,now));
+            //Comp.put("data",getDatePoor1(end,now));
         }
-        time=getDatePoor(end,start);
-        System.out.println(time);
-        Comp.put("time",time);
-
         return Comp;
     }
     //

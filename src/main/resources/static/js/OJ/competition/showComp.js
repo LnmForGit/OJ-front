@@ -307,3 +307,48 @@ function formatTime(time) {
     time = time.replace("T", " ")
     return time;
 }
+window.onload=function (start,end)
+{
+    function timecount()
+    {
+        //获取div
+        var odiv=document.getElementById('div1');
+
+
+        //获取p
+        var ap=odiv.getElementsByTagName('p')[0];
+        //当前日期
+        var dateNow=new Date();
+
+        //结束日期
+        var dateEnd=new Date("2019-06-01 16:30:00");
+
+        //设置结束年份
+        //dateEnd.setFullYear(parseInt(2015));
+        //设置结束月份
+        //dateEnd.setMonth(parseInt(07)-1);
+        //设置结束日期
+        //dateEnd.setDate(parseInt(1));
+        //设置结束的时分秒
+        //dateEnd.setHours(0);
+        //dateEnd.setMinutes(0);
+        //dateEnd.setSeconds(0);
+
+        //总时间间隔
+        var lengthTime=(dateEnd.getTime()-dateNow.getTime())/1000;
+        var dates=parseInt(lengthTime/(24*3600));
+        lengthTime=lengthTime%(24*3600);
+        var hours=parseInt(lengthTime/3600);
+        lengthTime=lengthTime%3600;
+        var iMinutes=parseInt(lengthTime/60);
+
+        var iSecends=parseInt(lengthTime%60);
+
+        ap.innerHTML=dates+'天'+hours+'小时'+iMinutes+'分钟'+iSecends+'秒';
+    }
+
+    //开定时器。
+    setInterval(timecount,1000);
+    timecount();
+
+}
