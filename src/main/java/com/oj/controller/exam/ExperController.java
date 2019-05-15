@@ -78,12 +78,12 @@ public class ExperController {
         return p;
     }
 
-    //获取提交状态分类
-    @PostMapping("getSubmitType")
-    @ResponseBody
-    public List<Map> getSubmitType(HttpServletRequest request){
-        List<Map> p = testService.getSubmitType();
-        return p;
-    }
+//    //获取提交状态分类
+//    @PostMapping("getSubmitType")
+//    @ResponseBody
+//    public List<Map> getSubmitType(HttpServletRequest request){
+//        List<Map> p = testService.getSubmitType();
+//        return p;
+//    }
 
 }

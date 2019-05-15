@@ -1,5 +1,6 @@
 package com.oj.service.serviceImpl.exam;
 
+import static java.lang.System.out;
 import com.oj.entity.practic.SubmitCode;
 import com.oj.entity.practic.TestData;
 import com.oj.judge.RedisUtils;
@@ -10,10 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PracticeServiceImpl implements PracticeService {
@@ -24,6 +22,8 @@ public class PracticeServiceImpl implements PracticeService {
 
     @Autowired
     private RedisUtils redisUtils;
+
+
     //获取题目类型的二级列表数据
     @Override
     public List<Map> getProblemTypeList(){
@@ -60,7 +60,36 @@ public class PracticeServiceImpl implements PracticeService {
         }
         return result;
     }
-    //获取公开题目的统计信息（题目id、题目AC数量、题目提交数量）
+    @Override
+    //获取指定用户在系统中的简要信息
+    public Map getSystemSimpleInf(String stuId){
+        Map<String, String> result = new HashMap<>();
+        List finishList = mapper.getFinishProblemList(stuId);
+        List targetList = mapper.getTargetProblemStateList(stuId);
+        List AllProblemlist = mapper.getPublicProblemList();
+        result.put("problemAmount", ""+AllProblemlist.size());
+        result.put("tryProblemAmount", ""+targetList.size());
+        result.put("finishProblemAmount", ""+finishList.size());
+        result.put("systemRank", ""+(AllProblemlist.size()-finishList.size()) );
+        return result;
+    }
+    //获取指定题目的详细信息
+    @Override
+    public Map getTargetProblemInf(String proId){
+        Map result = mapper.getTargetProblemInf(proId);
+        List proList = new LinkedList<Map> ();
+        Map map = new HashMap<String, String>(); map.put("proId", proId);
+        proList.add(map);
+        List<Map> subList = mapper.getPagingPublicProblemStateList(new LinkedList<>(proList));
+        List<Map> AcList = mapper.getPagingPublicProblemACStateList(new LinkedList<>(proList));
+        result.put("proSubmitAmount", 0==subList.size()?"0":(subList.get(0)).get("proSubmitAmount").toString());
+        result.put("proAcAmount", 0==AcList.size()?"0":(AcList.get(0)).get("proAcAmount").toString());
+        return result;
+    }
+
+
+
+    //获取所有公开题目的统计信息（题目id、题目AC数量、题目提交数量）
     public List<Map> getPublicProblemStatisticList(){
         List<Map> result = new LinkedList<>();
         List<Map<String, Object>> list = mapper.getPublicProblemList(); //公开题目集
@@ -72,8 +101,8 @@ public class PracticeServiceImpl implements PracticeService {
             for(;i<acList.size();i++) {
                 Map temp = acList.get(i);
                 if (strProIdA.equals(temp.get("proId").toString())){
-                        cell.put("proAcNum", temp.get("AcAmount").toString());
-                        break;
+                    cell.put("proAcNum", temp.get("AcAmount").toString());
+                    break;
                 }
             }
             if(i==acList.size()) cell.put("proAcNum", "0");
@@ -90,7 +119,7 @@ public class PracticeServiceImpl implements PracticeService {
 
         return result;
     }
-    //获取对应指定用户的题目集
+    //获取对应指定用户的题目集------- 方案A（前端分页）
     @Override
     public List<Map> getTargetProblemList(String stuId){
         //out.println("##"+stuId);
@@ -117,23 +146,97 @@ public class PracticeServiceImpl implements PracticeService {
         });
         return result;
     }
-    @Override
-    //获取指定用户在系统中的简要信息
-    public Map getSystemSimpleInf(String stuId){
-        Map<String, String> result = new HashMap<>();
-        List finishList = mapper.getFinishProblemList(stuId);
-        List targetList = mapper.getTargetProblemStateList(stuId);
-        List AllProblemlist = mapper.getPublicProblemList();
-        result.put("problemAmount", ""+AllProblemlist.size());
-        result.put("tryProblemAmount", ""+targetList.size());
-        result.put("finishProblemAmount", ""+finishList.size());
-        result.put("systemRank", ""+(AllProblemlist.size()-finishList.size()) );
+
+
+
+
+
+
+    //获取指定公开题目的统计信息（题目id、题目AC数量、题目提交数量）
+    public List<Map> getPagingPublicProblemStatisticList(Map param){
+        List<Map> result = new LinkedList<>();
+        List<Map> list = mapper.getPagingPublicProblemList(param); //指定题目集
+        if(list.size()==0) return result;
+        List<Map<String, Object>> acList = mapper.getPagingPublicProblemACStateList(new LinkedList<>(list)); //指定题目集的所有AC提交统计
+        List<Map<String, Object>> subList = mapper.getPagingPublicProblemStateList(new LinkedList<>(list)); //指定题目集的所有提交统计
+        list.forEach(cell -> {
+            int i=0;
+            String strProIdA = cell.get("proId").toString();
+            for(;i<acList.size();i++) {
+                Map temp = acList.get(i);
+                if (strProIdA.equals(temp.get("proId").toString())){
+                    cell.put("proAcNum", temp.get("proAcAmount").toString());
+                    break;
+                }
+            }
+            if(i==acList.size()) cell.put("proAcNum", "0");
+            for(i=0;i<subList.size();i++){
+                Map temp = subList.get(i);
+                if(strProIdA.equals(temp.get("proId").toString())){
+                    cell.put("proSubNum", temp.get("proSubmitAmount").toString());
+                    break;
+                }
+            }
+            if(i==subList.size()) cell.put("proSubNum", "0");
+            result.add(cell);
+        });
         return result;
     }
-    //获取指定题目的详细信息
-    public Map getTargetProblemInf(String proId){
-        return mapper.getTargetProblemInf(proId);
+    //获取对应指定用户的题目集（题目id、题目AC数量、题目提交数量、指定用户的AC状态）------- 方案（数据库分页）
+    public Map getPagingTargetProblemList(Map param){
+        param.put("headLine", param.get("start"));
+        param.put("finalLine", Integer.parseInt(param.get("limit").toString()));
+        List<Map> result = new LinkedList<>();
+        List<Map> targetList = getPagingPublicProblemStatisticList(param); //获取指定题集
+        if(0!=targetList.size()) {
+            List<Map<String, Object>> targetProStateList = mapper.getPagingTargetProblemStateList(new LinkedList(targetList), param.get("stuId").toString()); //获取指定用户在指定题集中已接触的集合
+            targetList.forEach(cell -> {
+                cell.put("AcState", "unknow");
+                int tNum = (int) Math.ceil(0.05 * (Double.parseDouble(cell.get("proRank").toString())));
+                tNum = (tNum == 0 ? 1 : tNum);
+                cell.put("proDifficulty", "" + tNum);
+                result.add(cell);
+            });
+            targetProStateList.forEach(cell -> {
+                String str = cell.get("proId").toString();
+                int i = 0;
+                Map temp;
+                for (; i < result.size(); i++) {
+                    temp = result.get(i);
+                    if (str.equals(temp.get("proId").toString())) {
+                        temp.put("AcState", Double.parseDouble(cell.get("accuracy").toString()) == 1.0 ? "true" : "false");
+                        break;
+                    }
+                }
+            });
+        }
+        Map temp = new TreeMap();
+        temp.put("draw", 0);
+        temp.put("recordsTotal", result.size());  //当前获取到的数据总数
+        temp.put("recordsFiltered", mapper.getAmountPublicProblemList(param)); //实际数据总数
+        temp.put("data", result);
+        return temp;
     }
+
+    //获取指定提交编号的处理结果
+    @Override
+    public Map getTargetResult(String submitId){
+        /*
+        int DEF = 0 , AC = 1, PRESENTATION_ERROR = 2,
+            WRONG_ANSWER = 3 ,COMPILE_ERROR=8,
+            TIME_LIMIT_EXCEED = 5 ,RUNTIME_ERROR = 4
+            ,MEMORY_LIMIT_EXCEED = 6;
+         */
+        Map map = mapper.getTargetResult(submitId);
+        out.println(map);
+        Map result = new HashMap();
+        if(null!=map) result.put("result", map.size()==0?"0": map.get("submitState").toString());
+        //result.put("result", "4");
+        result.put("inf", "");
+        return result;
+    }
+
+    //public Map getPaging
 
     @Override
     public Integer insertSubmit(SubmitCode code) {
@@ -163,8 +266,5 @@ public class PracticeServiceImpl implements PracticeService {
         return res;
     }
 
-    //将用户提交代码存入数据库
-    public void saveSubmitCode(){
 
-    }
 }

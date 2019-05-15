@@ -3,6 +3,7 @@ package com.oj.configuration;
 import com.oj.security.OJHandleSecurity;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class OJHandleSecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        String[] excludes = new String[]{"/login/**", "/", "/css/**", "/js/**", "/fonts/**", "/error/**", "/static/**", "/index/**", "/vendor/**"};
+        String[] excludes = new String[]{"/login/**", "/", "/css/**", "/js/**", "/fonts/**", "/error/**", "/static/**", "/index/**", "/vendor/**", "/upload/**"};
         registry.addInterceptor(new OJHandleSecurity()).addPathPatterns("/**").excludePathPatterns(excludes);
     }
 }

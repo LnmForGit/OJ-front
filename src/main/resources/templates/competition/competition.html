@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>D-OJ</title>
-</head>
+
+</head>0
 <style type="text/css" media="screen">
+
     div
     {
         display:block;}
@@ -12,15 +14,17 @@
         margin:0;
         padding:0;
         text-decoration:none;
-
-
+    }
+    html body{
+        width:100%;
+        height:100%;
     }
 
     .top{
         position:absolute;
-        height:500px;
+        height:53%;
         width:100%;
-        background-color:black;
+        background-color:#2f4050;
         top:50px;
     }
     .media{
@@ -30,12 +34,15 @@
         /* background-color:black; */
         position:absolute;
         margin-top:410px;
-        left:25%;
+        left:20%;
+        height:29%;
+        width:62%;
+        overflow:hidden;
     }
     .card1{
         float:left;
-        width:525px;
-        height:270px;
+        width:59%;
+        height:100%;
         background-color:#fffc43;
         position:relative;
         padding:10px;
@@ -50,8 +57,8 @@
     .card2{
         padding:10px;
         float:right;
-        width:375px;
-        height:270px;
+        width:31%;
+        height:100%;
         background-color:purple;
         position:relative;
         border-radius:20px;
@@ -65,9 +72,9 @@
         margin-top:30px;
         padding:15px;
         top:740px;
-        left:25%;
-        width:auto;
-        height:auto;
+        left:20%;
+        width:63%;
+        height:91%;
         position:absolute;
     }
     .bottom-left{
@@ -75,15 +82,15 @@
         margin-right:20px;
         position:relative;
         float:left;
-        width:405px;
-        height:819px;
+        width:42.7%;
+        height:99%;
         border:1px solid #d6d6d6;
         /*background-color:#223366;*/
     }
     .left-top{
         position:absolute;
-        width:405px;
-        height:65px;
+        width:100%;
+        height:7.98%;
         /*border:1px solid #b7b7b7;*/
     }
     .left-top .img-index{
@@ -95,23 +102,23 @@
     .left-media{
         position:absolute;
         top:65px;
-        width:405px;
-        height:200px;
+        width:100%;
+        height:24.55%;
     }
     .left-bottom{
         border-radius:30px;
-        position:absolute;
+        position:relative;
         top:285px;
-        width:405px;
-        height:554px;
+        width:100%;
+        height:67.47%;
         background: #fafafa;
     }
     .bottom-right{
         border-radius:30px;
         position:relative;
         float:right;
-        width:495px;
-        height:819px;
+        width:52%;
+        height:99%;
         border:1px solid #d3d3d3;
         background: #fafafa;
         /*background-color:red;*/
@@ -122,11 +129,6 @@
         font-weight:600;
         color: #bcc2c6;
         flex:1 0 auto;
-    }
-    .checkbox{
-        font-size:14px;
-        margin:15px 0 0 15px;
-        float:right;
     }
     .winner{
         cursor:pointer;
@@ -180,6 +182,7 @@
         border-radius: 5px;
         opacity:.9;
     }
+
 </style>
 <!--引入通用JS、css资源-->
 <script type="text/javascript">
@@ -205,62 +208,241 @@
 <div th:replace="common/staticImport :: common_resource"></div>
 <div th:replace="common/staticHf :: common_head"></div>
 <div class="rootDiv">
-        <div class="top"></div>
+        <div class="top">
+        </div>
     <div class="wrapper wrapper-content">
         <div class="media">
             <div class="media-container">
                 <div class="card1">
-                    <a href="/contest/weekly-contest-136">
-                        <div class="contest-upcoming">
-                            <div class="big text-right"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                            <div class="h4 text-fff font-thin h4">参加这场 1 小时 30 分 的竞赛</div>
-                            <div class=""><h2>第 136 场周赛</h2></div>
-                            <div class="text-nowrap"><span><i class="fa fa-clock-o" aria-hidden="true"></i> 距离开始还有：3 天 14 小时 18 分 22 秒</span></div>
-                            <div class="">2019-05-12：10:30 ~ 12:00</div><a>
-                           </a></div></a>
+                   <div class="contest-upcoming" id="node" >
+                    <div class="big text-right" style="
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    font-size: 80px;
+    color: white;
+    opacity: .25;
+"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                    <div class="h3 text-fff font-thin h3" style="
+    font-weight: 500;
+    line-height: 18px;
+    font-size: 16px;
+    color: #a0a0a0;
+    padding-left: 10px;
+" id="time">目前没有正在举行的比赛</div>
+                    <div class="" style="
+    margin-top: 5px;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 40px;
+    color: black;
+    font-weight: 100;
+    padding-left: 10px;
+"><b><h2 style="
+    font-weight: 600;
+" id="comName">请稍后回来</h2></b></div>
+                    <div class="" style="
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+">
                 </div>
+                   </div>
+                    <div class="big text-center" id="title">近期要举行的竞赛，快来报名参加吧！</div>
+                    <div class="project-list">
+                        <table class="table table-hover">
+                            <tbody id="list">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class=" text-right ">
+                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()"></i>
+                    </div>
+                </div>
+
                 <div class="card2">
+                    <div class="virtual-empty reserve-btn-space"><div class="card-bg-icon" style="
+    bottom: 65px;
+    position: absolute;
+    right: 20px;
+    bottom: 35px;
+    font-size: 80px;
+    color: white;
+    opacity: .25;
+"><i class="fa fa-random" aria-hidden="true"></i></div><div class="intro" style="
+    padding-top: 5px;
+    font-size: 16px;
+    color: #a0a0a0;
+    opacity: .8;
+    color: white !important;
+    box-sizing: border-box;
+    cursor: pointer;
+    padding-left: 10px;
+">随机开始一场</div>
+                        <div class="card-title" style="
+    padding-left: 10px;
+    margin-top: 5px;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 40px;
+    color: white !important;
+"><a onclick="invented()">虚拟竞赛</a>
+                    </div>
+                        <button onclick="invented('0')">未做过的</button>
+                        <button onclick="invented('1')">已做过的</button>
+                        <button onclick="invented('2')">未做过的和已做过的</button>
+                    </div><div class="hidden-xs vcontest-view-history-btn" style="
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    color: #fbf5f5c2;
+    padding: 0 35px;
+    box-sizing: border-box;
+    cursor: pointer;
+"><div style="
+    padding-top: 15px;
+    padding-bottom: 30px;
+    border-top: 1px solid;
+"><span style="
+    -webkit-transition: .4s all;
+    -o-transition: .4s all;
+    transition: .4s all;
+    opacity: .6;
+" onclick="showCompedList()" data-toggle='modal' data-target='#myModal5'><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; 查看历史</span></div></div>
                 </div>
             </div>
         </div>
-        <div class="bottom">
-            <div class="bottom-left">
-                <div class="left-top">
-                    <img src="img/a5.jpg" alt="" class="img-index">
-                    <span class="bottom-title">全校排名</span>
+    </div>
+    <!--弹窗布局开始-->
+    <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="dialogTitle">参加并提交过的竞赛信息</h4>
                 </div>
-                <div class="left-media">
-                    <div class="winner top-1">
-                        <img src="img/a1.jpg" alt="" class="img">
-                        <div class="name-tag">
-                            <div class="content">111111</div>
-                        </div>
-                    </div>
-                    <div class="winner top-2">
-                        <img src="img/a2.jpg" alt="" class="img">
-                        <div class="name-tag">
-                            <div class="content">111111</div>
-                        </div>
-                    </div>
-                    <div class="winner top-3">
-                        <img src="img/a3.jpg" alt="" class="img">
-                        <div class="name-tag">
-                            <div class="content">11111155555666</div>
-                        </div>
-                    </div>
+                <div class="ibox-content">
+                    <table id="CompedTable" class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <th width="30%">ID</th>
+                        <th width="40%">名称</th>
+                        </thead>
+                        <tbody>
+                        <div id="hei" class="text-center article-title" >还没有参加过的竞赛哦~赶紧去关注一下近期要举行的竞赛吧！</div>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="left-bottom">
-
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-white" id="closeUserInfoDialog" data-dismiss="modal">关闭</button>
                 </div>
             </div>
-            <div class="bottom-right"></div>
+
         </div>
     </div>
 <div class="bottom">
-    <div class="bottom-left"></div>
-    <div class="bottom-right"></div>
-</div>
+    <div class="bottom-left">
+        <div class="left-top">
+            <i class="fa fa-trophy fa-5x"></i>
+            <span class="bottom-title">全校排名</span>
+        </div>
+        <div class="left-media">
+            <div class="winner top-1">
+                <img src="img/a1.jpg" alt="" class="img">
+                <div class="name-tag">
+                    <div class="content" id="one">1</div>
+                </div>
+            </div>
+            <div class="winner top-2">
+                <img src="img/a2.jpg" alt="" class="img">
+                <div class="name-tag">
+                    <div class="content" id="two">2</div>
+                </div>
+            </div>
+            <div class="winner top-3">
+                <img src="img/a3.jpg" alt="" class="img">
+                <div class="name-tag">
+                    <div class="content" id="tree">3</div>
+                </div>
+            </div>
+        </div>
+        <div class="left-bottom">
+        <!--<div class="col-md-12">-->
+            <!--<div class="forum-icon">-->
+                <!--<h2 class="fa fa-clock-o"></h2>-->
+            <!--</div>-->
+            <!--<a class="forum-item-title">李月</a>-->
+            <!--<div class="forum-sub-title">已经参加过10次竞赛</div>-->
+            <!--<hr>-->
+        <!--</div>-->
+            <div class="ibox-content" style="border-radius: 30px">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>姓名</th>
+                        <th>参加竞赛次数</th>
+                    </tr>
+                    </thead>
+                    <tbody id="rankList">
+
+                    </tbody>
+                </table>
+
+                <a class="btn btn-primary btn-rounded btn-block" onclick="showmore()"><i class="fa fa-info-circle"></i> 显示更多</a>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-right">
+        <div class="ibox-content" style="border-radius:30px;">
+            <div class="font-thin h1">
+                竞赛回顾
+            </div>
+       </div>
+        <div class="ibox-content">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>以往竞赛</th>
+                    <th>时长</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="compList">
+
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="text-center">
+            <div class="btn-group" id="page">
+                <!--<button class="btn btn-white" type="button"><i class="fa fa-chevron-left"></i>-->
+                <!--</button>-->
+                <!--<button class="btn btn-white">1</button>-->
+                <!--<button class="btn btn-white">2</button>-->
+                <!--<button class="btn btn-white">3</button>-->
+                <!--<button class="btn btn-white">4</button>-->
+                <!--<button class="btn btn-white">5</button>-->
+                <!--<button class="btn btn-white">6</button>-->
+                <!--<button class="btn btn-white">7</button>-->
+                <!--<button class="btn btn-white" type="button"><i class="fa fa-chevron-right"></i>-->
+                <!--</button>-->
+            </div>
+        </div>
 
 </div>
+</div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/OJ/competition/competition.js}"></script>
+
+<!-- 引入公用尾部 -->
+<!--<div th:replace="common/staticHf :: common_footer"></div>-->
 </body>
 </html>

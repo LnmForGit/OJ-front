@@ -85,17 +85,29 @@ function getInfo(ip){
 }
 
 function getSubmitType(){
-    $.ajax({
-        type: "POST",
-        url: "/experiment/getSubmitType",
-        dataType: "json",
-        success:function (result) {
-            $.each(result,function(index,value){
-                var submitType = "<option value=\""+ value.id + "\" >" + value.state_name +"</option>"
-                $("#submitState").append(submitType);
-            })
-        }
-    })
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/experiment/getSubmitType",
+    //     dataType: "json",
+    //     success:function (result) {
+    //         $.each(result,function(index,value){
+    //             var submitType = "<option value=\""+ value.id + "\" >" + value.state_name +"</option>"
+    //             $("#submitState").append(submitType);
+    //         })
+    //     }
+    // })
+    var submitType = "<option value=\"1\">Accepted</option>\n" +
+        "                                                                                    <option value=\"2\">PresentationError</option>\n" +
+        "                                                                                    <option value=\"3\">WrongAnswer</option>\n" +
+        "                                                                                    <option value=\"4\">RuntimeError</option>\n" +
+        "                                                                                    <option value=\"5\">TimeLimitExceed</option>\n" +
+        "                                                                                    <option value=\"6\">MemoryLimitExceed</option>\n" +
+        "                                                                                    <option value=\"7\">SystemCallError</option>\n" +
+        "                                                                                    <option value=\"8\">CompileError</option>\n" +
+        "                                                                                    <option value=\"9\">SystemError</option>\n" +
+        "                                                                                    <option value=\"10\">ValidateError</option>\n" +
+        "                                                                                    <option value=\"11\">含违规字符</option>"
+    $("#submitState").append(submitType);
 }
 
 function setTestInfo(id,progress,ip){

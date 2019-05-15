@@ -1,5 +1,7 @@
 package com.oj.entity.practic;
 
+import java.sql.Timestamp;
+
 public class SubmitCode {
     private int id;
     private int problemId;
