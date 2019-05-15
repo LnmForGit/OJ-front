@@ -19,7 +19,7 @@ public interface CompetitionMapper {
     public List<Map> getACompList();
 
     //获取排行信息
-    @Select("SELECT count(distinct problem_id) as ac,user_id  FROM teach_submit_code where accuracy=1 AND hide=0 and test_id in(select id from teach_test where kind=4) group by user_id order by count(distinct problem_id) desc limit 15")
+    @Select("SELECT count(distinct problem_id) as ac,user_id  FROM teach_submit_code where accuracy=1 AND hide=0 and test_id in(select id from teach_test where kind=4) group by user_id order by count(distinct problem_id) desc limit 13")
     public List<Map> getrankList();
     @Select("SELECT count(distinct problem_id) as ac,user_id  FROM teach_submit_code where accuracy=1 AND hide=0 and test_id in(select id from teach_test where kind=4) group by user_id order by count(distinct problem_id) desc")
     public List<Map> showmorerank();
