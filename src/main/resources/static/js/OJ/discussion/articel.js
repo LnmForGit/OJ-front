@@ -1,5 +1,6 @@
 var replyList=[];
 var j=0;
+var zan=0;
 replyList=Postinfo.replylist;
 $(document).ready(function () {
     showarticel();
@@ -191,13 +192,20 @@ function postzan() {
         }),success:function(result){
             if(result ==0){
                 swal("点赞成功！");
-
+                zan=$('#zan').html();
+                $('#zan').html("");
+                $('#zan').html( parseInt(zan)+1);
+                $("#iszan").html("已赞");
             }else{
                 swal("取消点赞！");
-            }
-            setTimeout( function(){
-                history.go(0);
-            }, 1* 1000 );
+                zan=$('#zan').html();
+                $('#zan').html("");
+                $('#zan').html( parseInt(zan)-1);
+
+                $("#iszan").html("点赞");
+                 }
+
+
 
         }
     })
@@ -215,11 +223,8 @@ function replyzan(id){
                 swal("点赞成功！");
 
             }else{
-                swal("取消点赞！");
+                swal("点赞失败！");
             }
-            setTimeout( function(){
-                history.go(0);
-            }, 500 );
 
         }
     })
