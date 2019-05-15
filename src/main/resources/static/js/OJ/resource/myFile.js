@@ -8,6 +8,7 @@ $(document).ready(function ()
 
 function updateTime()
 {
+    TimeChoose();
     var check = document.getElementById('InputFileTime').value;
     console.log(check.length);
     if(check.length !== 0)
@@ -30,8 +31,8 @@ function TimeChoose()
     }
     else
     {
-        $(".form-horizontal input").val("");
-        $(".InputFileTime").val("");
+        //$(".form-horizontal input").val("");
+        //$(".InputFileTime").val("");
     }
 }
 function resetForm() {
