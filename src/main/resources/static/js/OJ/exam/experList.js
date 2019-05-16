@@ -1,13 +1,7 @@
 var table = $("#table");
 var tableRows = 0;
 $(document).ready(function () {
-    getUserIP(function(ip){
-        console.log(ip)
-        examOrExper(ip);
-
-
-    });
-
+    examOrExper();
 });
 
 function getExperInfo() {
@@ -31,7 +25,7 @@ function getExperInfo() {
 
 }
 
-function getExamInfo(ip) {
+function getExamInfo() {
     var testID = new Array();
     var testName = new Array();
     var testStart= new Array();
@@ -47,7 +41,10 @@ function getExamInfo(ip) {
         //     "experName" : $('#experName').val()
         // },
         success:function (result) {
-            console.log(result)
+            //console.log(result)
+            var ip = result[result.length - 1].userIp;
+            result = result.slice(0,result.length - 1);
+            //console.log(result)
             $.each(result,function(index,value){
                 value.start = formatTime(value.start)
                 value.end = formatTime(value.end)
@@ -124,7 +121,7 @@ function formatTime(timeStamp) {
 
 //显示单个实验
 function setExperItem(id,name,start,end,is_ip,only_ip,first_ip,ip,isSaveIp){
-    console.log(first_ip)
+   // console.log(first_ip)
     var experItem = "<tr>";
     var underWay =   "<td class=\"project-status\">" +
                     "<span class=\"label label-primary\">进行中</span>" +

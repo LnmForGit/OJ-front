@@ -214,7 +214,7 @@ function deleteenroll(){
         dataType: "json",
         contentType: "application/json;charset=UTF-8",
         data:JSON.stringify({
-            "tset_id":compinfo.compinfo.id
+            "test_id":compinfo.compinfo.id
         }),
         success:function (result) {
             if(result==true) {
@@ -325,7 +325,7 @@ function formatTime(time) {
         var dateEnd=new Date(end);
 
         if(datestart> dateNow){
-            dateEnd=start;
+            dateEnd=datestart;
         }
 
         //设置结束年份

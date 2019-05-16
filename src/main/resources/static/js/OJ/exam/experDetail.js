@@ -8,19 +8,19 @@ $(document).ready(function () {
     //testIP = isTestEndTime();//设置能否查看代码
     $("#code").height($(window).innerHeight() * 0.75)
     getSubmitType();
-    getUserIP(function(ip){
-        getInfo(ip);
+   // getUserIP(function(ip){
+        getInfo();
         if(getParam("isSaveIp") !="undefined"){
             $("#breadList").html("考试列表");
             $("#breadList").attr("href","/exam/")
             $("#breadDetail").html("考试");
         }
-        getParam("isSaveIp") == 1 ? savaFirstIP(ip,getParam("id")) : null;
-    });
+        getParam("isSaveIp") == 1 ? savaFirstIP(getParam("id")) : null;
+   // });
 
 });
 
-function getInfo(ip){
+function getInfo(){
     $.ajax({
         type: "POST",
         url: "/experiment/getSubmitState",
@@ -77,7 +77,7 @@ function getInfo(ip){
                         ACNum++;
                     }
                 }
-                setTestInfo(tid,((ACNum /++pNum) * 100).toFixed(2),ip) ;
+                setTestInfo(tid,((ACNum /++pNum) * 100).toFixed(2)) ;
                 setedTestInfo = true;
             }
         }
@@ -110,7 +110,7 @@ function getSubmitType(){
     $("#submitState").append(submitType);
 }
 
-function setTestInfo(id,progress,ip){
+function setTestInfo(id,progress){
     $("#status").html(getParam("testState")== 0 ? "已结束" : "正在进行");
     $("#status").addClass(getParam("testState")== 0 ? "label-danger" : "label-primary");
     progress += "%"
@@ -390,18 +390,16 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 
 
 //将初次登陆考试的ip进行记录
-function savaFirstIP(ip,tid){
+function savaFirstIP(tid){
     $.ajax({
         type: "POST",
         url: "/exam/recordIP",
         dataType: "json",
         data:{
-            "ip" : ip,
             "tid" : tid,
         },
         success: function (result) {
             if(result.flag == 1 ){
-
             }else{
                 swal("登入失败！", result.message, "error");
             }
