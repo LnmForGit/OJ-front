@@ -1,4 +1,6 @@
+var testIP = true;
 $(document).ready(function () {
+    testIP = isTestEndTime();//设置能否查看代码
     index();
     getStatusInfo();
 });
@@ -71,7 +73,8 @@ function getStatusInfo() {
             "data": "submit_code_length"
         }, {
             "data": "submit_date"
-        }],
+        }
+        ],
         "columnDefs": [{
             "render" : function(data, type, row) {
                 debugger
@@ -86,7 +89,14 @@ function getStatusInfo() {
             "render" : function(data, type, row) {
                 var a = "";
                 if(undefined != laguateType[row.submit_language]){
-                    a = laguateType[row.submit_language]
+                    if(testIP)
+                    {
+                        a = '<a onclick="setCode(\''+escape(row.submit_code)+'\')" data-toggle=\'modal\' data-target=\'#myModal5\'>'+laguateType[row.submit_language]+'</a>'
+                    }
+                    else
+                    {
+                        a = "<a onclick='hints()'>"+laguateType[row.submit_language]+"</a>"
+                    }
                 }
                 return a;
             },
@@ -95,7 +105,31 @@ function getStatusInfo() {
     });
 
 }
+function  setCode(code) {
+    $("#code").text(unescape(code));
+}
+function isTestEndTime(){
+    var a=true;
+    $.ajax({
+        type: "POST",
+        url: "/exam/getTestEndTime",
+        async:false,
+        dataType: "json",
+        success: function (result) {
+            if(result[0] != null)
+                a = result[0].end < getNowTimeStamp();
+        }
+    })
+    console.log(a)
+    return a;
+}
 
+function hints(){
+    swal({
+        title: "考试中不能查看代码",
+        text: "现在存在正在进行的考试，考试结束后可查看代码。"
+    });
+}
 function format(time)
 {
     return new Date(parseInt(time) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');

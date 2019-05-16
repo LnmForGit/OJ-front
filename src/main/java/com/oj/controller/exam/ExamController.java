@@ -59,7 +59,13 @@ public class ExamController {
     public List<Map> getAllExper(HttpServletRequest request){
         String cid = request.getSession().getAttribute("user_class").toString();
         String sid = request.getSession().getAttribute("user_id").toString();
-        return testService.getExamMaplist(sid,cid);
+        Map<String, String> map = new HashMap<String, String>();
+        String localip = request.getRemoteAddr();
+        map.put("userIp",localip);
+       // System.out.println(localip);
+        List<Map> test = testService.getExamMaplist(cid,sid);
+        test.add(map);
+        return test;
     }
 
     //将初次登陆考试的ip进行记录
@@ -68,7 +74,7 @@ public class ExamController {
     public Map<String, String> recordIP(HttpServletRequest request){
         String sid = request.getSession().getAttribute("user_id").toString();
         String tid = request.getParameter("tid");
-        String first_ip = request.getParameter("ip");
+        String first_ip = request.getRemoteAddr();
         Map<String, String> map = new HashMap<>();
         try {
             testService.saveIP(tid,sid,first_ip);
@@ -120,7 +126,7 @@ public class ExamController {
         map.put("first_ip",localip);
         List<Map> test = testService.getTestIps();
         test.add(map);
-        System.out.println(localip);
+        //System.out.println(localip);
         return test;
     }
 

@@ -13,6 +13,16 @@ public class SubmitCodeList {
     private String submit_code_length;
     private String submit_date;
 
+    public String getSubmit_code() {
+        return submit_code;
+    }
+
+    public void setSubmit_code(String submit_code) {
+        this.submit_code = submit_code;
+    }
+
+    private String submit_code;
+
     public String getProblem_id() {
         return problem_id;
     }

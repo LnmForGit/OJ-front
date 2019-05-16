@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,7 +57,8 @@ public class RankingController {
     @ResponseBody
     public Map getStudent(Model model, HttpServletRequest request)
     {
-        String id = request.getParameter("id");
-        return rankingService.getStudent(id);
+        String account = request.getParameter("account");
+        String user_id = request.getSession().getAttribute("user_id").toString();
+        return rankingService.getStudent(account, user_id);
     }
 }

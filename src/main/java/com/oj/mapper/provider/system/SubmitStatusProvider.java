@@ -22,7 +22,7 @@ public class SubmitStatusProvider {
         sql.append(" 			a.submit_language,	 ");
         sql.append(" 			a.submit_time,	 ");
         sql.append(" 			a.submit_memory,	 ");
-        sql.append(" 			a.submit_code_length,	 ");
+        sql.append(" 			a.submit_code_length, a.submit_code ,	 ");
         sql.append(" 			FROM_UNIXTIME(a.submit_date) as submit_date	 ");
         sql.append(" 		FROM		 ");
         sql.append(" 			teach_submit_code AS a,	 ");
@@ -32,8 +32,8 @@ public class SubmitStatusProvider {
         if(!StringUtils.isEmpty(info.get("problem_id"))){
             sql.append("		AND a.problem_id like '%"+info.get("problem_id")+"%' ");
         }
-        if(!StringUtils.isEmpty(info.get("account"))){
-            sql.append("		AND b.account ="+info.get("account")+" ");
+        if(!StringUtils.isEmpty(info.get("user_id"))){
+            sql.append("		AND a.user_id ="+info.get("user_id")+" ");
         }
         if(!StringUtils.isEmpty(info.get("submit_state"))){
             sql.append("		AND a.submit_state = '"+info.get("submit_state")+"' ");

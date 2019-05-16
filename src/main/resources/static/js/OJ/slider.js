@@ -1,18 +1,22 @@
 var window_size = getViewportOffset();
 var w = window_size.width*0.3864;
 
+
 var count = 0;
 var oPicUL = document.getElementsByClassName('pic-ul')[0];
 var oImg = oPicUL.getElementsByTagName('img'),
-    oImgLen = oImg.length;
+oImgLen = oImg.length;
 var oCirUL = document.getElementsByClassName('cir-ul')[0];
 var oI = oCirUL.getElementsByTagName('i'),
-    oILen = oI.length;
+oILen = oI.length;
 var oBtnleft = document.getElementsByClassName('btn-left')[0],
-    oBtnright = document.getElementsByClassName('btn-right')[0],
-    oBox = document.getElementsByClassName('box')[0];
-
+oBtnright = document.getElementsByClassName('btn-right')[0],
+oBox = document.getElementsByClassName('box')[0];
 var oBtn = document.getElementsByClassName('btn');
+/*function resetSize()
+{
+
+}*/
 for(var i=0; i<2; i++)
 {
     oBtn[i].style.top = w*0.5+'px';
@@ -89,6 +93,59 @@ function changeCir(demo) {
     oI[demo].className = 'cir-change';
 }
 
+window.onresize = function(){
+    window_size = getViewportOffset();
+    w = window_size.width*0.3864;
+    for(var i=0; i<2; i++)
+    {
+        oBtn[i].style.top = w*0.5+'px';
+    }
+    for(var i=0; i<oImgLen; i++)
+    {
+        oImg[i].style.width = window_size.width+'px';
+        oImg[i].style.height = w+'px';
+    }
+    oBox.style.width = window_size.width+'px';
+    oPicUL.style.width = oImgLen*window_size.width+'px';
+    oBox.style.height = w+'px';
+    oPicUL.style.height = w+'px';
+    moveWidth = oPicUL.children[0].offsetWidth;
+    for (var i = 0; i < oILen; i ++) {
+        oI[i].onclick = (function (i) {
+            return function () {
+                count = i;
+                changeCir(count);
+                move(oPicUL,{left: -moveWidth * i},function () {
+                    boolen = true;
+                });
+            }
+        })(i)
+    }
+}
+var scroll_offset = window.pageYOffset;
+var oAnchor = document.getElementsByClassName('anchor')[0];
+var oAnchorCon = document.getElementsByClassName('anchor_content');
+var timer1 = setInterval(function () {
+    scroll_offset = window.pageYOffset;
+    if(scroll_offset > w||scroll_offset == w){
+     oAnchor.style.display = 'block';
+ }
+ else
+ {
+     oAnchor.style.display = 'none';
+ }
+}, 30);
 
+/*右侧悬浮框*/
+for(var i=0; i<oAnchorCon.length; i++){
+
+    oAnchorCon[i].onmouseenter = function(){
+        move(this, {left: -120}, function () {boolen = true;});
+    }
+
+    oAnchorCon[i].onmouseleave = function(){
+        move(this, {left: 0}, function () {boolen = true;});
+    }
+}
 
 

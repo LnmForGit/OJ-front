@@ -65,14 +65,15 @@ function isTestIps(){
 }
 
 function isTestEndTime(){
-    var a=false;
+    var a=true;
     $.ajax({
         type: "POST",
         url: "/exam/getTestEndTime",
         async:false,
         dataType: "json",
         success: function (result) {
-             a = result[0].end > getNowTimeStamp();
+            if(result[0] != null)
+                a = result[0].end < getNowTimeStamp();
         }
     })
     console.log(a)

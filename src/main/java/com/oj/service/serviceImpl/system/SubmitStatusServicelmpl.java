@@ -25,14 +25,13 @@ public class SubmitStatusServicelmpl implements SubmitStatusService {
         params.put("start", start);
         params.put("count", count);
         params.put("problem_id", problem_id);
-        params.put("account", account);
+        params.put("user_id", user_id);
         params.put("submit_state", submit_state);
         JqueryDataTableDto jqueryDataTableDto=new JqueryDataTableDto();
         List<SubmitCodeList> list = mapper.getSubmitStatusMaplist(params);
         int total = mapper.selectTotalCount(user_id);
-        int filterTotal = mapper.selectRecordsFiltered(params);
         jqueryDataTableDto.setRecordsTotal(total);
-        jqueryDataTableDto.setRecordsFiltered(filterTotal);
+        jqueryDataTableDto.setRecordsFiltered(total);
         jqueryDataTableDto.setData(list);
         return jqueryDataTableDto;
     }

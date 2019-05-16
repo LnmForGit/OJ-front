@@ -16,36 +16,36 @@
             <li><a href="/index">首页</a></li>
             <li class="active"><strong>排行榜</strong></li>
         </ul>
-        <div class="col-sm-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>排行榜查询</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <form method="get" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-md-4 droppable sortable ui-droppable ui-sortable">
-                                    <div class="form-group draggable ui-draggable dropped">
-                                        <label class="col-sm-4 control-label">姓名：</label>
-                                        <div class="col-sm-7">
-                                            <input id="searchname" type="text" class="form-control" placeholder="请输入姓名">
-                                        </div>
+        <div class="row"><div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>排行榜查询</h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-4 droppable sortable ui-droppable ui-sortable">
+                                <div class="form-group draggable ui-draggable dropped">
+                                    <label class="col-sm-4 control-label">学号：</label>
+                                    <div class="col-sm-7">
+                                        <input id="searchid" type="text" class="form-control" placeholder="请输入学号">
                                     </div>
                                 </div>
                             </div>
-                            <div style="text-align:right;">
-                                <button onclick="resetForm()" type="button" class="btn btn-primary">
-                                    重 置
-                                </button>
-                                <button data-toggle='modal' data-target='#myModal5' onclick="search()" type="button" class="btn btn-primary">
-                                    查 询
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div style="text-align:right;">
+                            <button onclick="resetForm()" type="button" class="btn btn-primary">
+                                重 置
+                            </button>
+                            <button data-toggle='modal' data-target='#myModal5' onclick="search()" type="button" class="btn btn-primary">
+                                查 询
+                            </button>
+                        </div>
+                    </form>
                 </div>
-        </div>
-        <div class="col-sm-12">
+            </div>
+        </div></div>
+        <div class="row"><div class="col-sm-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true"> 三个月</a>
@@ -110,7 +110,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div></div>
+
+
     </div>
 </div>
 <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -125,38 +127,73 @@
                     <div class="form-group">
                         <div class="col-md-9 droppable sortable ui-droppable ui-sortable" style="width: 100%">
                             <div class="form-group draggable ui-draggable dropped">
-                                <label class="col-sm-2 control-label">用户学号：</label>
-                                <label class="col-sm-2 control-label" id="user_id" style="text-align: left"></label>
+                                <label class="col-sm-3 control-label">用户学号：</label>
+                                <label class="col-sm-3 control-label" id="user_id" style="text-align: left"></label>
                             </div>
                         </div>
                         <div class="col-md-9 droppable sortable ui-droppable ui-sortable" style="width: 100%">
                             <div class="form-group draggable ui-draggable dropped">
-                                <label class="col-sm-2 control-label">姓名：</label>
-                                <label class="col-sm-2 control-label" id="name" style="text-align: left"></label>
+                                <label class="col-sm-3 control-label">姓名：</label>
+                                <label class="col-sm-3 control-label" id="name" style="text-align: left"></label>
                             </div>
                         </div>
                         <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
                             <div class="form-group draggable ui-draggable dropped">
-                                <label class="col-sm-2 control-label">班级：</label>
-                                <label class="col-sm-2 control-label" id="Class" style="text-align: left"></label>
+                                <label class="col-sm-3 control-label">班级：</label>
+                                <label class="col-sm-3 control-label" id="Class" style="text-align: left"></label>
                             </div>
                         </div>
                         <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
                             <div class="form-group draggable ui-draggable dropped">
-                                <label class="col-sm-2 control-label">排名：</label>
-                                <label class="col-sm-2 control-label" id="rank" style="text-align: left"></label>
+                                <label class="col-sm-3 control-label">排名：</label>
+                                <label class="col-sm-3 control-label" id="rank" style="text-align: left"></label>
                             </div>
                         </div>
                         <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
                             <div class="form-group draggable ui-draggable dropped">
-                                <label class="col-sm-2 control-label" >AC率：</label>
-                                <label class="col-sm-2 control-label" id="aclv" style="text-align: left"></label>
+                                <label class="col-sm-3 control-label" >AC率：</label>
+                                <label class="col-sm-3 control-label" id="aclv" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">AC的题目：</label>
+                                <label class="col-sm-9 control-label" id="ac" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">提交但未AC的题目：</label>
+                                <label class="col-sm-9 control-label" id="nac" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">他AC你却没有AC的题目:</label>
+                                <label class="col-sm-9 control-label" id="bb1" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">你AC他却没有AC的题目:</label>
+                                <label class="col-sm-9 control-label" id="bb2" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">你们都AC的题目：</label>
+                                <label class="col-sm-9 control-label" id="bb3" style="text-align: left"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-9 droppable sortable ui-droppable ui-sortable"  style="width: 100%">
+                            <div class="form-group draggable ui-draggable dropped">
+                                <label class="col-sm-3 control-label">你们都尝试过却没有AC的题目:</label>
+                                <label class="col-sm-9 control-label" id="bb4" style="text-align: left"></label>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" id="closeUserInfoDialog" data-dismiss="modal">关闭</button>
             </div>

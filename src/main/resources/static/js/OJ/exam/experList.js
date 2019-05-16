@@ -1,13 +1,7 @@
 var table = $("#table");
 var tableRows = 0;
 $(document).ready(function () {
-    getUserIP(function(ip){
-        console.log(ip)
-        examOrExper(ip);
-
-
-    });
-
+    examOrExper();
 });
 
 function getExperInfo() {
@@ -31,13 +25,14 @@ function getExperInfo() {
 
 }
 
-function getExamInfo(ip) {
+function getExamInfo() {
     var testID = new Array();
     var testName = new Array();
     var testStart= new Array();
     var testEnd = new Array();
     var is_ip = new Array();
     var only_ip = new Array();
+    var first_ip = new Array();
     $.ajax({
         type: "POST",
         url: "/exam/getAllExam",
@@ -46,7 +41,10 @@ function getExamInfo(ip) {
         //     "experName" : $('#experName').val()
         // },
         success:function (result) {
-            console.log(result)
+            //console.log(result)
+            var ip = result[result.length - 1].userIp;
+            result = result.slice(0,result.length - 1);
+            //console.log(result)
             $.each(result,function(index,value){
                 value.start = formatTime(value.start)
                 value.end = formatTime(value.end)
@@ -67,6 +65,8 @@ function getExamInfo(ip) {
                     is_ip[j + 1] = result[i + 1].is_ip;
                     only_ip[j] = result[j].only_ip;
                     only_ip[j + 1] = result[j + 1].only_ip;
+                    first_ip[j] = result[j].first_ip;
+                    first_ip[j + 1] = result[j + 1].first_ip;
                     j = j + 2;
                 }
             }
@@ -83,7 +83,7 @@ function getExamInfo(ip) {
 
                         else if(ipTail % 2  == i % 2){
                             //console.log(testName[i])
-                            setExperItem(testID[i],testName[i],testStart[i],testEnd[i],is_ip[i],only_ip[j],ip,1);
+                            setExperItem(testID[i],testName[i],testStart[i],testEnd[i],is_ip[i],only_ip[j],first_ip[j],ip,1);
                         }
                 //alert(testID[i].id)
                 // savaFirstIP(ip,testID[i]);
@@ -93,10 +93,10 @@ function getExamInfo(ip) {
                 if(typeof (value.sid) != "undefined" ){
                     // if(testID.indexOf(value.sid) == -1){
                        // console.log(value.name)
-                        setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,ip,0);
+                        setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
                     // }
                 }else if((testStart.indexOf(value.start) == -1) &&  (testEnd.indexOf(value.end) == -1) && getTestState(value.start,value.end) != 0){
-                    setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,ip,1);
+                    setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,1);
                 }
             })
             tableNull()
@@ -120,8 +120,8 @@ function formatTime(timeStamp) {
 }
 
 //显示单个实验
-function setExperItem(id,name,start,end,is_ip,only_ip,ip,isSaveIp){
-
+function setExperItem(id,name,start,end,is_ip,only_ip,first_ip,ip,isSaveIp){
+   // console.log(first_ip)
     var experItem = "<tr>";
     var underWay =   "<td class=\"project-status\">" +
                     "<span class=\"label label-primary\">进行中</span>" +
@@ -141,20 +141,20 @@ function setExperItem(id,name,start,end,is_ip,only_ip,ip,isSaveIp){
         experItem += notStarted;
     }
     experItem += "<td class=\"project-title\">\n";
-    experItem += (testState == 0) ?  "<a href=experDetail?id=" + id + "&testState="+testState+"&isSaveIp="+isSaveIp+"  >" +name+"</a>\n" : "<a onclick='hint(\""+id+"\",\""+testState+"\",\""+isSaveIp+"\",\""+is_ip+"\",\""+only_ip+"\",\""+ip+"\")'>"+ name + "</a>" ;
+    experItem += (testState == 0) ?  "<a href=experDetail?id=" + id + "&testState="+testState+"&isSaveIp="+isSaveIp+"  >" +name+"</a>\n" : "<a onclick='hint(\""+id+"\",\""+testState+"\",\""+isSaveIp+"\",\""+is_ip+"\",\""+only_ip+"\",\""+first_ip+"\",\""+ip+"\")'>"+ name + "</a>" ;
     experItem +=   " <br/>\n" +
         "                                        <small>开始日期:"+ start  +"&nbsp&nbsp&nbsp</small>\n" +
         "                                        <small>  结束日期:" + end + "</small>\n" +
         "                                    </td>\n" +
         "\n" +
         "                                    <td class=\"project-actions\">\n" ;
-    experItem += (testState == 0) ? " <a href=experDetail?id=" + id + "&testState="+testState+"&isSaveIp="+isSaveIp+" class=\"btn btn-white btn-sm link\"><i class=\"fa fa-folder\"></i> 查看 </a>\n" :" <a onclick='hint(\""+id+"\",\""+testState+"\",\""+isSaveIp+"\",\""+is_ip+"\",\""+only_ip+"\",\""+ip+"\")' class=\"btn btn-white btn-sm link\"><i class=\"fa fa-folder\"></i> 查看 </a>\n";
+    experItem += (testState == 0) ? " <a href=experDetail?id=" + id + "&testState="+testState+"&isSaveIp="+isSaveIp+" class=\"btn btn-white btn-sm link\"><i class=\"fa fa-folder\"></i> 查看 </a>\n" :" <a onclick='hint(\""+id+"\",\""+testState+"\",\""+isSaveIp+"\",\""+is_ip+"\",\""+only_ip+"\",\""+first_ip+"\",\""+ip+"\")' class=\"btn btn-white btn-sm link\"><i class=\"fa fa-folder\"></i> 查看 </a>\n";
         experItem += "</td>\n" +
         "                                </tr>";
     table.append(experItem);
 }
 
-function hint(id,testState,isSaveIp,is_ip,only_ip,ip){
+function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
     console.log("isSaveIp: " + isSaveIp)
     if(isSaveIp == "undefined"){
         window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
@@ -180,6 +180,7 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,ip){
                     ipArray[i] = result[i].ip;
                     console.log("允许进入考试的ip段:" + result[i].ip)
                 }
+                console.log("绑定ip:"+first_ip)
                 console.log("用户ip：" + ip)
                 if(!checkIP(ip,ipArray)){
                     //如果用户登陆ip不符合，弹出提示窗
@@ -191,8 +192,17 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,ip){
                             confirmButtonText:"确认",
                         });
 
-                }else{
-                    window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
+                }else if(ip != first_ip){
+
+                    swal({
+                        title: "该主机ip已绑定！",
+                        type: "error",
+                        text: "该主机ip已绑定，考试结束后管理员解绑后可使用",
+                        confirmButtonText:"确认",
+                    });
+                }
+                else{
+                   // window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
                 }
             }
         })

@@ -8,19 +8,19 @@ $(document).ready(function () {
     //testIP = isTestEndTime();//设置能否查看代码
     $("#code").height($(window).innerHeight() * 0.75)
     getSubmitType();
-    getUserIP(function(ip){
-        getInfo(ip);
+   // getUserIP(function(ip){
+        getInfo();
         if(getParam("isSaveIp") !="undefined"){
             $("#breadList").html("考试列表");
             $("#breadList").attr("href","/exam/")
             $("#breadDetail").html("考试");
         }
-        getParam("isSaveIp") == 1 ? savaFirstIP(ip,getParam("id")) : null;
-    });
+        getParam("isSaveIp") == 1 ? savaFirstIP(getParam("id")) : null;
+   // });
 
 });
 
-function getInfo(ip){
+function getInfo(){
     $.ajax({
         type: "POST",
         url: "/experiment/getSubmitState",
@@ -77,7 +77,7 @@ function getInfo(ip){
                         ACNum++;
                     }
                 }
-                setTestInfo(tid,((ACNum /++pNum) * 100).toFixed(2),ip) ;
+                setTestInfo(tid,((ACNum /++pNum) * 100).toFixed(2)) ;
                 setedTestInfo = true;
             }
         }
@@ -85,20 +85,32 @@ function getInfo(ip){
 }
 
 function getSubmitType(){
-    $.ajax({
-        type: "POST",
-        url: "/experiment/getSubmitType",
-        dataType: "json",
-        success:function (result) {
-            $.each(result,function(index,value){
-                var submitType = "<option value=\""+ value.id + "\" >" + value.state_name +"</option>"
-                $("#submitState").append(submitType);
-            })
-        }
-    })
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/experiment/getSubmitType",
+    //     dataType: "json",
+    //     success:function (result) {
+    //         $.each(result,function(index,value){
+    //             var submitType = "<option value=\""+ value.id + "\" >" + value.state_name +"</option>"
+    //             $("#submitState").append(submitType);
+    //         })
+    //     }
+    // })
+    var submitType = "<option value=\"1\">Accepted</option>\n" +
+        "                                                                                    <option value=\"2\">PresentationError</option>\n" +
+        "                                                                                    <option value=\"3\">WrongAnswer</option>\n" +
+        "                                                                                    <option value=\"4\">RuntimeError</option>\n" +
+        "                                                                                    <option value=\"5\">TimeLimitExceed</option>\n" +
+        "                                                                                    <option value=\"6\">MemoryLimitExceed</option>\n" +
+        "                                                                                    <option value=\"7\">SystemCallError</option>\n" +
+        "                                                                                    <option value=\"8\">CompileError</option>\n" +
+        "                                                                                    <option value=\"9\">SystemError</option>\n" +
+        "                                                                                    <option value=\"10\">ValidateError</option>\n" +
+        "                                                                                    <option value=\"11\">含违规字符</option>"
+    $("#submitState").append(submitType);
 }
 
-function setTestInfo(id,progress,ip){
+function setTestInfo(id,progress){
     $("#status").html(getParam("testState")== 0 ? "已结束" : "正在进行");
     $("#status").addClass(getParam("testState")== 0 ? "label-danger" : "label-primary");
     progress += "%"
@@ -378,18 +390,16 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 
 
 //将初次登陆考试的ip进行记录
-function savaFirstIP(ip,tid){
+function savaFirstIP(tid){
     $.ajax({
         type: "POST",
         url: "/exam/recordIP",
         dataType: "json",
         data:{
-            "ip" : ip,
             "tid" : tid,
         },
         success: function (result) {
             if(result.flag == 1 ){
-
             }else{
                 swal("登入失败！", result.message, "error");
             }
@@ -412,21 +422,7 @@ function hint(){
 
 //获取题目信息
 function getProblem(id,testId){
-    $.ajax({
-        type: "POST",
-        url: "/experiment/getProblemDetails",
-        dataType: "json",
-        async:false,
-        data:{
-            "id" : id
-        },success:function (result){
-           var ac = (result[0].AC_number);
-           var sum = (result[0].submit_number);
-           var rate = ((result[0].AC_number / result[0].submit_number) * 100).toFixed(2);
-           window.open("/practice/showProblemInf?proId="+id+"&proAcPercentage="+rate+"&proAcNum="+ac+"&proSubNum="+sum+"&testID=" + testId,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
-
-        }
-    })
+    window.open("/practice/showProblemInf?proId="+id+"&testId=" + testId,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
 }
 
 function hints(){
