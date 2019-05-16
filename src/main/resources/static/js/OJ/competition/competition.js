@@ -138,27 +138,30 @@ function getAComp(){
 }
 //未结束竞赛信息
 function showComp(){
+    console.log(page);
     if(page*3>=preComp.length){
         swal("没有更多了");
         return ;
     }
+   // console.log($('#list').html());
     var start=page*3;
     var end=start+3;
     if(end>=preComp.length){
         end=preComp.length
     }
     page++;
-        newTest = ""
-    for (var i=0;i<end;i++) {
-        newTest += '<tr style="cursor: pointer;" onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
+        var Test = ""
+    var result=preComp
+    for (var i=start;i<end;i++) {
+        Test += '<tr style="cursor: pointer;" onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
             '                                <td class="project-status">\n' +
             '                                            <span class="label label-primary"' ;
         if(result[i].flag==1){
-            newTest+=' style="background-color: #52dc5bd6;">进行中';
+            Test+=' style="background-color: #52dc5bd6;">进行中';
         }else{
-            newTest+='>未开始';
+            Test+='>未开始';
         }
-        newTest+='                                            </span>\n' +
+        Test+='                                            </span>\n' +
             '                                </td>\n' +
             '                                <td class="project-title">\n' + result[i].name +
 
@@ -167,16 +170,17 @@ function showComp(){
             '                                </td>\n' +
             '                                <td class="project-completion">\n' ;
         if(result[i].flag==1){
-            newTest+='<small>竞赛正在进行</small>';
+            Test+='<small>竞赛正在进行</small>';
         }else{
-            newTest+='                                    <small>点击进行报名</small>\n';
+            Test+='                                    <small>点击进行报名</small>\n';
         }
 
-        newTest+= '                                </td>\n' +
+        Test+= '                                </td>\n' +
             '                            </tr>';
     }
     $('#list').html("");
-    $('#list').append(newTest);
+    //console.log( Test);
+    $('#list').append(Test);
 }
 //进行判断
 function Pan(id,flag) {
@@ -268,7 +272,7 @@ function invented(id){
              }
             if(result=="none"){
                  console.log(1);
-                 swal("这里没有你想要的内容哦！", "请重新选择", "fail");
+                 swal("这里没有你想要的内容哦！");
              }
         }
 
