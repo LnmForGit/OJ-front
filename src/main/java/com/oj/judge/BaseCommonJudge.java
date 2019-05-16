@@ -156,7 +156,7 @@ public class BaseCommonJudge {
             }
             submitMsg.setAccuracy((float) correct / sum);
             //当通过所有测试样例时，才是AC
-            if (submitMsg.getAccuracy() == 1) {
+            if (submitMsg.getAccuracy() == 1 && submitMsg.getResult() == Constants.DEF) {
                 submitMsg.setResult(Constants.AC);
             }
         }

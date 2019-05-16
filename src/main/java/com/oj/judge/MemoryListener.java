@@ -50,6 +50,7 @@ public class MemoryListener implements Callable<Boolean>{
 	@Override
 	public Boolean call() throws Exception {
 		String os = System.getProperty("os.name");
+		//如果os是windows，那么不判断内存大小
 		if (os.toLowerCase().startsWith("win")) {
 			if(latch.getCount() != 0){
 				latch.countDown();
