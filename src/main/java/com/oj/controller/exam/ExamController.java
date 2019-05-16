@@ -74,7 +74,7 @@ public class ExamController {
     public Map<String, String> recordIP(HttpServletRequest request){
         String sid = request.getSession().getAttribute("user_id").toString();
         String tid = request.getParameter("tid");
-        String first_ip = request.getParameter("ip");
+        String first_ip = request.getRemoteAddr();
         Map<String, String> map = new HashMap<>();
         try {
             testService.saveIP(tid,sid,first_ip);
