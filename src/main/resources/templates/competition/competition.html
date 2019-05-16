@@ -51,7 +51,7 @@
         position:absolute;
         top:50%;
         left:20%;
-        height:29%;
+        height:32%;
         width:62%;
         overflow:hidden;
     }
@@ -275,7 +275,7 @@
                         </table>
                     </div>
                     <div class=" text-right " id="tran">
-                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()"></i>
+                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()" style="cursor: pointer;color:#555">下一页</i>
                     </div>
                 </div>
 
@@ -296,7 +296,7 @@
     color: white !important;
     box-sizing: border-box;
     padding-left: 10px;
-">随机开始一场</div>
+">随机开始一场</div><br><br>
                         <div class="card-title" style="
     padding-left: 10px;
     margin-top: 5px;
@@ -306,8 +306,8 @@
     color: white !important;
 "><a onclick="invented('2')">虚拟竞赛</a>
                         <div class="btn-group">
-                            <i data-toggle="dropdown" ><span class="caret" style="cursor: pointer;"></span>
-                            </i>选项
+                            <i data-toggle="dropdown" style="cursor: pointer;font-size: 15px;" >选项<span class="caret" style="cursor: pointer;"></span>
+                            </i>
                             <ul class="dropdown-menu">
                                 <li><a onclick="invented('0')" style="color:black">未做过的</a>
                                 </li>

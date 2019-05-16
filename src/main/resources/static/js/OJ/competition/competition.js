@@ -123,11 +123,16 @@ function getAComp(){
                     '                                    <small>开始时间' + formatTime(result[i].start) + '</small>\n' +
                     '                                </td>\n' +
                     '                                <td class="project-completion">\n' ;
-                    if(result[i].flag==1){
-                        newTest+='<small>竞赛正在进行</small>';
+                if(result[i].flag==1){
+                    newTest+='<small>竞赛正在进行中</small>';
+                }else{
+                    if(isenroll(result[i].id)==true){
+                        newTest+='<small>您已报名</small>'
                     }else{
                         newTest+='                                    <small>点击进行报名</small>\n';
                     }
+
+                }
 
                     newTest+= '                                </td>\n' +
                     '                            </tr>';
@@ -170,9 +175,14 @@ function showComp(){
             '                                </td>\n' +
             '                                <td class="project-completion">\n' ;
         if(result[i].flag==1){
-            Test+='<small>竞赛正在进行</small>';
+            Test+='<small>竞赛正在进行中</small>';
         }else{
-            Test+='                                    <small>点击进行报名</small>\n';
+            if(isenroll(result[i].id)==true){
+                Test+='<small>您已报名</small>'
+            }else{
+                Test+='                                    <small>点击进行报名</small>\n';
+            }
+
         }
 
         Test+= '                                </td>\n' +
@@ -266,11 +276,10 @@ function invented(id){
             "flag":id
         }),
         success: function (result) {
-            console.log(1,result);
-            if(result!=""){
+            console.log(result);
+            if(result!="none"){
                  window.location.href="/competition/showComp/"+result;
-             }
-            if(result=="none"){
+             }else{
                  console.log(1);
                  swal("这里没有你想要的内容哦！");
              }
