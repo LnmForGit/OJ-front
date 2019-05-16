@@ -20,6 +20,7 @@ function getCompList() {
          }
     })
 }
+//分页操作
 function Page() {
     if(list.length<=10){
        List(0);
@@ -39,6 +40,7 @@ function Page() {
         $('#page').append(test);
     }
 }
+//一结束竞赛
 function List(page){
     $('#compList').html("");
     newTest="";
@@ -71,14 +73,15 @@ function List(page){
                 '<td>'+k+'</td>\n'+
                 '<td><a href="/competition/showComp/'+list[i].id+'">\n'+
                 '  <div class="title">'+list[i].name+'</div>\n'+
-                '<div class="date">'+formatTime(list[i].start)+'</div></a></td>\n'+
+                '<div class="date">'+formatTime(list[i].start)+'</div></td>\n'+
                 '<td>'+ list[i].time+'</td>\n'+
                 '<td><b class="btn btn-primary btn-xs">虚拟</b></td>\n'+
-                '</tr>';
+                '</a></tr>';
 
     }
     $('#compList').append(newTest);
 }
+//查询未结束竞赛
 function getAComp(){
     $.ajax({
         type:"POST",
@@ -90,8 +93,8 @@ function getAComp(){
           preComp=result;
           var end=0;
           if(result.length==0){
-
               $('#title').html("");
+              $('#tran').html("");
               return;
           }else{
               $('#node').html("")
@@ -104,25 +107,36 @@ function getAComp(){
 
             newTest = ""
             for (var i=0;i<end;i++) {
-                newTest += '<tr onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
+                newTest += '<tr style="cursor: pointer;" onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
                     '                                <td class="project-status">\n' +
-                    '                                            <span class="label label-primary">进行中\n' +
-                    '                                            </span>\n' +
+                    '                                            <span class="label label-primary"' ;
+                     if(result[i].flag==1){
+                         newTest+=' style="background-color: #52dc5bd6;">进行中';
+                     }else{
+                         newTest+='>未开始';
+                     }
+                    newTest+='                                            </span>\n' +
                     '                                </td>\n' +
                     '                                <td class="project-title">\n' + result[i].name +
 
                     '                                    <br/>\n' +
                     '                                    <small>开始时间' + formatTime(result[i].start) + '</small>\n' +
                     '                                </td>\n' +
-                    '                                <td class="project-completion">\n' +
-                    '                                    <small>点击进行报名</small>\n' +
-                    '                                </td>\n' +
+                    '                                <td class="project-completion">\n' ;
+                    if(result[i].flag==1){
+                        newTest+='<small>竞赛正在进行</small>';
+                    }else{
+                        newTest+='                                    <small>点击进行报名</small>\n';
+                    }
+
+                    newTest+= '                                </td>\n' +
                     '                            </tr>';
             }
             $('#list').append(newTest);
         }
     })
 }
+//未结束竞赛信息
 function showComp(){
     if(page*3>=preComp.length){
         swal("没有更多了");
@@ -135,26 +149,36 @@ function showComp(){
     }
     page++;
         newTest = ""
-        for (var i=start;i<end;i++) {
-            newTest += '<tr onclick="Pan(' + preComp[i].id + ',' + preComp[i].flag + ')">\n' +
-                '                                <td class="project-status">\n' +
-                '                                            <span class="label label-primary">进行中\n' +
-                '                                            </span>\n' +
-                '                                </td>\n' +
-                '                                <td class="project-title">\n' + preComp[i].name +
+    for (var i=0;i<end;i++) {
+        newTest += '<tr style="cursor: pointer;" onclick="Pan(' + result[i].id + ',' + result[i].flag + ')">\n' +
+            '                                <td class="project-status">\n' +
+            '                                            <span class="label label-primary"' ;
+        if(result[i].flag==1){
+            newTest+=' style="background-color: #52dc5bd6;">进行中';
+        }else{
+            newTest+='>未开始';
+        }
+        newTest+='                                            </span>\n' +
+            '                                </td>\n' +
+            '                                <td class="project-title">\n' + result[i].name +
 
-                '                                    <br/>\n' +
-                '                                    <small>开始时间' + formatTime(preComp[i].start) + '</small>\n' +
-                '                                </td>\n' +
-                '                                <td class="project-completion">\n' +
-                '                                    <small>点击进行报名</small>\n' +
-                '                                </td>\n' +
-                '                            </tr>';
+            '                                    <br/>\n' +
+            '                                    <small>开始时间' + formatTime(result[i].start) + '</small>\n' +
+            '                                </td>\n' +
+            '                                <td class="project-completion">\n' ;
+        if(result[i].flag==1){
+            newTest+='<small>竞赛正在进行</small>';
+        }else{
+            newTest+='                                    <small>点击进行报名</small>\n';
         }
 
+        newTest+= '                                </td>\n' +
+            '                            </tr>';
+    }
     $('#list').html("");
     $('#list').append(newTest);
 }
+//进行判断
 function Pan(id,flag) {
    if(flag=='0'){
        window.location.href="/competition/showComp/"+id;
@@ -170,6 +194,7 @@ function Pan(id,flag) {
        window.location.href="/competition/showComp/"+id;
    }
 }
+//是否报名参加竞赛
 function isenroll(id){
     var s=false;
     $.ajax({
@@ -195,6 +220,7 @@ function isenroll(id){
     })
   return s;
 }
+//首页排名信息
 function getrankList() {
     $.ajax({
         type: "POST",
@@ -208,7 +234,7 @@ function getrankList() {
             $('#three').html(result[2].name)
             newTest="";
             var k=0;
-            for(var i=3;i<15;i++){
+            for(var i=3;i<13;i++){
                 k=i+1;
                 newTest+='<tr>\n'+
                     ' <td>&nbsp;&nbsp;'+k+'</td>\n' +
@@ -221,9 +247,11 @@ function getrankList() {
 
     })
 }
+//查看更多排名
 function showmore(){
     window.location.href="/competition/showmorerank";
 }
+//虚拟竞赛
 function invented(id){
     $.ajax({
         type: "POST",
