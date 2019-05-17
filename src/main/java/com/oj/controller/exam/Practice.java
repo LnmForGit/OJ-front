@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,9 @@ public class Practice {
     //返回所有的公开题目-- 未分页
     @PostMapping("/getProblemList")
     @ResponseBody
-    public List<Map> getProblemList(@RequestBody Map<String, String> param, HttpServletRequest request){
-        return service.getTargetProblemList(request.getSession().getAttribute("user_id").toString());
+    public List<Map> getProblemList(@RequestBody Map<String, String> param, HttpServletRequest request){ //------------------------- 已弃用
+        return new ArrayList<>();
+        //return service.getTargetProblemList(request.getSession().getAttribute("user_id").toString());
     }
 
     //返回指定条件的公开题目-- 数据库分页
@@ -67,6 +69,11 @@ public class Practice {
     //返回指定题目的详情页面
     @RequestMapping("/showProblemInf")
     public String showTestScore(@RequestParam("proId") String proId,@RequestParam("testId") String testId, Model model){
+        //-- 有效提交与有效查阅的判断模块所采用的SQL代码
+        //-- select t.pid proId from teach_test_problems t, teach_test k, teach_problems s where k.id=55 and t.tid=55 and t.pid=187 and s.id=55 and s.public='on' and  UNIX_TIMESTAMP(NOW())>k.start and UNIX_TIMESTAMP(NOW())<k.end
+        //
+        //-- SELECT s.id proId FROM teach_problems s WHERE s.id=5 AND s.public='on'
+        //-------------------------------------   溜咯，打球去，晚上回来再写
         Map<String,Object> info = service.getTargetProblemInf(proId);//new HashMap<>();
         info.put("proId", proId);
         info.put("testId", testId);

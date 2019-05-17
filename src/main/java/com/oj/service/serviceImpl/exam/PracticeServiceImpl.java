@@ -165,7 +165,7 @@ public class PracticeServiceImpl implements PracticeService {
         return result;
     }
 
-    //AC标准变更修改为submit_state字段-------------当前类内调用正在更改.....
+    //AC标准变更修改为submit_state字段-------------已变更
     //获取对应指定用户下指定条件的题目集（题目id、题目AC数量、题目提交数量、指定用户的AC状态）------- 方案（数据库分页）
     public Map getPagingTargetProblemList(Map param){
         //@---转换参数集内分页所需的参数

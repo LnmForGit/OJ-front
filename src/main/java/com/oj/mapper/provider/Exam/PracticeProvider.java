@@ -132,8 +132,8 @@ public class PracticeProvider {
          */
         StringBuffer sql = new StringBuffer();
         Map<String, Object> info = (Map<String, Object>)params.get("condition");
-        out.println("题目集的条件");
-        out.println(info);
+        //out.println("题目集的条件");
+        //out.println(info);
         sql.append("select t.id proId, t.name proName, t.rank proRank, t.subjectid proTypeId from teach_problems t where t.public = 'on' ");
         if(!StringUtils.isEmpty(info.get("proId").toString())){
             sql.append(" and t.id = "); sql.append(info.get("proId").toString());

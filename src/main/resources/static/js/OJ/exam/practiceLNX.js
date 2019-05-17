@@ -16,6 +16,11 @@ var problemListCondition = {  //题目集中题目匹配的条件
 $(function(){
     //testFun();
     init();
+    $('#selectProblemType').trigger('onclick')
+    $('#selectProblemType').click();
+    $('#selectProblemType').trigger('click')
+    document.getElementById('selectProblemType').click();
+
 })
 function init(){
     getProblemTypeList();
@@ -162,7 +167,7 @@ function loadProblemList(){
         },{
             "data" : "proDifficulty",
             "render":function (data) {
-                var str="";
+                var str=""; data=5-data+1;
                 for(var i=0;i<data;i++)
                     str+=" <span class=\"glyphicon glyphicon-star\" style='color:#efc63b;'></span>";
                 return str;
@@ -231,6 +236,7 @@ function resetSearchArg(){
     ArgOfProId.val("");
     ArgOfProName.val("");
     ArgOfProType.val("全部题目"); problemType=-1;
+    searchProblemList();
 }
 function searchProblemList(){
     var temp;

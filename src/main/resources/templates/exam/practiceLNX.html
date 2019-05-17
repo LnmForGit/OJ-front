@@ -23,21 +23,12 @@
                 <div class="col-sm-12">
                     <div class="ibox">
                         <div class="ibox-title">
-                            <table >
-                                <tr >
-                                    <td width="32%">
-                                        <a id="selectProblemType" class="btn btn-sm btn-primary" style="margin-top:-12px; ">题目类型</a>
-                                    </td>
-                                    <td width="68%">
-                                        <input  id="problemType" type="text" class="form-control" style="width:150px; margin-top:-12px;" readonly="true" value="全部题目"/>
-                                    </td>
-                                </tr>
-                            </table>
+                            <span   style="font-size:10px; ">筛选条件</span>
                         </div>
-                        <div class="ibox-content">
+                        <div class="ibox-content" style="overflow: auto;">
                             <form method="get" class="form-horizontal">
-                                <div class="form-group">
-                                    <div class="col-md-4 droppable sortable ui-droppable ui-sortable">
+                                <div class="col-sm-12 ">
+                                    <div class="col-md-6 droppable sortable ui-droppable ui-sortable">
                                         <div class="form-group draggable ui-draggable dropped">
                                             <label class="col-sm-4 control-label">题目编号：</label>
                                             <div class="col-sm-7">
@@ -45,7 +36,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 droppable sortable ui-droppable ui-sortable">
+                                    <div class="col-md-6 droppable sortable ui-droppable ui-sortable">
                                         <div class="form-group draggable ui-draggable dropped">
                                             <label class="col-sm-4 control-label">题目名称：</label>
                                             <div class="col-sm-7">
@@ -53,30 +44,46 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4 droppable sortable ui-droppable ui-sortable">
+                                </div>
+                                <div class="col-sm-12 ">
+                                    <div  class="col-md-6 droppable sortable ui-droppable ui-sortable">
+                                        <div class="form-group draggable ui-draggable dropped">
+                                            <label id="selectProblemType"  name='selectProblemType' class="col-sm-4 control-label ">题目类型：</label>
+                                            <!--<a  class="btn btn-sm btn-primary" style="margin-top:-12px; ">题目类型</a>-->
+                                            <div class="col-sm-7">
+                                                <input  id="problemType" type="text" class="form-control" style="" readonly="true" value="全部题目" onclick="selectProblemType.click()"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 droppable sortable ui-droppable ui-sortable">
                                         <div class="form-group draggable ui-draggable dropped">
                                             <label class="col-sm-4 control-label">题目难度：</label>
                                             <div class="col-sm-7">
                                                 <select id="argOfProDifficulty" class="form-control">
                                                     <option value="0">全部</option>
-                                                    <option value="1">入门</option>
-                                                    <option value="2">普通</option>
+                                                    <option value="5">入门</option>
+                                                    <option value="4">普通</option>
                                                     <option value="3">中等</option>
-                                                    <option value="4">困难</option>
-                                                    <option value="5">超难</option>
+                                                    <option value="2">困难</option>
+                                                    <option value="1">超难</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div style="text-align:right; margin-top:-70px; ">
-                                    <button onclick="resetSearchArg()" type="button" class="btn btn-primary">
-                                        重 置
-                                    </button>
-                                    <button onclick="searchProblemList()" type="button" class="btn btn-primary">
-                                        查 询
-                                    </button>
+                                <div class="col-sm-12 ">
+                                    <div class="col-sm-12" style="text-align:right; ">
+                                        <button onclick="resetSearchArg()" type="button" class="btn btn-primary">
+                                            重 置
+                                        </button>
+                                        <button onclick="searchProblemList()" type="button" class="btn btn-primary">
+                                            查 询
+                                        </button>
+                                    </div>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -84,7 +91,7 @@
             </div>
             <div class="ibox" style="width:100%;  ">
                 <div class="ibox-title" style=" ">
-                    <span id="problemListName" style="font-size:10px; ">所有题目</span>
+                    <span  style="font-size:11px; ">当前题目所处范围：</span><span id="problemListName" style="font-size:10px; ">所有题目</span>
                 </div>
                 <div class="ibox-content">
                     <div class="project-list">
@@ -142,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row row-sm text-center" style="">
+            <div class="row row-sm text-center" style="width:100%;">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         推举题目集A
