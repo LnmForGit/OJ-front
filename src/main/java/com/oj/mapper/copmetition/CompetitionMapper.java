@@ -53,7 +53,7 @@ public interface CompetitionMapper {
     public List<Map> rankList(String id);
 
     //查看用户是否已经报名
-    @Select("select count(*) from teach_enroll where user_id=#{user_id} and test_id=#{test_id} limit 1")
+    @Select("select count(*) from teach_enroll where user_id=#{user_id} and test_id=#{test_id}")
     public int Isenroll(Map<String,String> param);
     //添加一条报名信息
     @Select("insert into teach_enroll values(NULL,#{user_id},#{test_id})")
@@ -63,7 +63,7 @@ public interface CompetitionMapper {
     public void deleteenroll(Map<String,String> param);
 
     //查询所有报名的人
-    @Select("select name from teach_enroll a,teach_students b where a.user_id=b.id and a.test_id=#{test_id}")
+    @Select("select name from teach_enroll a,teach_students b where a.user_id=b.id and a.test_id=#{test_id} order by a.id desc")
     public List<Map> enrollinfo(String test_id);
 
     //用户未参加过的

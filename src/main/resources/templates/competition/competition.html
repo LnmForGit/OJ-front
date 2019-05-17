@@ -51,7 +51,7 @@
         position:absolute;
         top:50%;
         left:20%;
-        height:29%;
+        height:32%;
         width:62%;
         overflow:hidden;
     }
@@ -156,7 +156,7 @@
     }
     .winner.top-1{
         border:1px solid #d7a807;
-        left:35%;
+        left:calc(50% - 60px);
     }
     .winner.top-2{
         border:1px solid #ababab;
@@ -275,7 +275,7 @@
                         </table>
                     </div>
                     <div class=" text-right " id="tran">
-                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()"></i>
+                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()" style="cursor: pointer;color:#555">下一页</i>
                     </div>
                 </div>
 
@@ -296,7 +296,7 @@
     color: white !important;
     box-sizing: border-box;
     padding-left: 10px;
-">随机开始一场</div>
+">随机开始一场</div><br><br>
                         <div class="card-title" style="
     padding-left: 10px;
     margin-top: 5px;
@@ -306,7 +306,7 @@
     color: white !important;
 "><a onclick="invented('2')">虚拟竞赛</a>
                         <div class="btn-group">
-                            <i data-toggle="dropdown" ><span class="caret"></span>
+                            <i data-toggle="dropdown" style="cursor: pointer;font-size: 15px;" >选项<span class="caret" style="cursor: pointer;"></span>
                             </i>
                             <ul class="dropdown-menu">
                                 <li><a onclick="invented('0')" style="color:black">未做过的</a>
@@ -384,13 +384,13 @@
                 </div>
             </div>
             <div class="winner top-2">
-                <img src="/css/img/a2.png" alt="" class="img">
+                <img src="/css/img/a2.jpg" alt="" class="img">
                 <div class="name-tag">
                     <div class="content" id="two">2</div>
                 </div>
             </div>
             <div class="winner top-3">
-                <img src="/css/img/third.png" alt="" class="img">
+                <img src="/css/img/third.jpg" alt="" class="img">
                 <div class="name-tag">
                     <div class="content" id="tree">3</div>
                 </div>

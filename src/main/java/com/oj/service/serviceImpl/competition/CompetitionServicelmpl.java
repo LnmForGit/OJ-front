@@ -185,6 +185,9 @@ public class CompetitionServicelmpl implements CompetitionService{
 
     //查询是否已经报名
     public int Isenroll(Map<String ,String> param){
+        if(mapper.Isenroll(param)>0){
+            return 1;
+        }
        return mapper.Isenroll(param);
     }
     //报名
@@ -194,6 +197,7 @@ public class CompetitionServicelmpl implements CompetitionService{
     }
     //取消报名
     public boolean deleteenroll(Map<String ,String> param){
+        System.out.println(param);
         mapper.deleteenroll(param);
         return true;
     }
@@ -215,7 +219,9 @@ public class CompetitionServicelmpl implements CompetitionService{
             }
         }else if(flag.equals("1")){
             list=mapper.CompedeList(user_id);
+            System.out.println(list);
             if(list.size()==0){
+                System.out.println(1);
                 return "none";
             }else{
                 return list.get((int)(0+Math.random()*(list.size()-1-0+1))).get("id").toString();

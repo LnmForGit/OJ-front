@@ -117,6 +117,7 @@ public class CompetitionController {
     public String invComp(HttpServletRequest request,@RequestBody Map<String,String> param) {
         String id = request.getSession().getAttribute("user_id").toString();
         param.put("user_id", id);
+        System.out.println(competitionService.RandComp(param));
         return competitionService.RandComp(param);
 
     }
