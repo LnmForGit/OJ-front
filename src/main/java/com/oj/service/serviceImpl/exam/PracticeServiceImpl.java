@@ -86,6 +86,10 @@ public class PracticeServiceImpl implements PracticeService {
         result.put("proAcAmount", 0==AcList.size()?"0":(AcList.get(0)).get("proAcAmount").toString());
         return result;
     }
+    //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
+    public List<Map<String, Object>> checkRequestCondition(Map params){
+        return mapper.checkRequestCondition(params);
+    }
 
 
 

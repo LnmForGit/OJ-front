@@ -69,14 +69,19 @@ public class Practice {
     //返回指定题目的详情页面
     @RequestMapping("/showProblemInf")
     public String showTestScore(@RequestParam("proId") String proId,@RequestParam("testId") String testId, Model model){
-        //-- 有效提交与有效查阅的判断模块所采用的SQL代码
-        //-- select t.pid proId from teach_test_problems t, teach_test k, teach_problems s where k.id=55 and t.tid=55 and t.pid=187 and s.id=55 and s.public='on' and  UNIX_TIMESTAMP(NOW())>k.start and UNIX_TIMESTAMP(NOW())<k.end
-        //
-        //-- SELECT s.id proId FROM teach_problems s WHERE s.id=5 AND s.public='on'
-        //-------------------------------------   溜咯，打球去，晚上回来再写
-        Map<String,Object> info = service.getTargetProblemInf(proId);//new HashMap<>();
+
+        Map<String,Object> info = new HashMap<>();
         info.put("proId", proId);
         info.put("testId", testId);
+        List checkList = service.checkRequestCondition(info);
+        if(checkList.size()==0){//验证不通过
+            info.put("result", "failed");
+        }else{
+            info = service.getTargetProblemInf(proId);
+            info.put("proId", proId);
+            info.put("testId", testId);
+            info.put("result", "succeed");
+        }
         model.addAttribute("info", info);
         return "exam/problemDetailsL";
     }
@@ -85,7 +90,12 @@ public class Practice {
     @PostMapping("/receiveCode")
     @ResponseBody
     public Map receiveCode(@RequestBody Map<String, String> param, HttpServletRequest request){
-         Map<String, String> result = new HashMap<>();
+        if(null==param.get("testId")) param.put("testId", "0");
+        Map<String, String> result = new HashMap<>();
+        if(service.checkRequestCondition(param).size()==0){//代码提交无效
+            result.put("result", "failed");
+            return result;
+        }
          SubmitCode code = new SubmitCode();
          code.setHide(StringUtils.isEmpty(param.get("hide")) ? 0 : 1);
          code.setProblemId(Integer.valueOf(param.get("proId")));
@@ -117,6 +127,7 @@ public class Practice {
 
          return result;
     }
+
     //获取指定提交号的处理结果
     @PostMapping("/getTheSubmitResult")
     @ResponseBody

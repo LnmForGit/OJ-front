@@ -203,5 +203,19 @@ public class PracticeProvider {
         return sql.toString();
     }
 
+    //验证指定指定提交是否有效，以及指定题目的查阅请求是否有效
+    public String getCheckRequestConditionSQL(Map<String, Object> params){
+        StringBuffer sql = new StringBuffer();
+        Map<String, Object> info = (Map<String, Object>)params.get("condition");
+        String strProId = info.get("proId").toString();
+        String strTestId = info.get("testId").toString();
+        if(!StringUtils.isEmpty(strTestId) && !strTestId.equals("0")){//考试或实验时的请求
+            sql.append("select distinct t.pid proId from teach_test_problems t, teach_test k  where k.id="+strTestId+" and t.tid="+strTestId+" and t.pid="+strProId+"  and  UNIX_TIMESTAMP(NOW())>k.start and UNIX_TIMESTAMP(NOW())<k.end ");
+        }else if(!StringUtils.isEmpty(strTestId) && strTestId.equals("0")){//公开题目的请求
+            sql.append("SELECT distinct s.id proId FROM teach_problems s WHERE s.id="+strProId+" AND s.public='on'");
+        }
+        log.info(sql.toString());
+        return sql.toString();
+    }
 
 }

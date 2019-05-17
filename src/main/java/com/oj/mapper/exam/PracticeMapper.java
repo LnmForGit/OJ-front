@@ -24,6 +24,9 @@ public interface PracticeMapper {
     //查询指定提交id的处理结果
     @Select("SELECT t.id submitId, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
     public Map getTargetResult(String submitId);
+    //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
+    @SelectProvider(type= PracticeProvider.class, method="getCheckRequestConditionSQL")
+    public List<Map<String, Object>> checkRequestCondition(@Param("condition")Map params);
 
     /*********************************************************************************************************
      * 题目集的   非分页  操作调用
