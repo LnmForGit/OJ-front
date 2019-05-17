@@ -29,7 +29,7 @@ function proList(){
                     return row.name;
                 }else{
                     a="";
-                    a+='<a href="#">'+row.name+'</a>';
+                    a+='<a onclick="showpro('+row.pid+')">'+row.name+'</a>';
                     return a
                 }
             },
@@ -37,7 +37,11 @@ function proList(){
         }]
 });
 }
+function showpro(id) {
+    console.log(id);
+    window.open("/practice/showProblemInf?proId="+id+"&testId=" + compinfo.compinfo.id,"_blank"); //从用户的使用逻辑上减轻服务器负担（既保留原题目集页面，可以一定程度上减少用户对服务器的请求
 
+}
 function loadres(){
     $('#title').html("");
     $('#title').html(compinfo.compinfo.name);
@@ -46,12 +50,14 @@ function loadres(){
     $('#welcome').html("欢迎来到"+compinfo.compinfo.name);
 
     if(compinfo.compinfo.flag=='0'){
-        $('#state').html("距离竞赛开始还有"+compinfo.compinfo.data);
+        $('#state').html("距离竞赛开始还有");
+        setInterval(timecount,1000)
       Isenroll();
         enrollList()
 
     }else if(compinfo.compinfo.flag=='1'){
-        $('#state').html("距离竞赛结束还有"+compinfo.compinfo.data);
+        $('#state').html("距离竞赛结束还有");
+        setInterval(timecount,1000)
         proList();
         submitstat();
     }else{
@@ -208,7 +214,7 @@ function deleteenroll(){
         dataType: "json",
         contentType: "application/json;charset=UTF-8",
         data:JSON.stringify({
-            "tset_id":compinfo.compinfo.id
+            "test_id":compinfo.compinfo.id
         }),
         success:function (result) {
             if(result==true) {
@@ -220,6 +226,7 @@ function deleteenroll(){
             }else{
                 swal("取消报名失败！", "请联系管理员解决问题", "fail");
             }
+            enrollList();
         }
   } )
 
@@ -258,6 +265,7 @@ function enroll(){
                         }else{
                             swal("报名失败！", "请联系管理员", "fail");
                         }
+                        enrollList();
                     }
                 } )
 
@@ -307,3 +315,47 @@ function formatTime(time) {
     time = time.replace("T", " ")
     return time;
 }
+   function timecount()
+    {
+        //当前日期
+        var dateNow=new Date();
+
+        //结束日期
+        var start=compinfo.compinfo.start;
+        var end=compinfo.compinfo.end;
+        var datestart=new Date(start);
+        var dateEnd=new Date(end);
+
+        if(datestart> dateNow){
+            dateEnd=datestart;
+        }
+
+        //设置结束年份
+        //dateEnd.setFullYear(parseInt(2015));
+        //设置结束月份
+        //dateEnd.setMonth(parseInt(07)-1);
+        //设置结束日期
+        //dateEnd.setDate(parseInt(1));
+        //设置结束的时分秒
+        //dateEnd.setHours(0);
+        //dateEnd.setMinutes(0);
+        //dateEnd.setSeconds(0);
+        console.log(start,end)
+        //总时间间隔
+        var lengthTime=(dateEnd.getTime()-dateNow.getTime())/1000;
+        var dates=parseInt(lengthTime/(24*3600));
+        lengthTime=lengthTime%(24*3600);
+        var hours=parseInt(lengthTime/3600).toString();
+        lengthTime=lengthTime%3600;
+        var iMinutes=parseInt(lengthTime/60).toString();
+
+        var iSecends=parseInt(lengthTime%60).toString();
+        //console.log(dates+'天'+hours+'小时'+iMinutes+'分钟'+iSecends+'秒');
+
+        $('#block').html(dates+'天'+hours+'小时'+iMinutes+'分钟'+iSecends+'秒');
+    }
+
+    //开定时器。
+
+    //timecount();
+

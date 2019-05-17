@@ -111,9 +111,9 @@ public interface PracticeMapper {
      */
     @Results({
             @Result(id=true,column="id",property="id"),
-            @Result(column="problemId",property="problem_id"),
-            @Result(column="input",property="in_put"),
-            @Result(column="output",property="out_put")
+            @Result(column="problem_id",property="problemId"),
+            @Result(column="in_put",property="input"),
+            @Result(column="out_put",property="output")
     })
     @Select("select id,in_put,out_put from teach_test_data where problem_id = #{problemId}")
     List<TestData> selectTestData(Integer problemId);

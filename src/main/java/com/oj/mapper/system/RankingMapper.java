@@ -34,7 +34,7 @@ public interface RankingMapper {
     public List<RankingList> getRankingMaplist1(@Param("condition") Map<String, String> params);
     //根据id查询三个月提交总数
     @Select("SELECT COUNT(user_id) FROM teach_submit_code WHERE user_id = #{id} AND submit_date > #{time}")
-    public int selectTot1(String id,String time);
+    public int selectTot1(@Param("id") String id,@Param("time") String time);
     // 查询三个月总数
     @Select("SELECT COUNT(DISTINCT user_id) FROM teach_submit_code WHERE submit_date > #{time} AND submit_state = 1 AND hide = 0")
     public int selectTotalCount1(String time);

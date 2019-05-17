@@ -19,7 +19,7 @@
 	// }());
 
 	// Father.prototype.lastName = 'wang';
-	// function Father() {		
+	// function Father() {
 	// }
 	// function Son() {
 	// }
@@ -187,7 +187,7 @@
 	// 	//获取源生事件兼容写法
 	// 	......
 	// }
-	
+
 
 //拖拽函数
 	function drag (elem) {
@@ -203,17 +203,17 @@
 	    };
 	    document.onmouseup = function (e) {
 	    	var event = e || window.event;
-	        document.onmousemove = false;   
+	        document.onmousemove = false;
 	    };
 	}
 
 
-//多物体 多值 链式变动框架  
-	function move (obj, data, func) {         
+//多物体 多值 链式变动框架
+	function move (obj, data, func) {
 		clearInterval(obj.timer);
     	var iSpeed,
 			iCur,
-			name;            
+			name;
 		startTimer = obj.timer = setInterval(function () {
 			var bStop = true;
 			for (var attr in data) {
@@ -230,7 +230,7 @@
 					iSpeed = Math.floor(iSpeed);
 				}
 				if (attr === 'opacity') {
-					obj.style.opacity = ( iCur + iSpeed ) / 100; 
+					obj.style.opacity = ( iCur + iSpeed ) / 100;
 				}else {
 					obj.style[attr] = iCur + iSpeed + 'px';
 				}
@@ -238,7 +238,7 @@
 					bStop = false;
 				}
 			}
-			if (bStop) {					
+			if (bStop) {
 				clearInterval(obj.timer);
 				if (name === 'opacity') {
 					obj.style.opacity = data[name] / 100;
@@ -246,7 +246,7 @@
 				func();
 			}
 		},30);
-	}  
+	}
 // 弹性运动
 	function startMove(dom,iTarget) {
 		clearInterval(dom.timer);

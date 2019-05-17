@@ -25,17 +25,33 @@
         height:53%;
         width:100%;
         background-color:#2f4050;
-        top:50px;
+        top:4%;
+        text-align: center;
     }
-    .media{
-        height:auto;
+    .top-img{
+        width:100%;
+        margin-top:5%;
+        height:30%;
+        text-align: center;
+
     }
-    .media .media-container{
+    .top-title{
+        margin-top:40px;
+        font-size:2em;
+        text-align: center;
+    }
+    .top-title2{
+        font-size:1.2em;
+        text-align: center;
+        color:whitesmoke;
+        font-weight:700;
+    }
+    .media-container{
         /* background-color:black; */
         position:absolute;
-        margin-top:410px;
+        top:50%;
         left:20%;
-        height:29%;
+        height:32%;
         width:62%;
         overflow:hidden;
     }
@@ -69,9 +85,9 @@
         background: linear-gradient(#cc99ff, #e24ce1);
     }
     .bottom{
-        margin-top:30px;
+        margin-top:2%;
         padding:15px;
-        top:740px;
+        top:80%;
         left:20%;
         width:63%;
         height:91%;
@@ -90,7 +106,7 @@
     .left-top{
         position:absolute;
         width:100%;
-        height:7.98%;
+        height:auto;
         /*border:1px solid #b7b7b7;*/
     }
     .left-top .img-index{
@@ -101,16 +117,17 @@
 
     .left-media{
         position:absolute;
-        top:65px;
+        top:10%;
         width:100%;
-        height:24.55%;
+        height:25.55%;
+
     }
     .left-bottom{
         border-radius:30px;
         position:relative;
-        top:285px;
+        top:40%;
         width:100%;
-        height:67.47%;
+        height:auto;
         background: #fafafa;
     }
     .bottom-right{
@@ -125,7 +142,7 @@
 
     }
     .bottom-title{
-        font-size:30px;
+        font-size:2em;
         font-weight:600;
         color: #bcc2c6;
         flex:1 0 auto;
@@ -134,27 +151,26 @@
         cursor:pointer;
         border-radius:1020px;
         position:absolute;
-        height:100px;
-        width:100px;
+        height:auto;
+        width:auto;
     }
     .winner.top-1{
         border:1px solid #d7a807;
-        left:calc(50% - 50px);
-        bottom:100px;
+        left:calc(50% - 60px);
     }
     .winner.top-2{
         border:1px solid #ababab;
-        left:calc(50% - 50px - 100px);
+        left:5%;
         bottom:0;
     }
     .winner.top-3{
         border:1px solid #d77c44;
-        left:calc(50% - 50px + 100px);
+        right:5%;
         bottom:0;
     }
     .winner .img{
-        height:90px !important;
-        width:90px !important;
+        height:100px;
+        width:100px;
         margin:5px;
         text-align:center;
         background:rgba(255,255,255,0.4);
@@ -204,14 +220,17 @@
     };
 
 </script>
-<body class="gray-bg">
+<body class="gray-bg" style="min-height:100%;">
 <div th:replace="common/staticImport :: common_resource"></div>
 <div th:replace="common/staticHf :: common_head"></div>
-<div class="rootDiv">
+<div class="rootDiv" style="">
         <div class="top">
+            <div class="top-img">
+            <img src="/css/img/1.png" alt="" width="10%" height="100%">
         </div>
-    <div class="wrapper wrapper-content">
-        <div class="media">
+            <div class="top-title"><h1 style="font-weight: 600; color: white;">民大竞赛</h1></div>
+            <div class="top-title2"><p>快来参加每周排位赛,提升你的全校排名</p></div>
+        </div>
             <div class="media-container">
                 <div class="card1">
                    <div class="contest-upcoming" id="node" >
@@ -255,8 +274,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class=" text-right ">
-                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()"></i>
+                    <div class=" text-right " id="tran">
+                        <i class="fa fa-caret-down text-warning m-r-sm" onclick="showComp()" style="cursor: pointer;color:#555">下一页</i>
                     </div>
                 </div>
 
@@ -276,9 +295,8 @@
     opacity: .8;
     color: white !important;
     box-sizing: border-box;
-    cursor: pointer;
     padding-left: 10px;
-">随机开始一场</div>
+">随机开始一场</div><br><br>
                         <div class="card-title" style="
     padding-left: 10px;
     margin-top: 5px;
@@ -286,11 +304,23 @@
     font-weight: 600;
     line-height: 40px;
     color: white !important;
-"><a onclick="invented()">虚拟竞赛</a>
-                    </div>
-                        <button onclick="invented('0')">未做过的</button>
-                        <button onclick="invented('1')">已做过的</button>
-                        <button onclick="invented('2')">未做过的和已做过的</button>
+"><a onclick="invented('2')">虚拟竞赛</a>
+                        <div class="btn-group">
+                            <i data-toggle="dropdown" style="cursor: pointer;font-size: 15px;" >选项<span class="caret" style="cursor: pointer;"></span>
+                            </i>
+                            <ul class="dropdown-menu">
+                                <li><a onclick="invented('0')" style="color:black">未做过的</a>
+                                </li>
+                                <li><a onclick="invented('1')" style="color:black" class="font-bold">已做过的</a>
+                                </li>
+                                <li><a onclick="invented('2')" style="color:black">未做过的和已做过的</a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                        <!--<button onclick="invented('0')" class="btn btn-w-m btn-link">未做过的</button>-->
+                        <!--<button onclick="invented('1')" class="btn btn-w-m btn-link">已做过的</button>-->
+                        <!--<button onclick="invented('2')" class="btn btn-w-m btn-link">未做过的和已做过的</button>-->
                     </div><div class="hidden-xs vcontest-view-history-btn" style="
     position: absolute;
     bottom: 0;
@@ -314,8 +344,6 @@
 " onclick="showCompedList()" data-toggle='modal' data-target='#myModal5'><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; 查看历史</span></div></div>
                 </div>
             </div>
-        </div>
-    </div>
     <!--弹窗布局开始-->
     <div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -345,24 +373,24 @@
 <div class="bottom">
     <div class="bottom-left">
         <div class="left-top">
-            <i class="fa fa-trophy fa-5x"></i>
+            <i class="fa fa-trophy fa-5x" style="font-size: 4.5em;"></i>
             <span class="bottom-title">全校排名</span>
         </div>
         <div class="left-media">
-            <div class="winner top-1">
-                <img src="img/a1.jpg" alt="" class="img">
+            <div class="winner top-1 text-center">
+                <img src="/css/img/a1.jpg" alt="" class="img">
                 <div class="name-tag">
                     <div class="content" id="one">1</div>
                 </div>
             </div>
             <div class="winner top-2">
-                <img src="img/a2.jpg" alt="" class="img">
+                <img src="/css/img/a2.jpg" alt="" class="img">
                 <div class="name-tag">
                     <div class="content" id="two">2</div>
                 </div>
             </div>
             <div class="winner top-3">
-                <img src="img/a3.jpg" alt="" class="img">
+                <img src="/css/img/third.jpg" alt="" class="img">
                 <div class="name-tag">
                     <div class="content" id="tree">3</div>
                 </div>
