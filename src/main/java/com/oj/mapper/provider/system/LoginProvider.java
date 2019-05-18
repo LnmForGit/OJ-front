@@ -18,7 +18,7 @@ public class LoginProvider {
     public String getLoginQuerySql(Map<String, Object> params){
         Map<String, String> loginInfo = (Map<String, String>)params.get("condition");
         StringBuffer sql = new StringBuffer();
-        sql.append("select * from teach_students where account = '"+loginInfo.get("username")+"' and password = '"+OJPWD.OJPWDTOMD5(loginInfo.get("passwords"))+"'");
+        sql.append("select a.*, b.name as class_name from teach_students a INNER JOIN teach_class b ON a.class_id = b.id where account = '"+loginInfo.get("username")+"' and password = '"+OJPWD.OJPWDTOMD5(loginInfo.get("passwords"))+"'");
         log.info(sql.toString());
         return sql.toString();
     }

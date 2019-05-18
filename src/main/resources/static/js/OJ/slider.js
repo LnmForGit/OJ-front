@@ -1,5 +1,5 @@
-var window_size = getViewportOffset();
-var w = window_size.width*0.3864;
+var window_size = window.screen.width;
+var w = window_size*0.3864*0.75;
 
 
 var count = 0;
@@ -23,12 +23,12 @@ for(var i=0; i<2; i++)
 }
 for(var i=0; i<oImgLen; i++)
 {
-    oImg[i].style.width = window_size.width+'px';
+    oImg[i].style.width = window_size+'px';
     oImg[i].style.height = w+'px';
 }
-oBox.style.width = window_size.width+'px';
-oPicUL.style.width = oImgLen*window_size.width+'px';
-oBox.style.height = (w*0.75)+'px';
+oBox.style.width = window_size+'px';
+oPicUL.style.width = oImgLen*window_size+'px';
+oBox.style.height = w+'px';
 oPicUL.style.height = w+'px';
 
 var moveWidth = oPicUL.children[0].offsetWidth;
@@ -93,7 +93,7 @@ function changeCir(demo) {
     oI[demo].className = 'cir-change';
 }
 
-window.onresize = function(){
+/*window.onresize = function(){
     window_size = getViewportOffset();
     w = window_size.width*0.3864;
     for(var i=0; i<2; i++)
@@ -121,7 +121,7 @@ window.onresize = function(){
             }
         })(i)
     }
-}
+}*/
 var scroll_offset = window.pageYOffset;
 var oAnchor = document.getElementsByClassName('anchor')[0];
 var oAnchorCon = document.getElementsByClassName('anchor_content');

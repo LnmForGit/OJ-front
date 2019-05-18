@@ -3,6 +3,7 @@ package com.oj.controller.exam;
 import com.oj.entity.practic.SubmitCode;
 import com.oj.service.exam.AsyncService;
 import com.oj.service.exam.PracticeService;
+import com.oj.service.system.RankPerDayService;
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
@@ -25,6 +26,9 @@ public class Practice {
 
     @Autowired
     private PracticeService service;
+    @Autowired
+    private RankPerDayService rankPerDayService;
+
     static int tempInt = 1;
     @Autowired
     private AsyncService asyncService;
@@ -136,6 +140,9 @@ public class Practice {
     @ResponseBody
     public Map getTheSubmitResult(@RequestBody Map<String, String> param, HttpServletRequest request){
         Map result = service.getTargetResult(param.get("postId"));
+        if("1".equals(result.get("result"))){
+            rankPerDayService.setACinfoToRedis(result.get("problem_id").toString(), request);
+        }
         return result;
     }
 

@@ -22,7 +22,7 @@ public interface PracticeMapper {
     @Select("select t.name proName, t.description problemDescription, t.intype inputDescription, t.outtype outputDescription, t.insample inputSample, t.outsample outputSample, t.maxtime TimeLimit, t.maxmemory MemoryLimit, t.public public from teach_problems t where t.id = #{proId}")
     public Map getTargetProblemInf(String proId);
     //查询指定提交id的处理结果
-    @Select("SELECT t.id submitId, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
+    @Select("SELECT t.id submitId, t.problem_id, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
     public Map getTargetResult(String submitId);
     //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
     @SelectProvider(type= PracticeProvider.class, method="getCheckRequestConditionSQL")
