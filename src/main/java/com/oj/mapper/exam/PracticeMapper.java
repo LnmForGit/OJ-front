@@ -27,7 +27,8 @@ public interface PracticeMapper {
     //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
     @SelectProvider(type= PracticeProvider.class, method="getCheckRequestConditionSQL")
     public List<Map<String, Object>> checkRequestCondition(@Param("condition")Map params);
-
+    @Select("select count(*) from teach_problems where public='on' ")
+    public Object getPublicProblemAmount();
     /*********************************************************************************************************
      * 题目集的   非分页  操作调用
 

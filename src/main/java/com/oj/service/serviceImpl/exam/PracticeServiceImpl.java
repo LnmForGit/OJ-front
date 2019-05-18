@@ -237,7 +237,7 @@ public class PracticeServiceImpl implements PracticeService {
         }
         Map temp = new TreeMap();
         temp.put("draw", 0);
-        temp.put("recordsTotal", result.size());  //当前获取到的数据总数
+        temp.put("recordsTotal", mapper.getPublicProblemAmount().toString());  //当前获取到的数据总数
         temp.put("recordsFiltered", mapper.getAmountPublicProblemList(param)); //实际数据总数
         temp.put("data", result);
         return temp;
