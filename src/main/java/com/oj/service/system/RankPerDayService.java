@@ -16,5 +16,5 @@ public interface RankPerDayService {
     public void setACinfoToRedis(String problemId, HttpServletRequest request);
 
     //从Redis当中取出本日的排名信息
-    public List<Map> getRankPerDayFromRedis();
+    public List<String> getRankPerDayFromRedis();
 }

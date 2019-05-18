@@ -12,10 +12,7 @@ import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RankPerDayServiceImpl implements RankPerDayService {
@@ -38,11 +35,12 @@ public class RankPerDayServiceImpl implements RankPerDayService {
         String userAccount = request.getSession().getAttribute("user_account").toString();
         //当前登陆人班级ID
         String userClassId = request.getSession().getAttribute("user_class").toString();
+        //当前登陆人班级名称
+        String userClassName = request.getSession().getAttribute("user_class_name").toString();
 
         Jedis jedis = jedisPool.getResource();
         //判断用户哈希和用户zsort是否存在，若不存在创建一下
         if (!jedis.exists("userInfoHash") && !jedis.exists("userInfoZSort")){
-//            Map userMap = new HashMap();
             //创建用户哈希
             jedis.hset("userInfoHash", "info", "000");
             jedis.zadd("userInfoZSort", 0, "info");
@@ -61,6 +59,7 @@ public class RankPerDayServiceImpl implements RankPerDayService {
             rankPerDay.setUserName(userName);
             rankPerDay.setUserAccount(userAccount);
             rankPerDay.setUserClassId(userClassId);
+            rankPerDay.setUserClassName(userClassName);
         }
         double ACNums = (double)rankPerDay.setUserACProblems(problemId);
         jedis.hset("userInfoHash", userId, JSONObject.fromObject(rankPerDay).toString());
@@ -74,11 +73,15 @@ public class RankPerDayServiceImpl implements RankPerDayService {
      * @return
      */
     @Override
-    public List<Map> getRankPerDayFromRedis() {
+    public List<String> getRankPerDayFromRedis() {
         Jedis jedis = jedisPool.getResource();
-
+        Set<String> userInfoZSort = jedis.zrange("userInfoZSort", 1, -1);
+        List<String> userList = new ArrayList<>();
+        for (String str : userInfoZSort) {
+            userList.add(jedis.hget("userInfoHash", str));
+        }
         jedis.close();
-        return null;
+        return userList;
     }
     private long getdestoryTimeUnix(){
         Date currentTime = new Date();
