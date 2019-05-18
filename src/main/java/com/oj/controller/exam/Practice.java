@@ -89,10 +89,13 @@ public class Practice {
     //接收用户提交代码
     @PostMapping("/receiveCode")
     @ResponseBody
-    public Map receiveCode(@RequestBody Map<String, String> param, HttpServletRequest request){
-        if(null==param.get("testId")) param.put("testId", "0");
-        Map<String, String> result = new HashMap<>();
-        if(service.checkRequestCondition(param).size()==0){//代码提交无效
+    public Map receiveCode(@RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
+        if(StringUtils.isEmpty(param.get("testId"))) {
+            param.put("testId", "0");
+        }
+        Map<String, String> result = new HashMap<>(5);
+        //代码提交无效
+        if(service.checkRequestCondition(param).size()==0){
             result.put("result", "failed");
             return result;
         }
@@ -103,11 +106,11 @@ public class Practice {
          code.setSubmitCode(codeData);
          code.setSubmitCodeLength(codeData.getBytes().length);
          code.setSubmitLanguage(Integer.valueOf(param.get("language")));
-         code.setTestId(StringUtils.isEmpty(param.get("testId")) ? 0 : Integer.valueOf(param.get("testId")));
+         code.setTestId(Integer.valueOf(param.get("testId")));
          code.setSubmitDate(System.currentTimeMillis()/1000);
-         code.setUserId((Integer) request.getSession().getAttribute("user_id"));
+         code.setUserId(userId);
          service.insertSubmit(code);
-         Map<String, String> subInfo = new HashMap<>();
+         Map<String, String> subInfo = new HashMap<>(5);
          subInfo.put("problem_id:", param.get("proId"));
          subInfo.put("submit_code:", codeData);
          subInfo.put("submit_language:", param.get("language"));
