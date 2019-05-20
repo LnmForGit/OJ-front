@@ -3,6 +3,9 @@
 /*
 对题目集的后台分页(数据库分页)
  */
+
+
+
 var dataTableDraw = 0; //datatable进行分页请求需要
 var problemType = -1; //默认全部题目为-1
 var problemListCondition = {  //题目集中题目匹配的条件
@@ -20,6 +23,8 @@ $(function(){
     $('#selectProblemType').click();
     $('#selectProblemType').trigger('click')
     document.getElementById('selectProblemType').click();
+
+
 
 })
 function init(){
@@ -230,7 +235,7 @@ var ArgOfProId = $('#argOfProId');
 var ArgOfProDifficulty = $('#argOfProDifficulty');
 var ArgOfProType = $('#problemType');
 var proListName = $('#problemListName');
-//重置搜索条件
+//重置搜索条件，并且执行搜索请求
 function resetSearchArg(){
     ArgOfProDifficulty.val("0");
     ArgOfProId.val("");
@@ -238,6 +243,7 @@ function resetSearchArg(){
     ArgOfProType.val("全部题目"); problemType=-1;
     searchProblemList();
 }
+//请求指定条件的题目集
 function searchProblemList(){
     var temp;
         problemListCondition.proId = ArgOfProId.val() //题目关键字(精确搜索）
@@ -254,5 +260,4 @@ function  showTargetProblemList(t){
     //console.log(t+temp[t]);
     proListName.text(temp[t]);
     resetSearchArg();
-    searchProblemList();
 }
