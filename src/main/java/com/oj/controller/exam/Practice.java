@@ -3,6 +3,7 @@ package com.oj.controller.exam;
 import com.oj.entity.practic.SubmitCode;
 import com.oj.service.exam.AsyncService;
 import com.oj.service.exam.PracticeService;
+import com.oj.service.system.RankPerDayService;
 import org.apache.commons.lang.StringUtils;
 import org.mybatis.logging.Logger;
 import org.mybatis.logging.LoggerFactory;
@@ -25,6 +26,9 @@ public class Practice {
 
     @Autowired
     private PracticeService service;
+    @Autowired
+    private RankPerDayService rankPerDayService;
+
     static int tempInt = 1;
     @Autowired
     private AsyncService asyncService;
@@ -89,10 +93,13 @@ public class Practice {
     //接收用户提交代码
     @PostMapping("/receiveCode")
     @ResponseBody
-    public Map receiveCode(@RequestBody Map<String, String> param, HttpServletRequest request){
-        if(null==param.get("testId")) param.put("testId", "0");
-        Map<String, String> result = new HashMap<>();
-        if(service.checkRequestCondition(param).size()==0){//代码提交无效
+    public Map receiveCode(@RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
+        if(StringUtils.isEmpty(param.get("testId"))) {
+            param.put("testId", "0");
+        }
+        Map<String, String> result = new HashMap<>(5);
+        //代码提交无效
+        if(service.checkRequestCondition(param).size()==0){
             result.put("result", "failed");
             return result;
         }
@@ -103,11 +110,11 @@ public class Practice {
          code.setSubmitCode(codeData);
          code.setSubmitCodeLength(codeData.getBytes().length);
          code.setSubmitLanguage(Integer.valueOf(param.get("language")));
-         code.setTestId(StringUtils.isEmpty(param.get("testId")) ? 0 : Integer.valueOf(param.get("testId")));
+         code.setTestId(Integer.valueOf(param.get("testId")));
          code.setSubmitDate(System.currentTimeMillis()/1000);
-         code.setUserId((Integer) request.getSession().getAttribute("user_id"));
+         code.setUserId(userId);
          service.insertSubmit(code);
-         Map<String, String> subInfo = new HashMap<>();
+         Map<String, String> subInfo = new HashMap<>(5);
          subInfo.put("problem_id:", param.get("proId"));
          subInfo.put("submit_code:", codeData);
          subInfo.put("submit_language:", param.get("language"));
@@ -133,6 +140,9 @@ public class Practice {
     @ResponseBody
     public Map getTheSubmitResult(@RequestBody Map<String, String> param, HttpServletRequest request){
         Map result = service.getTargetResult(param.get("postId"));
+        if("1".equals(result.get("result"))){
+            rankPerDayService.setACinfoToRedis(result.get("problem_id").toString(), request);
+        }
         return result;
     }
 

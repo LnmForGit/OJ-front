@@ -3,6 +3,7 @@ package com.oj.mapper.system;
 import com.oj.entity.system.Auth;
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,4 @@ public interface IndexMapper {
 
     @Select("SELECT * from teach_recommand_result where uid = #{user_id} ORDER BY score DESC")
     public List<Map> getRecommandList(@Param("user_id")String user_id);
-
 }

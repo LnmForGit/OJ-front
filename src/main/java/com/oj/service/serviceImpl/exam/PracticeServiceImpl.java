@@ -163,7 +163,10 @@ public class PracticeServiceImpl implements PracticeService {
         Map map = mapper.getTargetResult(submitId);
         out.println(map);
         Map result = new HashMap();
-        if(null!=map) result.put("result", map.size()==0?"0": map.get("submitState").toString());
+        if(null!=map) {
+            result.put("result", map.size()==0?"0": map.get("submitState").toString());
+            result.put("problem_id", map.get("problem_id"));
+        }
         //result.put("result", "4");
         result.put("inf", "");
         return result;
