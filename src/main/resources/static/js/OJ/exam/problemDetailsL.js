@@ -10,7 +10,21 @@ proId:
 testId:
  */
 
-
+toastr.options = {
+    'closeButton':true,
+    'debug':false,
+    'progressBar':false,
+    'positionClass':'toast-top-center',
+    'onclick':null,
+    'showDuration':'4000',
+    'hideDuration':'5000',
+    'timeOut':'6000',
+    'extendedTimeOut':'1000',
+    'showEasing':'swing',
+    'hideEasing':'linear',
+    'showMethod':'fadeIn',
+    'hideMethod':'fadeOut'
+}
 var editor; //代码编辑器
 var codeData={
     language : '1'  //默认是C语言(1)
@@ -28,10 +42,15 @@ $(function(){
     //testFun();
     if(Info.result==undefined || Info.result=='failed'){
         $('#pageBody').hide();
-        alert("内容请求失败！\n#提示：\n如果当前正是考试阶段，请查看考试时间是否已结束！\n或者联系系统管理员！")
-        submitBtn.css('pointer-events', 'none')
-    }
-    init();
+        swal("内容请求失败！", "#提示：\n如果当前正是考试阶段，请查看考试时间是否已结束！\n或者联系系统管理员！")
+        $('.confirm').click(function(){
+            location.href = '/practice/';
+        })
+        setTimeout(function () {
+            location.href = '/practice/';
+        }, 10000);
+        //submitBtn.css('pointer-events', 'none')
+    }else if(Info.result=='succeed') init();
 })
 
 function init(){
@@ -178,7 +197,7 @@ function submitCode(){
     codeData['proId'] = Info.proId;
     //console.log(codeData);
     if(codeData.codeData==''){
-        alert("请勿提交空代码");
+        toastr.error("请勿提交空代码");
         return;
     }
     postData(codeData);
@@ -242,7 +261,7 @@ function postData(t){
         success:function (result) {
             if (result.result == 'succeed') {
                 postId = result.submitId;
-                alert("提交成功");
+                swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
                 //if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
                 if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
                 PleaseDoNotDeleteMe.limitTime=5;
@@ -253,13 +272,13 @@ function postData(t){
                 $('#submitInf').text("后台处理中....");
                 loadingDiv.show();
             }else{
-                alert("提交失败\n如果当前处于考试阶段，请检查考试时间是否已结束！\n或者，你可以联系系统管理员！");
+                swal("代码提交失败", "提交失败\n如果当前处于考试阶段，请检查考试时间是否已结束！\n或者，你可以联系系统管理员！", 'error');
             }
             submitBtn.css('pointer-events', 'none');
             submitBtn.css('background', 'gray');
         },
         error: function(){
-            alert("提交失败\n未知错误")
+            swal("代码提交失败","未知错误！（请检查浏览器或当前网络状态是否异常）")
         }
 
     });
