@@ -93,7 +93,7 @@ public class Practice {
     //接收用户提交代码
     @PostMapping("/receiveCode")
     @ResponseBody
-    public Map receiveCode(@RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
+    public Map receiveCode(HttpServletRequest request, @RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
         if(StringUtils.isEmpty(param.get("testId"))) {
             param.put("testId", "0");
         }
@@ -119,7 +119,7 @@ public class Practice {
          subInfo.put("submit_code:", codeData);
          subInfo.put("submit_language:", param.get("language"));
          //异步任务
-         asyncService.judgeSubmit(String.valueOf(code.getId()), subInfo);
+         asyncService.judgeSubmit(String.valueOf(code.getId()), subInfo, request);
          //out.println("代码提交后的对应编号："+code.getId());
          result.put("result", "succeed");
          result.put("submitId", String.valueOf(code.getId()));
