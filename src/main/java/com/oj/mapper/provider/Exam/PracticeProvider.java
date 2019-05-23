@@ -132,8 +132,8 @@ public class PracticeProvider {
          */
         StringBuffer sql = new StringBuffer();
         Map<String, Object> info = (Map<String, Object>)params.get("condition");
-        out.println("题目集的条件");
-        out.println(info);
+        //out.println("题目集的条件");
+        //out.println(info);
         sql.append("select t.id proId, t.name proName, t.rank proRank, t.subjectid proTypeId from teach_problems t where t.public = 'on' ");
         if(!StringUtils.isEmpty(info.get("proId").toString())){
             sql.append(" and t.id = "); sql.append(info.get("proId").toString());
@@ -161,6 +161,7 @@ public class PracticeProvider {
         if(!StringUtils.isEmpty(info.get("specialProblemListType").toString())){
             sql.append(" and t.id in ("+info.get("specialProblemListType").toString()+") ");
         }
+        sql.append(" order by t.time ");
         sql.append(" limit "); sql.append(info.get("headLine")+", "+info.get("finalLine"));
         //order by proId limit #{firstLine}, #{finalLine}")
 
@@ -202,5 +203,19 @@ public class PracticeProvider {
         return sql.toString();
     }
 
+    //验证指定指定提交是否有效，以及指定题目的查阅请求是否有效
+    public String getCheckRequestConditionSQL(Map<String, Object> params){
+        StringBuffer sql = new StringBuffer();
+        Map<String, Object> info = (Map<String, Object>)params.get("condition");
+        String strProId = info.get("proId").toString();
+        String strTestId = info.get("testId").toString();
+        if(!StringUtils.isEmpty(strTestId) && !strTestId.equals("0")){//考试或实验时的请求
+            sql.append("select distinct t.pid proId from teach_test_problems t, teach_test k  where k.id="+strTestId+" and t.tid="+strTestId+" and t.pid="+strProId+"  and  UNIX_TIMESTAMP(NOW())>k.start and UNIX_TIMESTAMP(NOW())<k.end ");
+        }else if(!StringUtils.isEmpty(strTestId) && strTestId.equals("0")){//公开题目的请求
+            sql.append("SELECT distinct s.id proId FROM teach_problems s WHERE s.id="+strProId+" AND s.public='on'");
+        }
+        log.info(sql.toString());
+        return sql.toString();
+    }
 
 }

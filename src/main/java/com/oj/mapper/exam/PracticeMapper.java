@@ -19,12 +19,16 @@ public interface PracticeMapper {
     @Select("select count(t.userId) from (select id userId from teach_students) t where (select count(distinct problem_id) FinishAmount from teach_submit_code where user_id=t.userId and accuracy=1 and problem_id in (select t.id proId from teach_problems t where t.public = 'on') ) > (select count(distinct problem_id) FinishAmount from teach_submit_code where user_id=#{stuId} and accuracy=1 and problem_id in (select t.id proId from teach_problems t where t.public = 'on') )")
     public Object getTargetRank(String stuId); //没尝试，不知道可不可以指定返回对象未object
     //获取指定题目的详细信息
-    @Select("select t.name proName, t.description problemDescription, t.intype inputDescription, t.outtype outputDescription, t.insample inputSample, t.outsample outputSample, t.maxtime TimeLimit, t.maxmemory MemoryLimit from teach_problems t where t.id = #{proId}")
+    @Select("select t.name proName, t.description problemDescription, t.intype inputDescription, t.outtype outputDescription, t.insample inputSample, t.outsample outputSample, t.maxtime TimeLimit, t.maxmemory MemoryLimit, t.public public from teach_problems t where t.id = #{proId}")
     public Map getTargetProblemInf(String proId);
     //查询指定提交id的处理结果
-    @Select("SELECT t.id submitId, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
+    @Select("SELECT t.id submitId, t.problem_id, t.accuracy accuracy, t.submit_state submitState, t.test_state testState FROM teach_submit_code t WHERE t.id=#{submitId}")
     public Map getTargetResult(String submitId);
-
+    //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
+    @SelectProvider(type= PracticeProvider.class, method="getCheckRequestConditionSQL")
+    public List<Map<String, Object>> checkRequestCondition(@Param("condition")Map params);
+    @Select("select count(*) from teach_problems where public='on' ")
+    public Object getPublicProblemAmount();
     /*********************************************************************************************************
      * 题目集的   非分页  操作调用
 
@@ -38,14 +42,14 @@ public interface PracticeMapper {
     //获取公开题目的已AC的提交数据（题目id、题目Ac次数）296/1.466s
     @Select("select t.problem_id proId, count(t.problem_id) AcAmount from teach_submit_code t where t.accuracy=1 and t.problem_id in (select k.id proId from teach_problems k where k.public = 'on' ) group by t.problem_id ")
     public List<Map<String, Object>> getPublicProblemACStateList();
-    //在公开题目集中，获取指定用户已尝试的题目集（已解决和未解决的都有/未包含实验与考试的记录）
+    //在公开题目集中，获取指定用户已尝试的题目集（已解决和未解决的都有/未包含实验与考试的记录）[题目编号、题目状态], [proId, proState]
     @Select("SELECT DISTINCT t.problem_id proId, MIN(t.submit_state) proState FROM teach_submit_code t  WHERE t.user_id = #{stuId} AND t.submit_state!=0 AND t.problem_id IN (SELECT k.id proId FROM teach_problems k WHERE k.public = 'on') GROUP BY proId ORDER BY proId, proState DESC ")
     public List<Map<String, Object>> getTargetProblemStateList(String stuId);
-    //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
-    @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.accuracy=1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
+    //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）[题目编号], [proId]
+    @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.submit_state=1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
     public List<Object> getFinishProblemList(String stuId);
-    //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
-    @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.accuracy<1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
+    //在公开题目集中，获取指定用户未解决的题目集（只含未解决的/未包含实验与考试的记录）[题目编号], [proId]
+    @Select("select t.problem_id proId from teach_submit_code t where t.user_id = #{stuId} and t.submit_state!=1 and t.problem_id in (select id proId from teach_problems where public = 'on') group by t.problem_id")
     public List<Object> getUnfinishProblemList(String stuId);
     //在公开题目集中，获取指定用户已解决的题目集（只含已解决的/未包含实验与考试的记录）
 

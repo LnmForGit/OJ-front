@@ -10,22 +10,47 @@ proId:
 testId:
  */
 
-
+toastr.options = {
+    'closeButton':true,
+    'debug':false,
+    'progressBar':false,
+    'positionClass':'toast-top-center',
+    'onclick':null,
+    'showDuration':'4000',
+    'hideDuration':'5000',
+    'timeOut':'6000',
+    'extendedTimeOut':'1000',
+    'showEasing':'swing',
+    'hideEasing':'linear',
+    'showMethod':'fadeIn',
+    'hideMethod':'fadeOut'
+}
 var editor; //代码编辑器
 var codeData={
     language : '1'  //默认是C语言(1)
 }; //代码的最终汇总结果
 var postId=undefined; //最新提交代码的提交号
 var PleaseDoNotDeleteMe = {
-    limitTime : 10,
+    limitTime : 5,
     handle : undefined,
     handleB : undefined
 } ;
-
+var submitBtn = $('#submitCodeBtn');
+var loadingDiv = $('#loadingDiv');
 $(function(){
 
     //testFun();
-    init();
+    if(Info.result==undefined || Info.result=='failed'){
+        $('#pageBody').hide();
+        swal("内容请求失败！", "#提示：\n如果当前正是考试阶段，请查看考试时间是否已结束！\n或者联系系统管理员！")
+        $('.confirm').click(function(){
+            location.href = '/practice/';
+        })
+        setTimeout(function () {
+            location.href = '/practice/';
+        }, 10000);
+        //submitBtn.css('pointer-events', 'none')
+    }else if(Info.result=='succeed') init();
 })
 
 function init(){
@@ -33,7 +58,6 @@ function init(){
     loadCodeEditArea();
     initSetPageSize();
     window.onresize= function(){
-        //alert("?")
         initSetPageSize();
     }
 }
@@ -167,20 +191,30 @@ function loadCodeEditArea(){
 
 //提交代码到服务器
 function submitCode(){
-    if(undefined!=PleaseDoNotDeleteMe.handle){
-        alert("请在"+PleaseDoNotDeleteMe.limitTime+"秒后再次提交!");
-        return;
-    }
     editor.save();
     var temp = $('#codeEditArea').val();
     codeData['codeData'] = temp;
     codeData['proId'] = Info.proId;
     //console.log(codeData);
+    if(codeData.codeData==''){
+        toastr.error("请勿提交空代码");
+        return;
+    }
     postData(codeData);
 }
 
 //询问提交结果
 function getPostResult(){
+    if(PleaseDoNotDeleteMe.limitTime-- <= 0){
+        if(PleaseDoNotDeleteMe.handleB!=undefined){
+            clearInterval(PleaseDoNotDeleteMe.handleB);
+            PleaseDoNotDeleteMe.handleB = undefined;
+        }
+        submitBtn.css('pointer-events', '');
+        submitBtn.css('background', '#7266ba');
+        loadingDiv.hide();
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/practice/getTheSubmitResult",
@@ -195,18 +229,26 @@ function getPostResult(){
             dealPostResult(result);
         },
         error:function(){
-            clearInterval(PleaseDoNotDeleteMe.handleB);
-            PleaseDoNotDeleteMe.handleB = undefined;
+            if(PleaseDoNotDeleteMe.handleB!=undefined){
+                clearInterval(PleaseDoNotDeleteMe.handleB);
+                PleaseDoNotDeleteMe.handleB = undefined;
+            }
         }
     });
 }
 //处理返回结果
 function dealPostResult(t){
-    //if(t.result!=0){
-        clearInterval(PleaseDoNotDeleteMe.handleB);
-        PleaseDoNotDeleteMe.handleB = undefined;
+
+    if(0!=t.result){
+        if(PleaseDoNotDeleteMe.handleB!=undefined){
+            clearInterval(PleaseDoNotDeleteMe.handleB);
+            PleaseDoNotDeleteMe.handleB = undefined;
+        }
+        submitBtn.css('pointer-events', '');
+        submitBtn.css('background', '#7266ba');
+        loadingDiv.hide();
         showSubmitResult(t);
-    //}
+    }
 }
 //发送代码包给服务器
 function postData(t){
@@ -219,20 +261,24 @@ function postData(t){
         success:function (result) {
             if (result.result == 'succeed') {
                 postId = result.submitId;
-                alert("提交成功");
-                if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
+                swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
+                //if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
                 if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
-                PleaseDoNotDeleteMe.limitTime=10;
-                PleaseDoNotDeleteMe.handle = setInterval("babyRunning()",1000);
-                PleaseDoNotDeleteMe.handleB = setInterval("getPostResult()",5000);
+                PleaseDoNotDeleteMe.limitTime=5;
+                //PleaseDoNotDeleteMe.handle = setInterval("babyRunning()",1000);
+                PleaseDoNotDeleteMe.handleB = setInterval("getPostResult()",1000);
                 $('#submitResult').text("未知");
                 $('#submitResult').css("color", "gray");
                 $('#submitInf').text("后台处理中....");
-            }else
-                alert("提交失败")
+                loadingDiv.show();
+            }else{
+                swal("代码提交失败", "提交失败\n如果当前处于考试阶段，请检查考试时间是否已结束！\n或者，你可以联系系统管理员！", 'error');
+            }
+            submitBtn.css('pointer-events', 'none');
+            submitBtn.css('background', 'gray');
         },
         error: function(){
-            alert("提交失败")
+            swal("代码提交失败","未知错误！（请检查浏览器或当前网络状态是否异常）")
         }
 
     });
@@ -240,9 +286,11 @@ function postData(t){
 //显示提交结果
 function showSubmitResult(t){
 
+
     if('1'==t.result){
         $('#submitResult').text("Accept");
         $('#submitResult').css("color", "greenyellow");
+        swal("恭喜你成功AC此题", "")
     }else if('3'==t.result){
         $('#submitResult').text("Wrong answer");
         $('#submitResult').css("color", "red");
@@ -256,7 +304,7 @@ function showSubmitResult(t){
     $('#submitInf').text(t.inf);
 }
 var resultStateNum = {
-    0:'DEF'  , 1:'AC', 2:'PRESENTATION_ERROR',
+    0:'服务器处理中'  , 1:'AC', 2:'PRESENTATION_ERROR',
     3: 'WRONG_ANSWER'  ,8:'COMPILE_ERROR',
     5:'TIME_LIMIT_EXCEED'  ,4:'RUNTIME_ERROR'
     ,6:'MEMORY_LIMIT_EXCEED'
@@ -277,3 +325,5 @@ function babyRunning(){
         PleaseDoNotDeleteMe.limitTime--;
     }
 }
+
+

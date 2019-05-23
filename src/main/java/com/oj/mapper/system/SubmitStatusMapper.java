@@ -20,6 +20,7 @@ public interface SubmitStatusMapper {
     // 查询总数
     @Select("SELECT COUNT(*) FROM teach_submit_code AS a, teach_students AS b WHERE a.user_id = b.id and a.user_id = #{id}")
     public int selectTotalCount(String id);
+
     @SelectProvider(type=SubmitStatusProvider.class, method = "selectRecordsFiltered")
     // 根据条件获取筛选后的总数
     public int selectRecordsFiltered(@Param("condition")Map<String, String> params);

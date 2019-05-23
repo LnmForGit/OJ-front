@@ -51,6 +51,7 @@ public class LoginController {
             request.getSession().setAttribute("user_name",userList.get(0).get("name"));
             request.getSession().setAttribute("user_account",userList.get(0).get("account"));
             request.getSession().setAttribute("user_class", userList.get(0).get("class_id"));
+            request.getSession().setAttribute("user_class_name", userList.get(0).get("class_name"));
             log.info("IP为："+LogUtil.getIpAddr(request) +",用户登录名为："+userList.get(0).get("account")+"的用户登入成功");
             return true;
         }else{
@@ -67,6 +68,7 @@ public class LoginController {
         request.getSession().setAttribute("user_name",null);
         request.getSession().setAttribute("user_account",null);
         request.getSession().setAttribute("user_class",null);
+        request.getSession().setAttribute("user_class_name",null);
         response.sendRedirect("/");
         log.info("IP为："+LogUtil.getIpAddr(request) +",用户登录名为："+user_account+"的用户登出成功");
     }

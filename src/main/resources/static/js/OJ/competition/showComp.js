@@ -226,6 +226,7 @@ function deleteenroll(){
             }else{
                 swal("取消报名失败！", "请联系管理员解决问题", "fail");
             }
+            enrollList();
         }
   } )
 
@@ -264,6 +265,7 @@ function enroll(){
                         }else{
                             swal("报名失败！", "请联系管理员", "fail");
                         }
+                        enrollList();
                     }
                 } )
 
@@ -343,11 +345,11 @@ function formatTime(time) {
         var lengthTime=(dateEnd.getTime()-dateNow.getTime())/1000;
         var dates=parseInt(lengthTime/(24*3600));
         lengthTime=lengthTime%(24*3600);
-        var hours=parseInt(lengthTime/3600);
+        var hours=parseInt(lengthTime/3600).toString();
         lengthTime=lengthTime%3600;
-        var iMinutes=parseInt(lengthTime/60);
+        var iMinutes=parseInt(lengthTime/60).toString();
 
-        var iSecends=parseInt(lengthTime%60);
+        var iSecends=parseInt(lengthTime%60).toString();
         //console.log(dates+'天'+hours+'小时'+iMinutes+'分钟'+iSecends+'秒');
 
         $('#block').html(dates+'天'+hours+'小时'+iMinutes+'分钟'+iSecends+'秒');

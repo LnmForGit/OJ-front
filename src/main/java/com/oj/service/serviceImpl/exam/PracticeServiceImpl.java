@@ -86,6 +86,10 @@ public class PracticeServiceImpl implements PracticeService {
         result.put("proAcAmount", 0==AcList.size()?"0":(AcList.get(0)).get("proAcAmount").toString());
         return result;
     }
+    //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
+    public List<Map<String, Object>> checkRequestCondition(Map params){
+        return mapper.checkRequestCondition(params);
+    }
 
 
 
@@ -159,15 +163,22 @@ public class PracticeServiceImpl implements PracticeService {
         Map map = mapper.getTargetResult(submitId);
         out.println(map);
         Map result = new HashMap();
-        if(null!=map) result.put("result", map.size()==0?"0": map.get("submitState").toString());
-        //result.put("result", "4");
-        result.put("inf", "");
+        if(null!=map) {
+            String submitStateStr = map.get("submitState").toString();
+            result.put("result", map.size()==0?"0": submitStateStr);
+            result.put("problem_id", map.get("problem_id"));
+            if(submitStateStr.equals("1") || submitStateStr.equals("2") || submitStateStr.equals("3"))
+                result.put("inf",  (int)(Double.parseDouble(map.get("accuracy").toString()) *100 ) + "%");
+            else result.put("inf", "");
+        }
         return result;
     }
 
-    //AC标准变更修改为submit_state字段-------------当前类内调用正在更改.....
+    //AC标准变更修改为submit_state字段-------------已变更
     //获取对应指定用户下指定条件的题目集（题目id、题目AC数量、题目提交数量、指定用户的AC状态）------- 方案（数据库分页）
     public Map getPagingTargetProblemList(Map param){
+        Date tF, tE;
+        tF = new Date();
         //@---转换参数集内分页所需的参数
         param.put("headLine", param.get("start"));  //@--- 分页的第一条数据的下标
         param.put("finalLine", Integer.parseInt(param.get("limit").toString())); //@--- 当前分页请求中页面内的数据最大条数
@@ -206,6 +217,9 @@ public class PracticeServiceImpl implements PracticeService {
         List<Map> result = new LinkedList<>();
         List<Map> targetList = getPagingPublicProblemStatisticList(param); //@--- 获取指定条件的题集
 
+        tE =new Date();
+        out.println("part_1 used time:"+(tE.getTime()-tF.getTime()));
+        tF=tE;
         //@---将获取到的题集与用户做题信息汇总
         if(0!=targetList.size()) {
             List<Map<String, Object>> targetProStateList = mapper.getPagingTargetProblemStateList(new LinkedList(targetList), param.get("stuId").toString()); //获取指定用户在指定题集中已接触的集合
@@ -233,13 +247,18 @@ public class PracticeServiceImpl implements PracticeService {
         }
         Map temp = new TreeMap();
         temp.put("draw", 0);
-        temp.put("recordsTotal", result.size());  //当前获取到的数据总数
+        temp.put("recordsTotal", mapper.getPublicProblemAmount().toString());  //当前获取到的数据总数
         temp.put("recordsFiltered", mapper.getAmountPublicProblemList(param)); //实际数据总数
         temp.put("data", result);
+        tE =new Date();
+        out.println("part_2 used time:"+(tE.getTime()-tF.getTime()));
+        tF=tE;
         return temp;
     }
     //获取指定公开题目的统计信息（题目id、题目AC数量、题目提交数量）
     public List<Map> getPagingPublicProblemStatisticList(Map param){
+        Date tF, tE;
+        tF = new Date();
         List<Map> result = new LinkedList<>();
         List<Map> list = mapper.getPagingPublicProblemList(param); //@--- 指定条件的题目集
         if(list.size()==0) return result;
