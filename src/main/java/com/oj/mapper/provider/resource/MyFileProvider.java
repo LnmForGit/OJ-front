@@ -29,7 +29,7 @@ public class MyFileProvider {
             sql.append(" AND myfile.upload_time > '"+info.get("time")+"' and myfile.upload_time < '"+t+"'");
         }
         //System.out.println("id : "+id);
-        sql.append(" AND myfile.uploader_id = (select admin_id from teach_admin_course where course_id in (select course_id from teach_course_class where class_id in (select class_id from teach_students where account = "+id+")))");
+        sql.append(" AND myfile.uploader_id in (select admin_id from teach_admin_course where course_id in (select course_id from teach_course_class where class_id in (select class_id from teach_students where account = "+id+")))");
         sql.append(" AND myfile.uploader_id = admin.id ");
         sql.append(" UNION ALL ");
         sql.append("select myfile.id as id, myfile.name as name, admin.name as uploader_name, myfile.upload_time as upload_time, myfile.size as size, myfile.flag as flag from teach_myfile myfile, teach_admin admin where flag = 1 and myfile.uploader_id = admin.id ");

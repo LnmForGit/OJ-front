@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class Practice {
     @Autowired
     private RankPerDayService rankPerDayService;
 
+    @Autowired
+    private JedisPool redisPoolFactory;
     static int tempInt = 1;
     @Autowired
     private AsyncService asyncService;
@@ -93,7 +97,7 @@ public class Practice {
     //接收用户提交代码
     @PostMapping("/receiveCode")
     @ResponseBody
-    public Map receiveCode(HttpServletRequest request, @RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
+    public Map receiveCode(@RequestBody Map<String, String> param, @SessionAttribute("user_id") Integer userId){
         if(StringUtils.isEmpty(param.get("testId"))) {
             param.put("testId", "0");
         }
@@ -114,24 +118,25 @@ public class Practice {
          code.setSubmitDate(System.currentTimeMillis()/1000);
          code.setUserId(userId);
          service.insertSubmit(code);
-         Map<String, String> subInfo = new HashMap<>(5);
+         /*Map<String, String> subInfo = new HashMap<>(5);
          subInfo.put("problem_id:", param.get("proId"));
          subInfo.put("submit_code:", codeData);
          subInfo.put("submit_language:", param.get("language"));
          //异步任务
-         asyncService.judgeSubmit(String.valueOf(code.getId()), subInfo, request);
+         asyncService.judgeSubmit(String.valueOf(code.getId()), subInfo);*/
          //out.println("代码提交后的对应编号："+code.getId());
-         result.put("result", "succeed");
-         result.put("submitId", String.valueOf(code.getId()));
-         /*Jedis jedis = redisPoolFactory.getResource();
-         jedis.rpush("sub_id:", String.valueOf(code.getId()));
+
+         Jedis jedis = redisPoolFactory.getResource();
+
          Map<String, String> subInfo = new HashMap<>();
          subInfo.put("problem_id:", param.get("proId"));
          subInfo.put("submit_code:", codeData);
          subInfo.put("submit_language:", param.get("language"));
          jedis.hmset("sub_id:"+code.getId(), subInfo);
-         jedis.close();*/
-
+         jedis.rpush("sub_id:", String.valueOf(code.getId()));
+         jedis.close();
+        result.put("result", "succeed");
+        result.put("submitId", String.valueOf(code.getId()));
          return result;
     }
 

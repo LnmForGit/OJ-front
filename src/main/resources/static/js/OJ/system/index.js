@@ -65,7 +65,7 @@ function darwDzlbtb() {
                         }
                         s += '</td><td class="project-title"><a>'+result[i].name+'</a><br>';
                         s += '<small>开始时间:'+result[i].start+'&nbsp;&nbsp;&nbsp;</small>';
-                        s += '<small> 结束时间:'+result[i].start+'</small></td></tr>';
+                        s += '<small> 结束时间:'+result[i].end+'</small></td></tr>';
                     }
                     s += '<tbody></table>';
 
