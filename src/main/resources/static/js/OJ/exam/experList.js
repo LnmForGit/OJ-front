@@ -156,6 +156,8 @@ function setExperItem(id,name,start,end,is_ip,only_ip,first_ip,ip,isSaveIp){
 
 function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
     console.log("isSaveIp: " + isSaveIp)
+    console.log("is_ip: " + is_ip)
+    console.log("only_ip: " + only_ip)
     if(isSaveIp == "undefined"){
         window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
     }
@@ -164,7 +166,8 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
             title: "未到考试时间",
             text: "现在还未到考试时间，请等待。"
         });
-    }else if(testState == 1  &&only_ip == "on" && is_ip == "on" ){
+        return;
+    }else if(testState == 1 && (is_ip == "on" || only_ip == "on")){
         $.ajax({
             type: "POST",
             url: "/exam/getTestIp",
@@ -182,31 +185,31 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
                 }
                 console.log("绑定ip:"+first_ip)
                 console.log("用户ip：" + ip)
-                if(!checkIP(ip,ipArray)){
+                if(is_ip == "on" && !checkIP(ip,ipArray)){
                     //如果用户登陆ip不符合，弹出提示窗
-
                         swal({
                             title: "考试地址错误！",
                             type: "error",
                             text: "请按照老师要求到指定机房进行考试",
-                            confirmButtonText:"确认",
+                            confirmButtonText:"确认"
                         });
-
-                }else if(ip != first_ip){
-
+                        return;
+                }
+                if(only_ip == "on" && (first_ip != "undefined" && ip != first_ip)){
                     swal({
                         title: "该主机ip已绑定！",
                         type: "error",
                         text: "该主机ip已绑定，考试结束后管理员解绑后可使用",
-                        confirmButtonText:"确认",
+                        confirmButtonText:"确认"
                     });
+                    return;
                 }
-                else{
-                   // window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
-                }
+                window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
             }
         })
-    }
+    }else
+        window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
+
 
 }
 
@@ -248,14 +251,14 @@ function getParam(name) {
 }
 
 //判断应该展示实验信息/考试信息
-function examOrExper(ip){
+function examOrExper(){
     var pathname = window.location.pathname;
     if(pathname == "/experiment/"){
         getExperInfo();
     }else if(pathname == "/exam/"){
         $("#bread").html("考试列表")
         $("#t").html("所有考试")
-        getExamInfo(ip);
+        getExamInfo();
     }
 }
 
