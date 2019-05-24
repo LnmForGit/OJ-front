@@ -39,7 +39,8 @@ public class SubmitStatusController {
         String account = request.getSession().getAttribute("user_account").toString();
         String user_id = request.getSession().getAttribute("user_id").toString();
         String submit_state = request.getParameter("submit_state");
-        JqueryDataTableDto jqueryDataTableDto = submitstatusService.getSubmitStatusMaplist(start, count, problem_id, account, submit_state, user_id);
+        String submit_language = request.getParameter("submit_language");
+        JqueryDataTableDto jqueryDataTableDto = submitstatusService.getSubmitStatusMaplist(start, count, problem_id, account, submit_state, user_id, submit_language);
         return net.sf.json.JSONObject.fromObject(jqueryDataTableDto).toString();
     }
 }

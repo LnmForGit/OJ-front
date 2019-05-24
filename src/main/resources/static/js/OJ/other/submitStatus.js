@@ -53,7 +53,8 @@ function getStatusInfo() {
             type: "POST",
             data: {
                 "problem_id" : $('#problemId').val(),
-                "submit_state" : $('#submit_state').val()
+                "submit_state" : $('#submit_state').val(),
+                "submit_language" : $('#submit_language').val()
             },
         },
         "bSort": false,
