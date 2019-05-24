@@ -87,7 +87,6 @@ public class RankPerDayServiceImpl implements RankPerDayService {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String dateString = formatter.format(currentTime) + " 23:59:00";
-        System.out.println(dateString);
         formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long timeUnix = 0;
         try{
@@ -95,6 +94,6 @@ public class RankPerDayServiceImpl implements RankPerDayService {
         }catch (Exception e){
             log.error(e.getMessage());
         }
-        return timeUnix;
+        return timeUnix/1000;
     }
 }
