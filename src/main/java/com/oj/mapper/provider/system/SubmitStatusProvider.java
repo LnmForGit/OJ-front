@@ -38,6 +38,9 @@ public class SubmitStatusProvider {
         if(!StringUtils.isEmpty(info.get("submit_state"))){
             sql.append("		AND a.submit_state = '"+info.get("submit_state")+"' ");
         }
+        if(!StringUtils.isEmpty(info.get("submit_language"))){
+            sql.append("		AND a.submit_language = '"+info.get("submit_language")+"' ");
+        }
         sql.append(" 		ORDER BY		 ");
         sql.append(" 			a.submit_date DESC 	 ");
         sql.append(" 			LIMIT "+info.get("start")+","+info.get("count")+"	 ");
@@ -63,6 +66,9 @@ public class SubmitStatusProvider {
         }
         if(!StringUtils.isEmpty(info.get("submit_state"))){
             sql.append("		AND a.submit_state = '"+info.get("submit_state")+"' ");
+        }
+        if(!StringUtils.isEmpty(info.get("submit_language"))){
+            sql.append("		AND a.submit_language = '"+info.get("submit_language")+"' ");
         }
         sql.append(" 		ORDER BY		 ");
         sql.append(" 			a.submit_date DESC 	 ");
