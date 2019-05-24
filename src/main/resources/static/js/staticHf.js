@@ -128,6 +128,25 @@ function openPage(page) {
 }
 
 function dialogLogin() {
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "progressBar": false,
+        "positionClass": "toast-top-center",
+        "onclick": null,
+        "showDuration": "400",
+        "hideDuration": "1000",
+        "timeOut": "2500",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+    if($("#dialogUserName").val() == '' || $("#dialogUserPassword").val() == ''){
+        toastr.warning("登陆信息不能为空","登陆警告")
+        return;
+    }
     $.ajax({
         type: "POST",
         url: "/login/UserLogin",
@@ -141,23 +160,20 @@ function dialogLogin() {
             if (result){
                 window.location.href = $("#skipPageUrl").val()
             } else{
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-center",
-                    "onclick": null,
-                    "showDuration": "400",
-                    "hideDuration": "1000",
-                    "timeOut": "2500",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                }
+
                 toastr.error("帐号密码错误","登陆失败！")
             }
         }
     })
 }
+
+
+// 回车事件绑定
+$(document).keypress(function(e) {
+    var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+    if (eCode == 13){
+        if($('#loginDialog').css('display') == 'block'){
+            dialogLogin();
+        }
+    }
+});
