@@ -2,6 +2,7 @@ $(function() {
     darwJxtztb();
     darwDzlbtb();
     darwTktjtb();
+    darwBrACphb();
 });
 
 //加载教学通知信息方法
@@ -64,7 +65,7 @@ function darwDzlbtb() {
                         }
                         s += '</td><td class="project-title"><a>'+result[i].name+'</a><br>';
                         s += '<small>开始时间:'+result[i].start+'&nbsp;&nbsp;&nbsp;</small>';
-                        s += '<small> 结束时间:'+result[i].start+'</small></td></tr>';
+                        s += '<small> 结束时间:'+result[i].end+'</small></td></tr>';
                     }
                     s += '<tbody></table>';
 
@@ -105,6 +106,36 @@ function darwTktjtb() {
             }
         });
     }
+}
+function darwBrACphb() {
+    $.ajax({
+        type: "POST",
+        url: "/index/getRankPerDayFromRedis",
+        dataType: "json",
+        success: function (result) {
+            debugger
+            if(result.length > 0){
+                var s = '<table class="table table-hover"><thead><tr>';
+                s += '<th>排名</th><th>姓名</th><th>学号</th><th>班级</th><th>A题数量</th>';
+                s += '</tr></thead><tbody>';
+                for (var i=0; i< result.length; i++){
+                    s += '<tr>';
+                    s += '<td>'+(i+1)+'</td>';
+                    s += '<td>'+result[i].userName+'</td>';
+                    s += '<td>'+result[i].userAccount+'</td>';
+                    s += '<td>'+result[i].userClassName+'</td>';
+                    s += '<td>'+result[i].userACProblems.length+'</td>';
+                    s += '</tr>';
+                }
+                s += '</tbody></table>';
+
+                $("#brACphb").append(s)
+                drawOverFlow("brACphb");
+            }else{
+                $("#brACphb").append('<img src="/css/img/blank2.jpg" style="height: 330px;padding-left: 28px;">');
+            }
+        }
+    });
 }
 
 

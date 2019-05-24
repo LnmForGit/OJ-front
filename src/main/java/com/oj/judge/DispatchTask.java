@@ -90,14 +90,12 @@ public class DispatchTask implements Runnable {
         baseSubmitMsg = SubmitTaskFactory.produce(Integer.valueOf(map.get(Constants.RedisPrefix.SUBMIT_LANGUAGE)));
         if (baseSubmitMsg != null) {
             baseSubmitMsg.setSubId(subId);
-
             baseSubmitMsg.setTestData(
                     practiceService.selectTestData(
                             Integer.valueOf(map.get(Constants.RedisPrefix.PROBLEM_ID))));
             //把代码存储到文件中
             String code = map.get(Constants.RedisPrefix.SUBMIT_CODE);
             baseSubmitMsg.setCode(code);
-            //log.info("current code:\n" + baseSubmitMsg.getCode());
             convertCodeToFile(baseSubmitMsg.getCode(), baseSubmitMsg.getFileName());
             judge.setSubmitMsg(baseSubmitMsg);
             judge.executeCode();
@@ -110,10 +108,11 @@ public class DispatchTask implements Runnable {
             submitCode.setSubmitState(baseSubmitMsg.getResult());
             submitCode.setTestState(Integer.valueOf(baseSubmitMsg.getTestStates()));
             //将结果更新回数据库
-            practiceService.updateState(submitCode);
+            log.info("updating to mysql");
+            Integer val = practiceService.updateState(submitCode);
+            log.info(val == 1 ? "sucess" : "fail");
             //删用户代码文件
             baseSubmitMsg.deleteOldFile();
-            //countDownLatch.countDown();
         }
     }
     /**

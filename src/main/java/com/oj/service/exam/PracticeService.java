@@ -17,6 +17,8 @@ public interface PracticeService {
     public Map getSystemSimpleInf(String stuId);
     //获取指定题目的详细信息
     public Map getTargetProblemInf(String proId);
+    //验证代码提交以及查阅请求是否为有效请求（既非考试阶段无法查看题目以及提交代码、非公开题目无法查看以及提交代码）
+    public List<Map<String, Object>> checkRequestCondition(Map params);
     //获取指定提交编号的处理结果
     public Map getTargetResult(String submitId);
 

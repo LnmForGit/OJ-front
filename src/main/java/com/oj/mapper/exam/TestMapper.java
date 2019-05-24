@@ -18,7 +18,7 @@ public interface TestMapper {
     //通过学号获取全部实验列表
     @Select("SELECT t.id id,name,start,end FROM teach_test t,teach_test_class c WHERE  c.`class_id` = #{account} AND c.`test_id` = t.id\n" +
             "and t.kind = 2 ORDER BY end DESC;")
-    public List<Map> getExperMaplist(String account);
+    public List<Map> getExperMaplist(@Param("account")String account);
 
     //通过学生id获取全部考试列表
     @Select(" SELECT DISTINCT test.id id,name,start,end,is_ip,only_ip,s.sid sid,first_ip FROM\n" +
@@ -37,7 +37,7 @@ public interface TestMapper {
     @Select("SELECT t.name name,start,end,description,is_ip,only_ip,a.name admin " +
             "FROM teach_test t,teach_admin a " +
             "WHERE t.`id` = #{tid} AND t.admin_id = a.`id`;")
-    public List<Map> getTestDetail(String tid);
+    public List<Map> getTestDetail(@Param("tid")String tid);
 
     //通过id获取题目详细信息
     @Select("SELECT  p.*,COUNT(sc.submit_state = 1 OR NULL) AC_number,COUNT(sc.id) submit_number,s.name subject\n" +
@@ -52,11 +52,11 @@ public interface TestMapper {
 
     //将初次登陆考试的ip进行记录
     @Insert("INSERT INTO teach_test_students (tid,sid ,first_ip) VALUES(#{tid},#{sid},#{first_ip});")
-    public void saveIP(String tid, String sid, String first_ip);
+    public void saveIP(@Param("tid") String tid,@Param("sid") String sid,@Param("first_ip") String first_ip);
 
     //获取可参与考试的ip段
     @Select("SELECT teach_ip.ip FROM teach_test_ip,teach_ip WHERE teach_test_ip.tid = #{tid} AND teach_ip.id = teach_test_ip.iid;")
-    List<Map> getTestIp(String tid);
+    List<Map> getTestIp(@Param("tid") String tid);
 
 
     //查询正在进行的考试的班级
