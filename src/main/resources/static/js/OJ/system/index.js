@@ -166,7 +166,7 @@ function blocks() {
                     '                            <div class="forum-icon">\n' +
                     '                                <i class="fa fa-clock-o"></i>\n' +
                     '                            </div>\n' +
-                    '                            <a href="/discussion/showarticle/'+result[i].id+'/'+result[i].name+'/'+result[i].sub_id+'" class="forum-item-title">'+result[i].title+
+                    '                            <a onclick="openPage(\'/discussion/showarticle/'+result[i].id+'/'+result[i].name+'/'+result[i].sub_id+'\''+')" class="forum-item-title">'+result[i].title+
                     '                                    <b class="btn btn-primary btn-xs">置顶</b>                                        </a>\n' +
                     '                            <div class="forum-sub-title">'+result[i].content.replace(/<[^>]+>/g,"").substring(0,50)+'</div>\n' +
                     '                            <span color="#676a6c">'+result[i].name+'&nbsp;&nbsp;<i class="fa fa-clock-o"></i>发表于 :'+formatTime(result[i].time)+'</span>\n' +
@@ -272,16 +272,28 @@ function CompRank() {
                 if(result[i].name!=undefined) {
                     k = i + 1;
                     newTest += '<tr>\n' +
-                        ' <td>&nbsp;&nbsp;' + k + '</td>\n' +
+                        '<td><span class="rate-num rating'+k+'">'+k+'</span></td>' +
                         '<td>'+result[i].className+'</td>'+
-                        '                        <td>' + result[i].name + '</td>\n' +
+                        '                        <td  style="color:'+getColor()+'">' + result[i].name + '</td>\n' +
                         '<td>'+result[i].ac+'</td>'+
                         '                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + result[i].num + '</td>\n' +
                         '</tr>';
                 }
+                // var oGameName = document.getElementsByClassName("gameName")[0];
+
             }
             $('#rankList').append(newTest);
         }
 
     })
+}
+function getColor()
+{
+    var colorArray =new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
+    var color="#";
+    for(var i=0;i<6;i++)
+    {
+        color += colorArray[Math.floor(Math.random()*16)];
+    }
+    return color;
 }
