@@ -1,6 +1,8 @@
 package com.oj.controller.system;
 
 import com.oj.entity.system.RankPerDay;
+import com.oj.service.competition.CompetitionService;
+import com.oj.service.discussion.BbsService;
 import com.oj.service.system.IndexService;
 import com.oj.service.system.RankPerDayService;
 import net.sf.json.JSONObject;
@@ -16,6 +18,7 @@ import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +30,12 @@ public class IndexController {
 
     @Autowired
     private RankPerDayService rankPerDayService;
+
+    @Autowired
+    private CompetitionService competitionService;
+
+    @Autowired
+    private com.oj.service.discussion.BbsService BbsService;
 
     @RequestMapping("/")
     //返回index.html页面
@@ -74,5 +83,27 @@ public class IndexController {
             rankPerDaysList.add(rankPerDay);
         }
         return rankPerDaysList;
+    }
+
+
+    //返回未开始的一条竞赛信息
+    @PostMapping("/getAComp")
+    @ResponseBody
+    public List<Map> getAComplist() {
+        return competitionService.getACompMaplist();
+    }
+
+    //排名信息
+    @PostMapping("/getrankList")
+    @ResponseBody
+    public List<Map> getrankList() {
+
+        return competitionService.getrankList();
+    }
+
+    @PostMapping("/getPostFlagList")
+    @ResponseBody
+    public List<Map> getPostFlagMaplist(){
+        return BbsService.getPostFlagMaplist();
     }
 }
