@@ -12,9 +12,10 @@ function reply_btn(id,level) {
 
     $(".reply_btn").click(function(){
         $(".reply_textarea").remove();
-        $(this).parent().append("<div class='reply_textarea'><textarea class='content' placeholder='在这里发表你的观点...' name='' cols='100' rows='5' ></textarea><br/><input type='submit' value='发表' onclick='addreplyson("+id+","+level+")'/> <a class='emotion'>表情</a></div>");
+        $(this).parent().append("<div class='reply_textarea'><textarea wrap='hard' class='content' placeholder='在这里发表你的观点...' name='' cols='100' rows='5' ></textarea><br/><input type='submit' value='发表' onclick='addreplyson("+id+","+level+")'/></div>");
     });
 }
+
 function showarticel() {
     console.log(Postinfo)
     $("#title").html(Postinfo.post.title);
@@ -118,7 +119,7 @@ function replysoninfo(level) {
                     '                            </a>\n' +
                     '                            <div class="media-body">\n' +
                     '                                <h4 class="media-heading">'+result[j].name+' 回复 '+ result[j].replyedname+'</h4>\n' +
-                    '<p>'+result[j].content+'</p>\n'+
+                    '<p>'+result[j].content.replace(/\n/g,'<br/>')+'</p>\n'+
                     '<span ><i class="fa fa-clock-o"></i>发表于 :'+formatTime(result[j].time)+'</span>\n'+
                     '<div class="small text-right">\n' +
                     '                                    <div><i class="fa fa-comments-o"> </i>' +
