@@ -4,10 +4,6 @@
 /*
 //
 {
-language:
-codeData:
-proId:
-testId:
  */
 
 toastr.options = {
