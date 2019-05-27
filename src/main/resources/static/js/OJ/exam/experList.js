@@ -144,8 +144,8 @@ function setExperItem(id,name,start,end,is_ip,only_ip,first_ip,ip,isSaveIp){
     experItem += "<td class=\"project-title\">\n";
     experItem += (testState == 0) ?  "<a href=experDetail?id=" + id + "&testState="+testState+"&isSaveIp="+isSaveIp+"  >" +name+"</a>\n" : "<a onclick='hint(\""+id+"\",\""+testState+"\",\""+isSaveIp+"\",\""+is_ip+"\",\""+only_ip+"\",\""+first_ip+"\",\""+ip+"\")'>"+ name + "</a>" ;
     experItem +=   " <br/>\n" +
-        "                                        <small>开始日期:"+ start  +"&nbsp&nbsp&nbsp</small>\n" +
-        "                                        <small>  结束日期:" + end + "</small>\n" +
+        "                                        <small>开始时间:"+ start  +"&nbsp&nbsp&nbsp</small>\n" +
+        "                                        <small>  结束时间:" + end + "</small>\n" +
         "                                    </td>\n" +
         "\n" +
         "                                    <td class=\"project-actions\">\n" ;
