@@ -21,7 +21,7 @@ function showrank() {
                 '                        </li>';
         }
         $('#Chose').append(nTest);
-        for(var i=1;i<page;i++){
+        for(var i=1;i<=page;i++){
             PageList(i);
         }
     }
@@ -57,6 +57,10 @@ function laodpage(id,page) {
     var test="";
     var start=page*30;
     var end=(page+1)*30-1;
+    if(end>=list.length){
+        end=list.length-1;
+    }
+    console.log(end);
     test+=f(start,end);
     $('#'+id).append(test)
 }

@@ -7984,3 +7984,33 @@ body.skin-3 {
     vertical-align: middle;
 
 }
+
+
+
+
+.rate-num {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    color: #333;
+    white-space: nowrap;
+}
+.rating1, .rating2, .rating3 {
+    color: #fff;!important;
+    background: url(/css/img/rating-num.png) no-repeat;
+}
+
+
+.rating1 {
+    background-position: 0 0;
+}
+
+.rating2 {
+    background-position: 0 -32px;
+}
+
+.rating3 {
+    background-position: 0 -64px;
+}
