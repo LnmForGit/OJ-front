@@ -161,6 +161,7 @@ function blocks() {
             if(end>result.length){
                 end=result.length
             }
+
             var newTest="";
             for(var i=0;i<end;i++){
                 newTest+=' <div class="row">\n' +
