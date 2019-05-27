@@ -4,10 +4,6 @@
 /*
 //
 {
-language:
-codeData:
-proId:
-testId:
  */
 
 toastr.options = {
@@ -27,7 +23,7 @@ toastr.options = {
 }
 var editor; //代码编辑器
 var codeData={
-    language : '1'  //默认是C语言(1)
+    language : '1'  //默认是C++语言(1) /* C++:1, C:2, Java:3, Python:4   */
 }; //代码的最终汇总结果
 var postId=undefined; //最新提交代码的提交号
 var PleaseDoNotDeleteMe = {
@@ -106,9 +102,11 @@ function initSetPageSize(){
     if(1000 > doc.scrollWidth){
         $('#pageBody').css('width', '1000px');
         editor.setSize('400px;','600px');
+        $('#resultArea').css("width","400px;" )
     }else{
         $('#pageBody').css('width', doc.scrollWidth+'px');
         editor.setSize(doc.scrollWidth /2 -100 + 'px', '600px');
+        $('#resultArea').css("width",doc.scrollWidth /2 -100 + 'px' )
     }
     if(800 > doc.scrollHeight){
         $('#pageBody').css('height', '1000px');
@@ -261,7 +259,7 @@ function postData(t){
         success:function (result) {
             if (result.result == 'succeed') {
                 postId = result.submitId;
-                swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
+                //swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
                 //if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
                 if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
                 PleaseDoNotDeleteMe.limitTime=5;

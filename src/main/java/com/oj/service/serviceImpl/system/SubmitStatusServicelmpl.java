@@ -20,15 +20,22 @@ public class SubmitStatusServicelmpl implements SubmitStatusService {
     private SubmitStatusMapper mapper;
 
     @Override
-    public JqueryDataTableDto getSubmitStatusMaplist(String start, String count, String problem_id, String account, String submit_state, String user_id)  {
+    public JqueryDataTableDto getSubmitStatusMaplist(String start, String count, String problem_id, String account, String submit_state, String user_id, String submit_language)  {
         Map<String, String> params = new HashMap<>();
         params.put("start", start);
         params.put("count", count);
         params.put("problem_id", problem_id);
         params.put("user_id", user_id);
         params.put("submit_state", submit_state);
+        params.put("submit_language", submit_language);
         JqueryDataTableDto jqueryDataTableDto=new JqueryDataTableDto();
         List<SubmitCodeList> list = mapper.getSubmitStatusMaplist(params);
+        for(int i=0;i<list.size();i++)
+        {
+            list.get(i).setSubmit_code_length(list.get(i).getSubmit_code_length()+"b");
+            list.get(i).setSubmit_memory(list.get(i).getSubmit_memory()+"kb");
+            list.get(i).setSubmit_time(list.get(i).getSubmit_time()+"ms");
+        }
         int total = mapper.selectTotalCount(user_id);
         int TOT = mapper.selectRecordsFiltered(params);
         jqueryDataTableDto.setRecordsTotal(total);
