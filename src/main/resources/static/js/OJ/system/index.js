@@ -157,10 +157,12 @@ function blocks() {
         contentType: "application/json;charset=UTF-8",
         success:function(result) {
             debugger
-            console.log(1);
-            console.log(result);
+            var end=3
+            if(end>result.length){
+                end=result.length
+            }
             var newTest="";
-            for(var i=0;i<3;i++){
+            for(var i=0;i<end;i++){
                 newTest+=' <div class="row">\n' +
                     '                        <div class="col-sm-9">\n' +
                     '                            <div class="forum-icon">\n' +
