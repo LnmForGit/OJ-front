@@ -177,3 +177,7 @@ $(document).keypress(function(e) {
         }
     }
 });
+
+function drawNavAct(index) {
+    $(".OJnav").eq(index).addClass("act");
+}
