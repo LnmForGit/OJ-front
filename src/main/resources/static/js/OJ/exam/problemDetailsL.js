@@ -34,7 +34,7 @@ var PleaseDoNotDeleteMe = {
 var submitBtn = $('#submitCodeBtn');
 var loadingDiv = $('#loadingDiv');
 $(function(){
-
+    drawNavAct(1);
     //testFun();
     if(Info.result==undefined || Info.result=='failed'){
         $('#pageBody').hide();

@@ -3,6 +3,7 @@ var j=0;
 var zan=0;
 replyList=Postinfo.replylist;
 $(document).ready(function () {
+    drawNavAct(5);
     showarticel();
     queryreplyInfo();
     loadSummernote();

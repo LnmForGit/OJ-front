@@ -1,5 +1,6 @@
 $(document).ready(function ()
 {
+    drawNavAct(6);
     showFile();
     indexUploaderSelect();
     resetForm();
