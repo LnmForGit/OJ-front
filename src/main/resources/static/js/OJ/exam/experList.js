@@ -233,8 +233,10 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
             success:function (result) {
                 var ipArray = new Array();
                 for(var i = 0; i< result.length; i++){
-                    if(result[i].ip.charAt(result.length - 1) == '.')
-                        result[i].ip = result[i].ip.substring(0,length - 1);
+                    var a = result[i].ip.split(".");
+                    result[i].ip = a[0] + a[1] + a[2];
+                    // if(result[i].ip.charAt(result.length - 1) == '.')
+                    //     result[i].ip = result[i].ip.substring(0,length - 1);
                     ipArray[i] = result[i].ip;
                     console.log("允许进入考试的ip段:" + result[i].ip)
                 }
@@ -319,7 +321,6 @@ function examOrExper(){
         drawNavAct(3);
         getExperInfo();
     }else if(pathname == "/exam/"){
-        drawNavAct(4);
         $("#bread").html("考试列表")
         $("#t").html("所有考试")
         getExamInfo();
@@ -367,7 +368,9 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 //考试时检查用户ip是否符合要求
 function   checkIP(userIp,ipArray)
 {
-    var userIp = userIp.substring(0, userIp.lastIndexOf('.'));     //截取IP地址中最后一个.前面的数字
+    //var userIp = userIp.substring(0, userIp.lastIndexOf('.'));     //截取IP地址中最后一个.前面的数字
+    var a = userIp.split(".");
+    userIp = a[0] + a[1] + a[2];
     var res = ipArray.indexOf(userIp) == -1 ? false: true;
     return res;
 }
