@@ -321,6 +321,7 @@ function examOrExper(){
         drawNavAct(3);
         getExperInfo();
     }else if(pathname == "/exam/"){
+        drawNavAct(4);
         $("#bread").html("考试列表")
         $("#t").html("所有考试")
         getExamInfo();
