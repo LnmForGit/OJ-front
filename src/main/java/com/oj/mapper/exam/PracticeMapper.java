@@ -123,4 +123,24 @@ public interface PracticeMapper {
     List<TestData> selectTestData(Integer problemId);
     //@InsertProvider()
    // @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")//加入该注解可以保持对象后，查看对象插入id
+
+
+    //添加一条评论
+    @Select("insert into teach_problem_reply values(NULL,#{user_id},#{proId},#{content},UNIX_TIMESTAMP(now()),0)")
+    void InsertReply(Map<String,String> param);
+
+    //获取题目下的评论
+    @Select("select a.id,a.content,CAST(FROM_UNIXTIME(a.time) as char) as time,b.name,(select count(*) from teach_problem_reply where rid=a.id) as sum\n" +
+            "from teach_problem_reply a,teach_students b\n" +
+            "where a.pid=#{proId} and a.uid=b.id and a.rid=0 order by a.time desc")
+    List<Map> getReply(String proId);
+
+    //获取某一级别下的评论回复
+    @Select("select a.id,a.content,CAST(FROM_UNIXTIME(a.time) as char) as time,b.name\n" +
+            "from teach_problem_reply a,teach_students b\n" +
+            "where a.pid=#{proId} and a.uid=b.id and a.rid=#{id}")
+    List<Map> OpenReply(Map<String,String> param);
+
+    @Select("insert into teach_problem_reply values(NULL,#{user_id},#{proId},#{content},UNIX_TIMESTAMP(now()),#{id})")
+    void Reply(Map<String,String> param);
 }

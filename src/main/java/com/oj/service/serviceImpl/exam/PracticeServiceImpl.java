@@ -333,5 +333,19 @@ public class PracticeServiceImpl implements PracticeService {
         return res;
     }
 
-
+  //一级回复
+    public void addReply(Map<String,String> param){
+        mapper.InsertReply(param);
+    }
+    public List<Map> getReply(String proId){
+       return  mapper.getReply(proId);
+    }
+    //某一评论下的回复
+    public List<Map> OpenReply(Map<String,String> param){
+        return mapper.OpenReply(param);
+    }
+    //
+    public void Reply(Map<String,String> param){
+        mapper.Reply(param);
+    }
 }

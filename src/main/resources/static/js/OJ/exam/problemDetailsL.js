@@ -57,6 +57,9 @@ function init(){
     loadProblemData(Info);
     loadCodeEditArea();
     initSetPageSize();
+    loadSummernote();
+    getReply();
+    reply_btn();
     window.onresize= function(){
         initSetPageSize();
     }
@@ -326,4 +329,159 @@ function babyRunning(){
     }
 }
 
+function loadSummernote() {
+    $("#reply").summernote({
+        height: 100,
+        minHeight: 100,
+        maxHeight: 200,
+        lang: 'zh-CN',
+        // placeholder: '在这里畅所欲言吧...',
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['view', ['fullscreen', 'codeview']]
+        ]
 
+    });
+    $("#reply").code("");
+}
+
+
+function ReplyPro() {
+    console.log($("#reply").code().length);
+    if($("#reply").code()==""){
+        toastr.error("","回复内容不能为空");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/practice/addReply",
+        dataType: "json",
+        async:false,
+        contentType: "application/json;charset=UTF-8",
+        data:JSON.stringify({
+            proId:Info.proId,
+            content:$("#reply").code()
+        }),success:function(result){
+           if(result=='1'){
+               swal("评论成功","sccess");
+           }else{
+               swal("评论失败","未知错误！（请检查浏览器或当前网络状态是否异常）");
+           }
+            $("#reply").code("");
+        }
+    })
+}
+
+
+function getReply() {
+    $.ajax({
+        type: "POST",
+        url: "/practice/getReply",
+        dataType: "json",
+        async:false,
+        contentType: "application/json;charset=UTF-8",
+        data:JSON.stringify({
+            proId:Info.proId
+        }),success:function(result){
+            debugger;
+          if(result.length!=0){
+              $('#shafa').hide();
+              newTest='';
+              for(var i in result){
+                  newTest+='<li class="media">\n' +
+                      '                                                        <div class="media-body">\n' +
+                      '                                                            <small class="text-left">'+result[i].name+'</small>\n' +
+                      '                                                            <small class="pull-right">'+result[i].time+'</small>\n' +
+                      '                                                        <p>'+result[i].content+'</p>\n' +
+                      '                                                            <div class="css-1wigilb-Toolbar e5i1odf8">\n' +
+                      '                                                                <button class="e5i1odf7 css-914y8j-transparent-xs-Btn-ToolButton e5i1odf0" type="transparent" onclick="OpenReply(this'+','+result[i].id+')"><svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon"><path fill-rule="evenodd" d="M8.995 22a.955.955 0 0 1-.704-.282.955.955 0 0 1-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 0 1 2 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 0 1-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z"></path></svg><span>查看所有'+result[i].sum+'条回复</span></button>\n' +
+                      '                                                                <button  id="reply_btn" class="e5i1odf7 css-914y8j-transparent-xs-Btn-ToolButton e5i1odf0" type="transparent" onclick="reply_btn('+result[i].id+')"><svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon"><path fill-rule="evenodd" d="M21.947 18.144a1 1 0 0 1-1.496 1.18c-3.255-2.193-5.734-3.275-8.556-3.477v4.134a1 1 0 0 1-1.688.726L2.312 13.22a1 1 0 0 1 0-1.451l7.894-7.494A1 1 0 0 1 11.895 5v3.953c3.62.481 7.937 3.52 10.052 9.191zm-6.992-5.851c-1.624-.938-3.31-1.407-5.06-1.407V7.287l-5.422 5.207 5.422 5.203v-3.885c2.696 0 5.644.763 8.843 2.29-1.002-1.52-2.346-2.979-3.783-3.81z"></path></svg><span class="css-1km43m6-BtnContent e5i1odf1">回复</span></button>\n' +
+                      '                                                            </div>\n' +
+                      '                                                        </div>\n' +
+                      '                                                    </li>';
+              }
+              $('#replyList').append(newTest);
+          }
+        }
+    })
+}
+function OpenReply(tap,id) {
+    $($(tap).parent().parent().find('.media')).remove();
+    $.ajax({
+        type: "POST",
+        url: "/practice/OpenReply",
+        dataType: "json",
+        async:false,
+        contentType: "application/json;charset=UTF-8",
+        data:JSON.stringify({
+            id:id,
+            proId:Info.proId
+        }),success:function(result) {
+            if (result.length == 0) {
+                swal("没有更多回复", "快来回复吧！");
+            } else {
+                debugger;
+                var newTest = '';
+                for (var i in result) {
+                    newTest += '  <div class="media">\n' +
+                        '                                                            <a class="pull-left" href="#">\n' +
+                        '                                                                <i class="fa fa-comments-o"></i>\n' +
+                        '                                                            </a>\n' +
+                        '                                                        <div class="media-body">\n' +
+                        '                                                            <small class="text-left">' + result[i].name + '</small>\n' +
+                        '                                                            <small class="pull-right">' + result[i].time + '</small>\n' +
+                        '                                                            <p>' + result[i].content + '</p>\n' +
+                        '                                                        </div>\n' +
+                        '                                                         </div>';
+                }
+                newTest+='<div class="media">\n'+
+                   '<button class="e5i1odf7 css-914y8j-transparent-xs-Btn-ToolButton e5i1odf0" type="transparent" onclick="RemoveReply(this)"><svg viewBox="0 0 24 24" width="1em" height="1em" class="css-1lc17o4-icon"><path fill-rule="evenodd" d="M8.995 22a.955.955 0 0 1-.704-.282.955.955 0 0 1-.282-.704V18.01H3.972c-.564 0-1.033-.195-1.409-.586A1.99 1.99 0 0 1 2 15.99V3.97c0-.563.188-1.032.563-1.408C2.94 2.188 3.408 2 3.972 2h16.056c.564 0 1.033.188 1.409.563.375.376.563.845.563 1.409V15.99a1.99 1.99 0 0 1-.563 1.432c-.376.39-.845.586-1.409.586h-6.103l-3.709 3.71c-.22.187-.454.281-.704.281h-.517zm.986-6.01v3.1l3.099-3.1h6.948V3.973H3.972V15.99h6.01zm-3.99-9.013h12.018v2.018H5.991V6.977zm0 4.037h9.014v1.972H5.99v-1.972z"></path></svg><span>隐藏回复</span></button>\n' +
+                    '</div>';
+                    $(tap).parent().parent().append(newTest);
+            }
+        }
+        })
+}
+function RemoveReply(tap) {
+    $($(tap).parent().parent().find('.media')).remove();
+    //$($(tap).parent().parent().find('.css-1wigilb-Toolbar e5i1odf8')).remove();
+    $(tap).remove();
+}
+function reply_btn(id) {
+
+    $("#reply_btn").click(function(){
+        $(".reply_textarea").remove();
+        $(this).parent().append("<div class='reply_textarea'><textarea wrap='hard' class='replyContent' placeholder='在这里发表你的观点...' name='' cols='80' rows='3' ></textarea><br/><input type='submit' class='pull-right' value='发表' onclick='Reply("+id+")'/></div>");
+    });
+}
+function Reply(id) {
+    if($(".replyContent").val()==""){
+        toastr.error("","回复内容不能为空");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/practice/Reply",
+        dataType: "json",
+        async:false,
+        contentType: "application/json;charset=UTF-8",
+        data:JSON.stringify({
+            id:id,
+            proId:Info.proId,
+            content:$(".replyContent").val()
+        }),success:function(result) {
+            if(result=='1'){
+                swal("回复成功","sccess");
+
+            }else{
+                swal("回复失败","未知错误！（请检查浏览器或当前网络状态是否异常）");
+            }
+            $(".reply_textarea").remove();
+        }
+        })
+}

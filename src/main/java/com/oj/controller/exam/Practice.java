@@ -150,5 +150,36 @@ public class Practice {
         }
         return result;
     }
+    //获取指定提交号的处理结果
+    @PostMapping("/addReply")
+    @ResponseBody
+    public int addReply(@RequestBody Map<String, String> param, HttpServletRequest request){
+       param.put("user_id",request.getSession().getAttribute("user_id").toString());
+       service.addReply(param);
+       return 1;
+}
 
+    //获取指定提交号的处理结果
+    @PostMapping("/getReply")
+    @ResponseBody
+    public List<Map> getReply(@RequestBody Map<String, String> param){
+        return service.getReply(param.get("proId"));
+
+    }
+
+    //获取指定提交号的处理结果
+    @PostMapping("/OpenReply")
+    @ResponseBody
+    public List<Map> OpenReply(@RequestBody Map<String, String> param){
+        return service.OpenReply(param);
+
+    }
+    @PostMapping("/Reply")
+    @ResponseBody
+    public int Reply(@RequestBody Map<String, String> param, HttpServletRequest request){
+        param.put("user_id",request.getSession().getAttribute("user_id").toString());
+         service.Reply(param);
+         return 1;
+
+    }
 }

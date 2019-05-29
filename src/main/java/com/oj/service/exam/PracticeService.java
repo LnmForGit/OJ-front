@@ -41,4 +41,10 @@ public interface PracticeService {
      * @return
      */
     Map<Integer, List<String>> selectTestData(Integer problemId);
+
+    public void addReply(Map<String,String> param);
+
+    public List<Map> getReply(String proId);
+    public List<Map> OpenReply(Map<String,String> param);
+    public void Reply(Map<String,String> param);
 }
