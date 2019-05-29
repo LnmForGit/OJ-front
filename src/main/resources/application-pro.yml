@@ -1,10 +1,18 @@
-
 server:
   port: 80
-  session: 28800
+  tomcat:
+    max-connections: 100000
+    max-threads: 20000
+
+    resource:
+      allow-caching: true
+  servlet:
+    session:
+      timeout: 480m
+
 spring:
   profiles:
-    active: pro
+    active: test
   fileUploadPath:
     path: /root/OJ/oj_file/
   redis:
@@ -14,16 +22,20 @@ spring:
     password: paraf214%^&*
     jedis:
       pool:
-        max-active: 8
+        max-active: 1000
         max-wait: -1
         max-idle: 5
         min-idle: 0
     timeout: 10000
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/teaching?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/newTeaching?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useAffectedRows=true
     username: root
-    password: paraf214%^&*
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+#    hikari:
+#      maximum-pool-size: 500
+#      connection-timeout: 120000
+#      max-lifetime: 120000
   thymeleaf:
     cache: false
     mode: HTML
