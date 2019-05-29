@@ -4,10 +4,6 @@
 /*
 //
 {
-language:
-codeData:
-proId:
-testId:
  */
 
 toastr.options = {
@@ -27,7 +23,7 @@ toastr.options = {
 }
 var editor; //代码编辑器
 var codeData={
-    language : '1'  //默认是C语言(1)
+    language : '1'  //默认是C++语言(1) /* C++:1, C:2, Java:3, Python:4   */
 }; //代码的最终汇总结果
 var postId=undefined; //最新提交代码的提交号
 var PleaseDoNotDeleteMe = {
@@ -38,7 +34,7 @@ var PleaseDoNotDeleteMe = {
 var submitBtn = $('#submitCodeBtn');
 var loadingDiv = $('#loadingDiv');
 $(function(){
-
+    drawNavAct(1);
     //testFun();
     if(Info.result==undefined || Info.result=='failed'){
         $('#pageBody').hide();
@@ -109,9 +105,11 @@ function initSetPageSize(){
     if(1000 > doc.scrollWidth){
         $('#pageBody').css('width', '1000px');
         editor.setSize('400px;','600px');
+        $('#resultArea').css("width","400px;" )
     }else{
         $('#pageBody').css('width', doc.scrollWidth+'px');
         editor.setSize(doc.scrollWidth /2 -100 + 'px', '600px');
+        $('#resultArea').css("width",doc.scrollWidth /2 -100 + 'px' )
     }
     if(800 > doc.scrollHeight){
         $('#pageBody').css('height', '1000px');
@@ -198,7 +196,7 @@ function submitCode(){
     var temp = $('#codeEditArea').val();
     codeData['codeData'] = temp;
     codeData['proId'] = Info.proId;
-    //console.log(codeData);
+    codeData.testId=Info.testId;
     if(codeData.codeData==''){
         toastr.error("请勿提交空代码");
         return;
@@ -264,7 +262,7 @@ function postData(t){
         success:function (result) {
             if (result.result == 'succeed') {
                 postId = result.submitId;
-                swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
+                //swal('代码提交成功', '代码已提交，请等待系统判题结果！', 'success');
                 //if(undefined != PleaseDoNotDeleteMe.handle ) clearInterval(PleaseDoNotDeleteMe.handle);
                 if(undefined != PleaseDoNotDeleteMe.handleB ) clearInterval(PleaseDoNotDeleteMe.handleB);
                 PleaseDoNotDeleteMe.limitTime=5;
@@ -292,17 +290,19 @@ function showSubmitResult(t){
 
     if('1'==t.result){
         $('#submitResult').text("Accept");
-        $('#submitResult').css("color", "greenyellow");
+        $('#submitResult').css("color", "#33a551");
         swal("恭喜你成功AC此题", "")
     }else if('3'==t.result){
         $('#submitResult').text("Wrong answer");
-        $('#submitResult').css("color", "red");
+        $('#submitResult').css("color", "#d85959");
     }else if('8'==t.result){
         $('#submitResult').text("Complie error");
-        $('#submitResult').css("color", "yellow");
+        $('#submitResult').css("color", "#d89459");
     }else{
         $('#submitResult').text(transitionStateNumToString(t.result));
-        $('#submitResult').css("color", "red");
+        if('2'==t.result) $('#submitResult').css("color", "#d8d259"); //答案正确，但格式不对
+        else if('0'==t.result) $('#submitResult').css("color", "#8292b1");
+        else $('#submitResult').css("color", "#f22342");
     }
     $('#submitInf').text(t.inf);
 }

@@ -2,6 +2,7 @@ var list=[];
 list=rankinfo.rank;
 console.log(list);
 $(document).ready(function () {
+    drawNavAct(2);
     laodpage("rankList",0);
     showrank();
 });

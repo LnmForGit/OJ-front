@@ -3,6 +3,7 @@ var s=false;
 var page=1;
 var preComp=[];
 $(document).ready(function () {
+    drawNavAct(2);
     getCompList();
     getAComp();
     getrankList();

@@ -7,6 +7,7 @@ if(postinfo.topicId!=null){
 }
 console.log(PostList);
 $(document).ready(function () {
+    drawNavAct(5);
     showpostList();
 });
 

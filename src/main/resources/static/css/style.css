@@ -8014,3 +8014,12 @@ body.skin-3 {
 .rating3 {
     background-position: 0 -64px;
 }
+
+.OJnav:hover{
+    border-bottom: 4px solid #19a9d5;
+    background: #131e26;
+}
+.OJnav.act{
+    border-bottom: 4px solid #19a9d5;
+    background: #131e26;
+}
