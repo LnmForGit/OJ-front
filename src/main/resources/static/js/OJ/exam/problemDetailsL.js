@@ -34,7 +34,7 @@ var PleaseDoNotDeleteMe = {
 var submitBtn = $('#submitCodeBtn');
 var loadingDiv = $('#loadingDiv');
 $(function(){
-
+    drawNavAct(1);
     //testFun();
     if(Info.result==undefined || Info.result=='failed'){
         $('#pageBody').hide();
@@ -193,7 +193,7 @@ function submitCode(){
     var temp = $('#codeEditArea').val();
     codeData['codeData'] = temp;
     codeData['proId'] = Info.proId;
-    //console.log(codeData);
+    codeData.testId=Info.testId;
     if(codeData.codeData==''){
         toastr.error("请勿提交空代码");
         return;
@@ -287,17 +287,19 @@ function showSubmitResult(t){
 
     if('1'==t.result){
         $('#submitResult').text("Accept");
-        $('#submitResult').css("color", "greenyellow");
+        $('#submitResult').css("color", "#33a551");
         swal("恭喜你成功AC此题", "")
     }else if('3'==t.result){
         $('#submitResult').text("Wrong answer");
-        $('#submitResult').css("color", "red");
+        $('#submitResult').css("color", "#d85959");
     }else if('8'==t.result){
         $('#submitResult').text("Complie error");
-        $('#submitResult').css("color", "yellow");
+        $('#submitResult').css("color", "#d89459");
     }else{
         $('#submitResult').text(transitionStateNumToString(t.result));
-        $('#submitResult').css("color", "red");
+        if('2'==t.result) $('#submitResult').css("color", "#d8d259"); //答案正确，但格式不对
+        else if('0'==t.result) $('#submitResult').css("color", "#8292b1");
+        else $('#submitResult').css("color", "#f22342");
     }
     $('#submitInf').text(t.inf);
 }

@@ -4,7 +4,8 @@ var status=$('#Table');
 var rankTable=$('#rankTable');
 var enrollTable=$('#enrollTable');
 $(document).ready(function () {
-   loadres();
+    drawNavAct(2);
+    loadres();
 });
 function proList(){
     if ($.fn.dataTable.isDataTable(dataTable)) {

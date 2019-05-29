@@ -1,5 +1,6 @@
 var FlagList=[];
 $(document).ready(function () {
+    drawNavAct(5);
     loadSummernote();
     showtopic();
     getPostFlag();

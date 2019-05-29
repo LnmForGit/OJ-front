@@ -1,4 +1,5 @@
 $(function() {
+    drawNavAct(0);
     darwJxtztb();
     darwDzlbtb();
     darwTktjtb();

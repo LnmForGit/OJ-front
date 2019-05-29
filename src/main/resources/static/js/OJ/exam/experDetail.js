@@ -11,9 +11,12 @@ $(document).ready(function () {
    // getUserIP(function(ip){
         getInfo();
         if(getParam("isSaveIp") !="undefined"){
+            drawNavAct(4);
             $("#breadList").html("考试列表");
             $("#breadList").attr("href","/exam/")
             $("#breadDetail").html("考试");
+        }else{
+            drawNavAct(3);
         }
         getParam("isSaveIp") == 1 ? savaFirstIP(getParam("id")) : null;
    // });

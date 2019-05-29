@@ -57,7 +57,7 @@ public class MyFileProvider {
         sql.append(" WHERE myfile.flag = '0' ");
         String id = info.get("user_id");
         //System.out.println("id : "+id);
-        sql.append(" AND myfile.uploader_id = (select admin_id from teach_admin_course where course_id in (select course_id from teach_course_class where class_id in (select class_id from teach_students where account = "+id+")))");
+        sql.append(" AND myfile.uploader_id in (select admin_id from teach_admin_course where course_id in (select course_id from teach_course_class where class_id in (select class_id from teach_students where account = "+id+")))");
         if (!StringUtils.isEmpty(info.get("name"))){
             sql.append(" AND myfile.name like '%"+info.get("name")+"%' ");
         }
