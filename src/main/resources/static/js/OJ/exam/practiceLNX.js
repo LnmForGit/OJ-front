@@ -17,6 +17,7 @@ var problemListCondition = {  //题目集中题目匹配的条件
 }
 
 $(function(){
+    drawNavAct(1);
     //testFun();
     init();
     $('#selectProblemType').trigger('onclick')
