@@ -41,18 +41,20 @@ function getExamInfo() {
         //     "experName" : $('#experName').val()
         // },
         success:function (result) {
-            //console.log(result)
             var ip = result[result.length - 1].userIp;
             result = result.slice(0,result.length - 1);
-            //console.log(result)
+            tableRows = result.length;
             $.each(result,function(index,value){
                 value.start = formatTime(value.start)
                 value.end = formatTime(value.end)
-                tableRows++;
+                //tableRows++;
             })
-            for(var i = 0; i < result.length; i = i + 2){
-                var j = 0;
-                if(getTestState(result[i].start,result[i].end) != 0&& getTestState(result[i + 1].start,result[i + 1].end) != 0 && result[i].start == result[i + 1].start &&  result[i].end == result[i + 1].end){
+            console.log(result)
+            //将按A、B卷分类的考试加入数组
+            var j = 0;
+            for(var i = 0; i + 1 < result.length;){
+               // console.log(result[i].name + " " + (result[i].start == result[i + 1].start &&  result[i].end == result[i + 1].end) && getTestState(result[i].start,result[i].end) != 0&& getTestState(result[i + 1].start,result[i + 1].end) != 0)
+                if((result[i].start == result[i + 1].start) &&  (result[i].end == result[i + 1].end)  ){
                     testID[j] = result[i].id;
                     testID[j + 1] = result[i + 1].id;
                     testName[j] = result[i].name;
@@ -68,38 +70,90 @@ function getExamInfo() {
                     first_ip[j] = result[j].first_ip;
                     first_ip[j + 1] = result[j + 1].first_ip;
                     j = j + 2;
-                }
+                    i = i + 2;
+                }else
+                    i++;
             }
+            console.log(testID)
+            console.log(testName)
+            // //显示考试
             var ipTail = ip.charAt(ip.length - 1);
-
-            //var i = ipTail % 2 == 0 ? 0 : 1;
-            for(var i = 0; i < testID.length; i++) {
-                console.log(ipTail % 2  == i % 2)
-
-                        if(typeof (result[i].sid) != "undefined"){
-                            //console.log(testName[i])
-                            i = i + 2
-                        }
-
-                        else if(ipTail % 2  == i % 2){
-                            //console.log(testName[i])
-                            setExperItem(testID[i],testName[i],testStart[i],testEnd[i],is_ip[i],only_ip[j],first_ip[j],ip,1);
-                        }
-                //alert(testID[i].id)
-                // savaFirstIP(ip,testID[i]);
-            }
-
             $.each(result,function(index,value){
-                if(typeof (value.sid) != "undefined" ){
-                    // if(testID.indexOf(value.sid) == -1){
-                       // console.log(value.name)
+                //如果取出的考试已经绑定则正常显示
+                if(typeof (value.sid) != "undefined"){
+                    //console.log(value.name + "已经绑定ip")
+                    setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
+                }
+                //未绑定则显示未开始和正在进行的考试
+                else{
+                    //如果考试不分A、B卷，正常显示
+                    if(testID.indexOf(value.id) == -1){
+                        //console.log(value.name + "不分AB卷")
                         setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
-                    // }
-                }else if((testStart.indexOf(value.start) == -1) &&  (testEnd.indexOf(value.end) == -1) && getTestState(value.start,value.end) != 0){
-                    setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,1);
+                    }
+                    //否则根据用户ip与考试id判断
+                    else{
+                        //var index = testID.indexOf(value.id)
+                        if(ipTail % 2  == value.id % 2){
+                            //console.log(value.name + "分AB卷")
+                            setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
+                        }
+
+                    }
                 }
             })
             tableNull()
+
+            // for(var i = 0; i < result.length; i = i + 2){
+            //     var j = 0;
+            //     if(getTestState(result[i].start,result[i].end) != 0&& getTestState(result[i + 1].start,result[i + 1].end) != 0 && result[i].start == result[i + 1].start &&  result[i].end == result[i + 1].end){
+            //         testID[j] = result[i].id;
+            //         testID[j + 1] = result[i + 1].id;
+            //         testName[j] = result[i].name;
+            //         testName[j + 1] = result[i + 1].name;
+            //         testStart[j] = result[i].start;
+            //         testStart[j + 1] = result[i + 1].start;
+            //         testEnd[j] = result[i].end;
+            //         testEnd[j + 1] = result[i + 1].end;
+            //         is_ip[j] = result[i].is_ip;
+            //         is_ip[j + 1] = result[i + 1].is_ip;
+            //         only_ip[j] = result[j].only_ip;
+            //         only_ip[j + 1] = result[j + 1].only_ip;
+            //         first_ip[j] = result[j].first_ip;
+            //         first_ip[j + 1] = result[j + 1].first_ip;
+            //         j = j + 2;
+            //     }
+            // }
+            // var ipTail = ip.charAt(ip.length - 1);
+            //
+            // //var i = ipTail % 2 == 0 ? 0 : 1;
+            // for(var i = 0; i < testID.length; i++) {
+            //     console.log(ipTail % 2  == i % 2)
+            //
+            //             if(typeof (result[i].sid) != "undefined"){
+            //                 //console.log(testName[i])
+            //                 i = i + 2
+            //             }
+            //
+            //             else if(ipTail % 2  == i % 2){
+            //                 //console.log(testName[i])
+            //                 setExperItem(testID[i],testName[i],testStart[i],testEnd[i],is_ip[i],only_ip[j],first_ip[j],ip,1);
+            //             }
+            //     //alert(testID[i].id)
+            //     // savaFirstIP(ip,testID[i]);
+            // }
+            //
+            // $.each(result,function(index,value){
+            //     if(typeof (value.sid) != "undefined" ){
+            //         // if(testID.indexOf(value.sid) == -1){
+            //            // console.log(value.name)
+            //             setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
+            //         // }
+            //     }else if((testStart.indexOf(value.start) == -1) &&  (testEnd.indexOf(value.end) == -1) && getTestState(value.start,value.end) != 0){
+            //         setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,1);
+            //     }
+            // })
+            // tableNull()
 
 
         }
@@ -133,7 +187,7 @@ function setExperItem(id,name,start,end,is_ip,only_ip,first_ip,ip,isSaveIp){
         "<span class=\"label label-warning-light\">未开始\n" +
         "</td>";
     var testState = getTestState(start,end);
-    console.log(testState)
+   // console.log(testState)
     if(testState == 1){
         experItem += underWay;
     }else if(testState == 0){
