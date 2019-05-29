@@ -81,24 +81,25 @@ function getExamInfo() {
             $.each(result,function(index,value){
                 //如果取出的考试已经绑定则正常显示
                 if(typeof (value.sid) != "undefined"){
-                    //console.log(value.name + "已经绑定ip")
+                    console.log(value.name + "已经绑定ip")
                     setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
                 }
                 //未绑定则显示未开始和正在进行的考试
                 else{
                     //如果考试不分A、B卷，正常显示
                     if(testID.indexOf(value.id) == -1){
-                        //console.log(value.name + "不分AB卷")
-                        setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
+                        console.log(value.name + "不分AB卷")
+                        setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,1);
                     }
                     //否则根据用户ip与考试id判断
                     else{
-                        //var index = testID.indexOf(value.id)
-                        if(ipTail % 2  == value.id % 2){
-                            //console.log(value.name + "分AB卷")
-                            setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,0);
+                        var index = testID.indexOf(value.id)
+                        var other = index % 2 == 0 ? index + 1 : index - 1;
+                        //console.log(value.name + "分AB卷 对应试卷绑定ip " + first_ip[other])
+                        if(ipTail % 2  == value.id % 2 && typeof (first_ip[other]) == "undefined"){
+                            console.log(value.name + "分AB卷 对应试卷绑定ip " + first_ip[other])
+                            setExperItem(value.id,value.name,value.start,value.end,value.is_ip,value.only_ip,value.first_ip,ip,1);
                         }
-
                     }
                 }
             })
