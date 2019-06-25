@@ -214,16 +214,17 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
     console.log("isSaveIp: " + isSaveIp)
     console.log("is_ip: " + is_ip)
     console.log("only_ip: " + only_ip)
-    if(isSaveIp == "undefined"){
-        window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
-    }
+    // if(isSaveIp == "undefined"){
+    //     window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
+    // }
     if(testState == -1){
         swal({
             title: "未到考试时间",
             text: "现在还未到考试时间，请等待。"
         });
         return;
-    }else if(testState == 1 && (is_ip == "on" || only_ip == "on")){
+    }
+    else if(testState == 1 && (is_ip == "on" || only_ip == "on")){
         $.ajax({
             type: "POST",
             url: "/exam/getTestIp",
@@ -265,8 +266,10 @@ function hint(id,testState,isSaveIp,is_ip,only_ip,first_ip,ip){
                 window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
             }
         })
-    }else
+    }else{
         window.location.href ="experDetail?id=" + id + "&testState="+testState+ "&isSaveIp="+isSaveIp;
+    }
+
 
 
 }

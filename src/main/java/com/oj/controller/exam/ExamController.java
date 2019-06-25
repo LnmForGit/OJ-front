@@ -62,7 +62,7 @@ public class ExamController {
         Map<String, String> map = new HashMap<String, String>();
         String localip = request.getRemoteAddr();
         map.put("userIp",localip);
-       // System.out.println(localip);
+        // System.out.println(localip);
         List<Map> test = testService.getExamMaplist(cid,sid);
         test.add(map);
         return test;

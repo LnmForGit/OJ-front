@@ -45,10 +45,10 @@ public class TestServiceImpl implements TestService {
 
     //获取提交状态分类
 
-    @Override
-    public List<Map> getSubmitType() {
-        return testMapper.getSubmitType();
-    }
+//    @Override
+//    public List<Map> getSubmitType() {
+//        return testMapper.getSubmitType();
+//    }
 
     @Override
     public List<Map> getExamMaplist(String sid,String cid) {

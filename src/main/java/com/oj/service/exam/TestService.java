@@ -26,8 +26,8 @@ public interface TestService {
     //获取单个问题的详细信息
     List<Map> getProblemDetails(String id);
 
-    //获取提交状态分类
-    List<Map> getSubmitType();
+//    //获取提交状态分类
+//    List<Map> getSubmitType();
 
     //将初次登陆考试的ip进行记录
     void saveIP(String tid, String sid, String first_ip);

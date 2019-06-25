@@ -20,7 +20,7 @@ public interface TestMapper {
             "and t.kind = 2 ORDER BY end DESC;")
     public List<Map> getExperMaplist(@Param("account")String account);
 
-    //通过学生id获取全部考试列表
+    //获取全部考试列表
     @Select(" SELECT DISTINCT test.id id,name,start,end,is_ip,only_ip,s.sid sid,first_ip FROM\n" +
             "(SELECT t.id id,name,start,end,is_ip,only_ip FROM teach_test t,teach_test_class c WHERE  c.`class_id` = #{cid} AND c.`test_id` = t.id  AND t.kind = 1 ) AS test\n" +
             "LEFT JOIN teach_test_students s \n" +
@@ -46,9 +46,9 @@ public interface TestMapper {
             "GROUP BY p.id")
     List<Map> getProblemById(@Param("id") String id);
 
-    //获取提交状态分类
-    @Select("SELECT id,state_name from teach_submit_state")
-    List<Map> getSubmitType();
+//    //获取提交状态分类
+//    @Select("SELECT id,state_name from teach_submit_state")
+//    List<Map> getSubmitType();
 
     //将初次登陆考试的ip进行记录
     @Insert("INSERT INTO teach_test_students (tid,sid ,first_ip) VALUES(#{tid},#{sid},#{first_ip});")

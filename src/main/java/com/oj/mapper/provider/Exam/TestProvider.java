@@ -49,8 +49,8 @@ public class TestProvider  {
         sql.append(" )AS problems");
         sql.append(" LEFT JOIN teach_submit_code tc");
         sql.append(" ON tc.problem_id = problems.id AND test_id = "+tid+" AND tc.`user_id` = " + sid);
-        sql.append(" LEFT JOIN teach_submit_language l ON l.id = submit_language");
-        sql.append(" LEFT JOIN teach_submit_state ss ON ss.id = submit_state");
+//        sql.append(" LEFT JOIN teach_submit_language l ON l.id = submit_language");
+//        sql.append(" LEFT JOIN teach_submit_state ss ON ss.id = submit_state");
 
         if (!StringUtils.isEmpty(info.get("submit"))){
             sql.append(" AND ss.id = "+info.get("submit"));
