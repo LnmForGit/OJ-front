@@ -36,7 +36,9 @@ var loadingDiv = $('#loadingDiv');
 $(function(){
     drawNavAct(1);
     //testFun();
+    debugger
     if(Info.result==undefined || Info.result=='failed'){
+
         $('#pageBody').hide();
         swal("内容请求失败！", "#提示：\n如果当前正是考试阶段，请查看考试时间是否已结束！\n或者联系系统管理员！")
         $('.confirm').click(function(){
