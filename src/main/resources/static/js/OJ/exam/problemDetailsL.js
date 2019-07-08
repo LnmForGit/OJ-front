@@ -36,6 +36,7 @@ var loadingDiv = $('#loadingDiv');
 $(function(){
     drawNavAct(1);
     //testFun();
+    //添加DEBUGGER
     debugger
     if(Info.result==undefined || Info.result=='failed'){
 
